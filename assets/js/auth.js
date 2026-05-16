@@ -1,0 +1,41 @@
+// ========================
+// SISTEM LOGIN & SESSION
+// ========================
+
+function login(username, password) {
+    const users = JSON.parse(localStorage.getItem("users_perpus")) || [];
+    const user = users.find(u => u.username === username && u.password === password);
+    if (user) {
+        sessionStorage.setItem("current_user", JSON.stringify({
+            username: user.username,
+            role: user.role,
+            loginTime: new Date().toISOString()
+        }));
+        return { success: true, role: user.role };
+    }
+    return { success: false, message: "Username atau password salah!" };
+}
+
+function checkSession() {
+    const currentUser = sessionStorage.getItem("current_user");
+    if (!currentUser) {
+        window.location.href = "login.html";
+        return null;
+    }
+    return JSON.parse(currentUser);
+}
+
+function getCurrentUserRole() {
+    const user = sessionStorage.getItem("current_user");
+    return user ? JSON.parse(user).role : null;
+}
+
+function logout() {
+    sessionStorage.removeItem("current_user");
+    window.location.href = "index.html";
+}
+
+window.login = login;
+window.checkSession = checkSession;
+window.getCurrentUserRole = getCurrentUserRole;
+window.logout = logout;

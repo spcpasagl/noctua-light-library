@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Profil - Noctua Light</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            DEFAULT: '#0A1931',
+                            dark: '#050C1A',
+                            mid: '#15305B',
+                            light: '#1E3E6D'
+                        },
+                        gold: {
+                            DEFAULT: '#E5A93C',
+                            light: '#F4C46B',
+                            pale: '#FBF5E6'
+                        },
+                        cream: {
+                            DEFAULT: '#FAF8F5',
+                            secondary: '#F1EDE6',
+                            dark: '#070F21',
+                            darkSecondary: '#0F1E36'
+                        }
+                    },
+                    fontFamily: { 
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="assets/js/database.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/app.js"></script>
+    <style>
+        /* Bulletproof Native 3D Flip Card Implementation */
+        .flip-card { perspective: 1000px; }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 1rem;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="bg-cream text-navy font-sans antialiased min-h-screen flex flex-col transition-colors duration-300 dark:bg-cream-dark dark:text-cream overflow-x-hidden">
+
+    <!-- FIXED STICKY HEADER & NAVIGATION MENU -->
+    <header class="bg-navy text-white sticky top-0 z-50 shadow-md border-b border-white/5 transition-all duration-300">
+        <div class="container mx-auto px-4 py-3 sm:px-6 lg:px-8 max-w-6xl flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="assets/icon/logo.png" alt="Logo Noctua Light" class="w-10 h-10 object-contain">
+                <div>
+                    <div class="font-heading font-bold text-lg tracking-wide leading-none text-white">Noctua Light</div>
+                    <div class="text-gold text-[10px] tracking-widest uppercase font-medium mt-1">Digital Library</div>
+                </div>
+            </div>
+            
+            <!-- Desktop Navigation Menu Links -->
+            <nav class="hidden md:flex space-x-6 items-center text-xs font-bold tracking-wider uppercase">
+                <a href="index.html" class="text-white/80 hover:text-gold transition-all duration-300">Beranda</a>
+                <a href="profil.html" class="text-gold border-b-2 border-gold pb-1 font-bold">Profil</a>
+                <a href="koleksi.html" class="text-white/80 hover:text-gold transition-all duration-300">Koleksi</a>
+                <a href="layanan.html" class="text-white/80 hover:text-gold transition-all duration-300">Layanan</a>
+                <a href="kontak.html" class="text-white/80 hover:text-gold transition-all duration-300">Kontak</a>
+                <a href="login.html" class="bg-gold text-navy px-4 py-2 rounded-xl font-bold hover:bg-gold-light transition-all duration-300 ml-4 flex items-center gap-2">
+                    <img src="assets/icon/admin (profile).svg" class="w-4 h-4" alt="Admin"> Staff Area
+                </a>
+            </nav>
+
+            <!-- System Interface Controls -->
+            <div class="flex items-center gap-2">
+                <button id="musicToggle" title="Toggle Musik" class="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-all duration-300">
+                    <img id="icon-music-off" src="assets/icon/speaker off.svg" class="w-4 h-4 invert block" alt="Music Off">
+                    <img id="icon-music-on" src="assets/icon/speaker on.svg" class="w-4 h-4 invert hidden" alt="Music On">
+                </button>
+                <button id="darkToggleBtn" title="Toggle Dark Mode" class="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-all duration-300">
+                    <img id="icon-sun" src="assets/icon/sun.svg" class="w-4 h-4 invert hidden" alt="Light Mode">
+                    <img id="icon-moon" src="assets/icon/moon.svg" class="w-4 h-4 invert block" alt="Dark Mode">
+                </button>
+                <button id="menu-btn" class="block md:hidden text-white focus:outline-none p-1 ml-1">
+                    <img src="assets/icon/menu.svg" class="w-6 h-6 invert" alt="Menu">
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-navy-mid border-t border-white/10 text-xs font-semibold uppercase tracking-wider px-4 py-3 space-y-1">
+            <a href="index.html" class="block px-3 py-2.5 text-white/90 hover:bg-white/10 rounded-xl">Beranda</a>
+            <a href="profil.html" class="block px-3 py-2.5 bg-navy text-gold rounded-xl font-bold">Profil</a>
+            <a href="koleksi.html" class="block px-3 py-2.5 text-white/90 hover:bg-white/10 rounded-xl">Koleksi</a>
+            <a href="layanan.html" class="block px-3 py-2.5 text-white/90 hover:bg-white/10 rounded-xl">Layanan</a>
+            <a href="kontak.html" class="block px-3 py-2.5 text-white/90 hover:bg-white/10 rounded-xl">Kontak</a>
+            <a href="login.html" class="block px-3 py-2.5 bg-white/10 text-white/90 border border-white/20 rounded-xl mt-2 flex items-center justify-center gap-2 text-center">
+                <img src="assets/icon/admin (profile).svg" class="w-4 h-4 invert" alt="Admin"> Staff Area
+            </a>
+        </div>
+    </header>
+
+    <!-- 1. TOP HERO: THE OCEAN LITERACY PHILOSOPHICAL BANNER (Logo Removed for Clean Vibe) -->
+    <section class="bg-navy text-white text-center py-24 px-6 relative overflow-hidden border-b border-gold/20">
+        <div class="absolute inset-0 opacity-[0.02] pointer-events-none bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px]"></div>
+        <div class="container mx-auto max-w-4xl relative z-10 flex flex-col items-center">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-heading font-bold tracking-tight mb-2 uppercase">Noctua Light</h1>
+            <p class="text-gold font-heading text-xs sm:text-sm font-bold tracking-[0.25em] uppercase mb-8">
+                Inklusif &bull; Inspiratif &bull; Mencerahkan
+            </p>
+            <div class="w-12 h-0.5 bg-gold/40 mb-8 rounded"></div>
+            <h2 class="text-lg font-medium text-gold-light mb-4 uppercase tracking-wider font-heading">Filosofi Kehadiran</h2>
+            <p class="text-white/80 text-sm sm:text-base leading-relaxed text-justify max-w-3xl font-light">
+                Nama <strong class="text-white font-semibold">"Noctua"</strong> merujuk pada spesies burung hantu yang aktif bergerak menerobos keheningan malam hari. Secara historis dan mitologis, makhluk ini sering kali dikaitkan secara erat dengan lambang kebijaksanaan tertinggi serta kemampuan adaptasi luar biasa untuk melihat objek secara jernih dalam pekatnya kegelapan. Ketika digabungkan secara utuh dengan elemen kata <strong class="text-gold font-semibold">"Light"</strong>, identitas ini mengusung makna filosofis berupa pancaran cahaya kebijaksanaan mendalam yang mampu menembus batas ketidaktahuan manusia. Nama tersebut melambangkan pencerahan intelektual serta visi edukasi esensial yang didapatkan oleh seseorang saat berhasil menemukan ilmu pengetahuan berharga di tengah ketidaktahuan dunia.
+            </p>
+        </div>
+    </section>
+
+    <!-- 2. VISI & MISI: OODI ASYMMETRIC OVERLAP CARD LAYOUT -->
+    <section class="py-24 bg-cream dark:bg-cream-dark transition-all duration-300">
+        <div class="container mx-auto px-4 max-w-5xl space-y-24">
+            
+            <!-- ROW VISI (Image Right, Box Left Overlap) -->
+            <div class="flex flex-col lg:flex-row items-center relative">
+                <!-- Box Content -->
+                <div class="w-full lg:w-6/12 bg-white dark:bg-navy-mid border border-navy/5 dark:border-white/5 p-8 sm:p-10 rounded-2xl shadow-md lg:translate-x-8 lg:z-20 shrink-0 transition-transform duration-300">
+                    <span class="text-gold font-heading text-[10px] font-bold tracking-widest uppercase block mb-1">Cita-Cita Kami</span>
+                    <h3 class="text-2xl font-heading font-bold text-navy dark:text-white mb-4">Visi Perpustakaan</h3>
+                    <p class="text-navy/80 dark:text-white/80 text-sm sm:text-base leading-relaxed text-justify font-light">
+                        Menjadi perpustakaan digital yang inklusif, inspiratif, dan mudah diakses oleh semua kalangan sebagai sumber cahaya pengetahuan, kebijaksanaan, dan pengembangan diri di era modern.
+                    </p>
+                </div>
+                <!-- Graphic Image Container -->
+                <div class="w-full lg:w-7/12 h-[260px] sm:h-[320px] rounded-2xl overflow-hidden mt-6 lg:mt-0 lg:z-10 shrink-0 shadow-sm border border-navy/5">
+                    <img src="https://images.unsplash.com/photo-1544928147-79a2dbc1f389?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover grayscale opacity-90 dark:opacity-80" alt="Library Vibe">
+                </div>
+            </div>
+
+            <!-- ROW MISI (Image Left, Box Right Overlap Mirror) -->
+            <div class="flex flex-col lg:flex-row-reverse items-center relative">
+                <!-- Box Content -->
+                <div class="w-full lg:w-6/12 bg-white dark:bg-navy-mid border border-navy/5 dark:border-white/5 p-8 sm:p-10 rounded-2xl shadow-md lg:-translate-x-8 lg:z-20 shrink-0 transition-transform duration-300">
+                    <span class="text-gold font-heading text-[10px] font-bold tracking-widest uppercase block mb-1">Langkah Strategis</span>
+                    <h3 class="text-2xl font-heading font-bold text-navy dark:text-white mb-4">Misi Kerja</h3>
+                    <ul class="space-y-3.5 text-xs sm:text-sm text-navy/80 dark:text-white/80 font-light">
+                        <li class="flex items-start gap-3"><span class="text-gold font-bold">1.</span> <span class="text-justify">Menyediakan akses informasi dan ilmu pengetahuan yang terbuka, mudah, dan merata bagi seluruh masyarakat tanpa memandang usia, latar belakang, maupun tingkat pendidikan.</span></li>
+                        <li class="flex items-start gap-3"><span class="text-gold font-bold">2.</span> <span class="text-justify">Menjadi ruang belajar yang nyaman dan inovatif untuk mendukung budaya literasi, kreativitas, serta pengembangan wawasan.</span></li>
+                        <li class="flex items-start gap-3"><span class="text-gold font-bold">3.</span> <span class="text-justify">Menghadirkan layanan perpustakaan berbasis teknologi yang modern, interaktif, dan ramah pengguna.</span></li>
+                        <li class="flex items-start gap-3"><span class="text-gold font-bold">4.</span> <span class="text-justify">Mendorong masyarakat untuk terus belajar, berpikir kritis, dan menemukan pencerahan melalui ilmu pengetahuan.</span></li>
+                        <li class="flex items-start gap-3"><span class="text-gold font-bold">5.</span> <span class="text-justify">Membangun komunitas pembelajar yang saling berbagi pengetahuan, ide, dan inspirasi.</span></li>
+                    </ul>
+                </div>
+                <!-- Graphic Image Container -->
+                <div class="w-full lg:w-7/12 h-[320px] sm:h-[380px] rounded-2xl overflow-hidden mt-6 lg:mt-0 lg:z-10 shrink-0 shadow-sm border border-navy/5">
+                    <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover grayscale opacity-90 dark:opacity-80" alt="Learning Workspace">
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 3. STRUKTUR ORGANISASI: HIERARCHICAL MATRIX & INTERACTIVE 3D FLIP CARDS (With Verified Student Photos) -->
+    <section class="py-20 bg-white dark:bg-navy border-t border-navy/5 dark:border-white/5 transition-all duration-300">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="text-center mb-16">
+                <span class="text-gold font-heading text-[10px] font-bold tracking-widest uppercase block mb-1">Struktur Tata Kelola</span>
+                <h2 class="text-3xl sm:text-4xl font-heading font-bold text-navy dark:text-white tracking-tight">Manajemen Internal Resmi</h2>
+                <p class="text-navy/50 dark:text-white/50 text-xs sm:text-sm mt-2 max-w-xl mx-auto font-light">Sentuh atau arahkan kursor (hover) pada kartu jabatan untuk membalik layar dan melihat identitas pengembang tugas kelompok.</p>
+            </div>
+
+            <!-- HIERARCHY TOP ROW: KEPALA PERPUSTAKAAN -->
+            <div class="flex justify-center mb-12">
+                <div class="w-full max-w-sm h-[280px] flip-card cursor-pointer">
+                    <div class="flip-card-inner">
+                        
+                        <!-- Front Card (Official Role Fiction) -->
+                        <div class="flip-card-front bg-cream dark:bg-navy-dark border border-navy/10 dark:border-white/10 p-6 flex flex-col items-center justify-center text-center shadow-sm">
+                            <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-gold shadow-sm mb-4">
+                                <img src="assets/image/maria.jpg" alt="Kepala Perpustakaan" class="w-full h-full object-cover">
+                            </div>
+                            <h3 class="font-heading font-bold text-lg text-navy dark:text-white leading-tight">Kepala Perpustakaan</h3>
+                            <p class="text-xs text-gold font-semibold uppercase tracking-wider mt-1">Divisi Eksekutif Utama</p>
+                            <span class="mt-3 text-[9px] bg-navy text-white dark:bg-gold dark:text-navy px-2.5 py-1 rounded-full font-bold uppercase tracking-wider">Hover to Flip</span>
+                        </div>
+
+                        <!-- Back Card (Academic Real Student Profile Verification) -->
+                        <div class="flip-card-back bg-navy text-white border border-gold/30 p-6 flex flex-col justify-between text-left shadow-md">
+                            <div>
+                                <h4 class="font-heading font-bold text-base text-gold leading-tight">Maria Ervina Puri Ardiyani</h4>
+                                <p class="text-[11px] text-white/60 font-mono mt-0.5">NIM. 13040125120033</p>
+                                <div class="mt-4 space-y-1 text-xs text-white/80 font-light">
+                                    <p><strong class="text-white/50 uppercase text-[9px] tracking-wider block">Job Description:</strong> Coder</p>
+                                    <p><strong class="text-white/50 uppercase text-[9px] tracking-wider block">Kontak WA:</strong> 08987118601</p>
+                                    <p><strong class="text-white/50 uppercase text-[9px] tracking-wider block">Email:</strong> mariaervinap@gmail.com</p>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center pt-3 border-t border-white/10 text-[11px] font-medium text-gold">
+                                <span>@ervinapuri</span>
+                                <span class="text-white/40 font-mono text-[9px]">NL-01</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONNECTING FLOW ELEMENT GRAPHIC LINE -->
+            <div class="hidden md:flex justify-center items-center h-4 mb-8">
+                <div class="w-0.5 h-full bg-navy/10 dark:bg-white/10"></div>
+            </div>
+
+            <!-- HIERARCHY BOTTOM ROW: KEPALA BAGIAN MATRIX -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Card Kabag 1 (Teknologi - Kerenzia) -->
+                <div class="w-full h-[280px] flip-card cursor-pointer">
+                    <div class="flip-card-inner">
+                        
+                        <!-- Front View -->
+                        <div class="flip-card-front bg-cream dark:bg-navy-dark border border-navy/10 dark:border-white/10 p-6 flex flex-col items-center justify-center text-center shadow-sm">
+                            <div class="w-18 h-18 rounded-full overflow-hidden border-2 border-navy/20 dark:border-white/20 shadow-sm mb-4">
+                                <img src="assets/image/kerenzia.jpg" alt="Kepala Bagian Teknologi" class="w-full h-full object-cover">
+                            </div>
+                            <h3 class="font-heading font-bold text-base text-navy dark:text-white leading-tight">Kepala Bagian Teknologi & Otomasi</h3>
+                            <p class="text-[10px] text-gold font-semibold uppercase tracking-wider mt-1">Divisi Sistem Digital</p>
+                            <span class="mt-3 text-[9px] bg-navy/5 text-navy/60 dark:bg-white/5 dark:text-white/60 px-2.5 py-1 rounded-full font-bold uppercase tracking-wider">Hover to Flip</span>
+                        </div>
+
+                        <!-- Back View -->
+                        <div class="flip-card-back bg-navy text-white border border-gold/30 p-6 flex flex-col justify-between text-left shadow-md">
+                            <div>
+                                <h4 class="font-heading font-bold text-base text-gold leading-tight">Kerenzia Juantika Allo Linggi</h4>
+                                <p class="text-[11px] text-white/60 font-mono mt-0.5">NIM. 13040125120032</p>
+                                <div class="mt-4 space-y-1 text-xs text-white/80 font-light">
+                                    <p><strong class="text-white/50 uppercase text-[9px] tracking-wider block">Job Description:</strong> Assistant Coder</p>
+                                    <p><strong class="text-white/50 uppercase text-[9px] tracking-wider block">Kontak WA:</strong> 082393669396</p>
+                                    <p><strong class="text-white/50 uppercase text-[9px] tracking-wider block">Email:</strong> kerenziajuantika@gmail.com</p>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center pt-3 border-t border-white/10 text-[11px] font-medium text-gold">
+                                <span>@krnssssgksh</span>
+                                <span class="text-white/40 font-mono text-[9px]">NL-02</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Card Kabag 2 (Layanan - Zada) -->
+                <div class="w-full h-[280px] flip-card cursor-pointer">
+                    <div class="flip-card-inner">
+                        
+                        <!-- Front View -->
+                        <div class="flip-card-front bg-cream dark:bg-navy-dark border border-navy/10 dark:border-white/10 p-6 flex flex-col items-center justify-center text-center shadow-sm">
+                            <div class="w-18 h-18 rounded-full overflow-hidden border-2 border-navy/20 dark:border-white/20 shadow-sm mb-4">
+                                <img src="assets/image/zada.jpg" alt="Kepala Bagian Layanan" class="w-full h-full object-cover">
+                            </div>
+                            <h3 class="font-heading font-bold text-base text-navy dark:text-white leading-tight">Kepala Bagian Layanan & Sirkulasi</h3>
+                            <p class="text-[10px] text-gold font-semibold uppercase tracking-wider mt-1">Divisi Keanggotaan & OPAC</p>
+                            <span class="mt-3 text-[9px] bg-navy/5 text-navy/60 dark:bg-white/5 dark:text-white/60 px-2.5 py-1 rounded-full font-bold uppercase tracking-wider">Hover to Flip</span>
+                        </div>
+
+                        <!-- Back View -->
+                        <div class="flip-card-back bg-navy text-white border border-gold/30 p-6 flex flex-col justify-between text-left shadow-md">
+                            <div>
+                                <h4 class="font-heading font-bold text-base text-gold leading-tight">Zada Amelia Hidayat</h4>
+                                <p class="text-[11px] text-white/60 font-mono mt-0.5">NIM. 13040125120039</p>
+                                <div class="mt-4 space-y-1 text-xs text-white/80 font-light">
+                                    <p><strong class="text-white/50 uppercase text-[9px] tracking-wider block">Job Description:</strong> UI/UX Designer</p>
+                                    <p><strong class="text-white/50 uppercase text-[9px] tracking-wider block">Kontak WA:</strong> 081212145939</p>
+                                    <p><strong class="text-white/50 uppercase text-[9px] tracking-wider block">Email:</strong> zadamlia200@gmail.com</p>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center pt-3 border-t border-white/10 text-[11px] font-medium text-gold">
+                                <span>@zadamlia_</span>
+                                <span class="text-white/40 font-mono text-[9px]">NL-03</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Card Kabag 3 (Tata Usaha - Laily / Placeholder Jokowi) -->
+                <div class="w-full h-[280px] flip-card cursor-pointer">
+                    <div class="flip-card-inner">
+                        
+                        <!-- Front View -->
+                        <div class="flip-card-front bg-cream dark:bg-navy-dark border border-navy/10 dark:border-white/10 p-6 flex flex-col items-center justify-center text-center shadow-sm">
+                            <div class="w-18 h-18 rounded-full overflow-hidden border-2 border-navy/20 dark:border-white/20 shadow-sm mb-4">
+                                <img src="assets/image/Laily.png" alt="Kepala Bagian Tata Usaha" class="w-full h-full object-cover">
+                            </div>
+                            <h3 class="font-heading font-bold text-base text-navy dark:text-white leading-tight">Kepala Bagian Tata Usaha & Kearsipan</h3>
+                            <p class="text-[10px] text-gold font-semibold uppercase tracking-wider mt-1">Divisi Administrasi Internal</p>
+                            <span class="mt-3 text-[9px] bg-navy/5 text-navy/60 dark:bg-white/5 dark:text-white/60 px-2.5 py-1 rounded-full font-bold uppercase tracking-wider">Hover to Flip</span>
+                        </div>
+
+                        <!-- Back View -->
+                        <div class="flip-card-back bg-navy text-white border border-gold/30 p-6 flex flex-col justify-between text-left shadow-md">
+                            <div>
+                                <h4 class="font-heading font-bold text-base text-gold leading-tight">Laily Nor Aini</h4>
+                                <p class="text-[11px] text-white/60 font-mono mt-0.5">NIM. 13040125120035</p>
+                                <div class="mt-4 space-y-1 text-xs text-white/80 font-light">
+                                    <p><strong class="text-white/50 uppercase text-[9px] tracking-wider block">Job Description:</strong> Content Writer</p>
+                                    <p><strong class="text-white/50 uppercase text-[9px] tracking-wider block">Kontak WA:</strong> 089507503834</p>
+                                    <p><strong class="text-white/50 uppercase text-[9px] tracking-wider block">Email:</strong> nurainilaily38@gmail.com</p>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center pt-3 border-t border-white/10 text-[11px] font-medium text-gold">
+                                <span>@llynraini</span>
+                                <span class="text-white/40 font-mono text-[9px]">NL-04</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <p class="text-center text-navy/40 dark:text-white/40 font-sans text-[10px] mt-10 uppercase tracking-widest font-medium">
+                *Bagan Manajemen Internal & Tata Hubungan Anggota Kelompok Responsi © 2026
+            </p>
+        </div>
+    </section>
+
+    <!-- SYSTEM CORE INTEGRATED FOOTER CORE MATRIX -->
+    <footer class="bg-navy-dark text-white pt-12 pb-6 mt-auto border-t-2 border-gold transition-all duration-300">
+        <div class="container mx-auto px-4 max-w-6xl">
+            <div class="flex flex-col md:flex-row justify-between items-start gap-10 border-b border-white/10 pb-8 mb-6">
+                <div class="md:w-1/3 flex flex-col items-start">
+                    <div class="flex items-center gap-3 mb-4">
+                        <img src="assets/icon/logo.png" alt="Noctua Light Logo" class="w-9 h-9 object-contain">
+                        <span class="font-heading font-bold text-xl tracking-wide">Noctua Light</span>
+                    </div>
+                    <p class="text-white/60 text-xs leading-relaxed mb-4 max-w-xs font-light">
+                        Mengembangkan ekosistem sirkulasi modern berwawasan global untuk mendukung pencerahan intelektual timbal balik.
+                    </p>
+                    <a href="kontak.html" class="inline-flex items-center gap-2 bg-gold/10 border border-gold border border-white/10 text-gold text-xs font-semibold px-4 py-2 rounded-full hover:bg-gold/20 transition-all duration-300">
+                        <img src="assets/icon/email (envelope).svg" class="w-3.5 h-3.5" style="filter: brightness(0) saturate(100%) invert(77%) sepia(45%) saturate(836%) hue-rotate(338deg) brightness(97%) contrast(93%);" alt="Pesan"> Beri Masukan
+                    </a>
+                </div>
+                
+                <!-- Contact Core Info Grid Alignment Matrix -->
+                <div class="md:w-2/3 flex flex-col sm:flex-row justify-end gap-8 sm:gap-12 text-xs text-white/70">
+                    <div class="flex items-start gap-3 max-w-[220px]">
+                        <img src="assets/icon/map alamat.svg" class="w-5 h-5 invert opacity-80 shrink-0 mt-0.5" alt="Alamat">
+                        <div>
+                            <strong class="text-white font-heading">Alamat Resmi</strong><br>
+                            <span class="font-light mt-1 inline-block leading-normal">
+                                Jl. Prof. H. Soedarto, S.H. – Tembalang Semarang, Indonesia 50275
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <img src="assets/icon/telepon.svg" class="w-5 h-5 invert opacity-80 shrink-0 mt-0.5" alt="Telepon">
+                        <div>
+                            <strong class="text-white font-heading">Saluran Telepon</strong><br>
+                            <span class="font-light mt-1 inline-block">+62 812 3456 7890</span>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <img src="assets/icon/email (envelope).svg" class="w-5 h-5 invert opacity-80 shrink-0 mt-0.5" alt="Email">
+                        <div>
+                            <strong class="text-white font-heading">Korespondensi</strong><br>
+                            <span class="font-light mt-1 inline-block">info@noctualight.id</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center text-[10px] text-white/40 tracking-wider font-medium uppercase">
+                &copy; 2026 NOCTUA LIGHT DIGITAL LIBRARY. ALL RIGHTS RESERVED.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Native Audio Node -->
+    <audio id="bgAudio" loop preload="auto">
+        <source src="assets/audio/music.mpeg" type="audio/mpeg">
+    </audio>
+
+    <!-- CORE INTERACTIVE DOM HANDLERS -->
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (menuBtn && mobileMenu) {
+            menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        }
+
+        const darkBtn = document.getElementById('darkToggleBtn');
+        const iconSun = document.getElementById('icon-sun');
+        const iconMoon = document.getElementById('icon-moon');
+        
+        function updateDarkIcon() {
+            const isDark = document.documentElement.classList.contains('dark');
+            if (iconSun && iconMoon) {
+                if (isDark) { iconSun.classList.remove('hidden'); iconMoon.classList.add('hidden'); } 
+                else { iconSun.classList.add('hidden'); iconMoon.classList.remove('hidden'); }
+            }
+        }
+        if (darkBtn) {
+            darkBtn.addEventListener('click', () => {
+                toggleDarkMode(); 
+                updateDarkIcon();
+            });
+        }
+        document.addEventListener('DOMContentLoaded', updateDarkIcon);
+        window.addEventListener('DOMContentLoaded', updateDarkIcon);
+
+        const audio = document.getElementById('bgAudio');
+        const musicBtn = document.getElementById('musicToggle');
+        const iconMusicOn = document.getElementById('icon-music-on');
+        const iconMusicOff = document.getElementById('icon-music-off');
+        let isMusicPlaying = localStorage.getItem('music_playing') === 'true';
+
+        function updateMusicIcon() {
+            if (iconMusicOn && iconMusicOff) {
+                if (isMusicPlaying) { iconMusicOn.classList.remove('hidden'); iconMusicOff.classList.add('hidden'); } 
+                else { iconMusicOn.classList.add('hidden'); iconMusicOff.classList.remove('hidden'); }
+            }
+        }
+
+        if (musicBtn && audio) {
+            updateMusicIcon();
+            if (isMusicPlaying) {
+                audio.play().catch(() => {
+                    isMusicPlaying = false;
+                    localStorage.setItem('music_playing', 'false');
+                    updateMusicIcon();
+                });
+            }
+            musicBtn.addEventListener('click', () => {
+                if (audio.paused) { audio.play(); isMusicPlaying = true; } 
+                else { audio.pause(); isMusicPlaying = false; }
+                localStorage.setItem('music_playing', isMusicPlaying);
+                updateMusicIcon();
+            });
+        }
+
+        if (typeof initDatabase === 'function') initDatabase();
+    </script>
+</body>
+</html>

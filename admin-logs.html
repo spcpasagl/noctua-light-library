@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log Peminjaman - Noctua Light</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            navy: { DEFAULT: '#0A1931', dark: '#050C1A', mid: '#15305B', light: '#1E3E6D' },
+            gold: { DEFAULT: '#E5A93C', light: '#F4C46B', pale: '#FBF5E6' },
+            cream: { DEFAULT: '#FAF8F5', secondary: '#F1EDE6', dark: '#070F21', darkSecondary: '#0F1E36' }
+          },
+          fontFamily: { 
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Plus Jakarta Sans', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <script src="assets/js/database.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/app.js"></script>
+  <style>
+    .searchable-dropdown { position: relative; }
+    .dropdown-list {
+      position: absolute; top: 100%; left: 0; right: 0;
+      background: white; border: 1px solid rgba(10,25,49,0.1); border-radius: 0.75rem;
+      max-height: 200px; overflow-y: auto; z-index: 50;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+      margin-top: 4px;
+    }
+    .dark .dropdown-list { background: #15305B; border-color: rgba(255,255,255,0.1); }
+    .dropdown-list li { padding: 10px 14px; cursor: pointer; transition: background 0.2s; text-align: left; font-size: 13px; }
+    .dropdown-list li:hover { background-color: #FAF8F5; }
+    .dark .dropdown-list li:hover { background-color: #0A1931; }
+  </style>
+</head>
+<body class="bg-cream dark:bg-cream-dark text-navy dark:text-white font-sans transition-colors duration-300">
+<div class="container mx-auto p-4 max-w-7xl">
+
+  <!-- Header Panel -->
+  <div class="bg-white dark:bg-navy-mid p-5 rounded-2xl shadow-sm border border-navy/5 dark:border-white/5 flex flex-wrap justify-between items-center mb-8 gap-4">
+    <div class="flex items-center gap-3">
+      <img src="assets/icon/book-open-text-fill.svg" class="w-7 h-7 dark:invert opacity-80" alt="Logs">
+      <h1 class="text-2xl font-heading font-bold tracking-tight">Log &amp; Transaksi Peminjaman</h1>
+    </div>
+    <div class="flex items-center gap-3">
+      <span id="userRole" class="text-xs font-bold bg-navy/5 dark:bg-white/10 px-3 py-1.5 rounded-lg border border-navy/10 dark:border-white/10 text-navy dark:text-gold uppercase tracking-wider"></span>
+      <button id="darkToggle" onclick="handleDarkToggle()" title="Toggle Dark Mode"
+        class="w-10 h-10 flex items-center justify-center rounded-xl bg-cream-secondary dark:bg-navy-dark hover:bg-navy/10 transition border border-navy/5 dark:border-white/5">
+        <img id="icon-sun" src="assets/icon/sun.svg" class="w-5 h-5 invert hidden" alt="Light Mode">
+        <img id="icon-moon" src="assets/icon/moon.svg" class="w-5 h-5 block" alt="Dark Mode">
+      </button>
+      <a href="admin-dashboard.html" class="bg-navy-light text-white text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-xl hover:bg-navy transition shadow-sm border border-white/5">&larr; Dasbor</a>
+      <button onclick="logout()" class="bg-red-600 text-white text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-xl hover:bg-red-700 transition shadow-sm">Logout</button>
+    </div>
+  </div>
+
+  <!-- Form Peminjaman Baru (Oodi Clean Dynamic Grid Input) -->
+  <div class="bg-white dark:bg-navy-mid p-6 rounded-2xl shadow-sm border border-navy/5 dark:border-white/5 mb-8">
+    <h2 class="text-lg font-heading font-bold mb-4 border-l-4 border-gold pl-3 uppercase tracking-wider text-sm">Catat Sirkulasi Peminjaman Baru</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
+      <div>
+        <label class="block text-xs font-bold text-navy/60 dark:text-white/60 uppercase tracking-widest mb-1.5 ml-1">No. Keanggotaan Patron</label>
+        <input type="text" id="noAnggota" placeholder="Cth: NL0001"
+          class="w-full bg-cream-secondary dark:bg-navy-dark border border-transparent focus:border-gold dark:text-white px-4 py-2.5 rounded-xl font-medium focus:outline-none transition-all placeholder-navy/20 dark:placeholder-white/20">
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-navy/60 dark:text-white/60 uppercase tracking-widest mb-1.5 ml-1">Nama Peminjam (Otomatis)</label>
+        <input type="text" id="namaPeminjam" readonly placeholder="Terisi otomatis..."
+          class="w-full bg-cream dark:bg-navy-mid border border-navy/10 dark:border-white/10 text-navy/50 dark:text-white/50 px-4 py-2.5 rounded-xl font-medium focus:outline-none">
+      </div>
+      <div class="searchable-dropdown">
+        <label class="block text-xs font-bold text-navy/60 dark:text-white/60 uppercase tracking-widest mb-1.5 ml-1">Cari & Pilih Buku Fisik</label>
+        <input type="text" id="bukuInput" placeholder="Ketik judul buku sirkulasi..." autocomplete="off"
+          class="w-full bg-cream-secondary dark:bg-navy-dark border border-transparent focus:border-gold dark:text-white px-4 py-2.5 rounded-xl font-medium focus:outline-none transition-all placeholder-navy/20 dark:placeholder-white/20">
+        <ul id="bukuDropdownList" class="dropdown-list hidden"></ul>
+        <input type="hidden" id="selectedBukuId">
+        <input type="hidden" id="selectedBukuJudul">
+      </div>
+      <div class="flex items-end">
+        <button id="btnPinjamBaru"
+          class="w-full bg-navy text-white dark:bg-gold dark:text-navy py-3 rounded-xl text-xs font-bold uppercase tracking-wider hover:opacity-90 shadow-md transition transform hover:-translate-y-0.5">
+          Simpan Transaksi Sirkulasi
+        </button>
+      </div>
+    </div>
+    <div id="formError"  class="text-red-600 text-xs font-bold mt-3 uppercase tracking-wider hidden animate-fade-in"></div>
+    <div id="formSuccess" class="text-green-600 text-xs font-bold mt-3 uppercase tracking-wider hidden animate-fade-in"></div>
+  </div>
+
+  <!-- Tabel Riwayat Transaksi -->
+  <div class="bg-white dark:bg-navy-mid rounded-2xl shadow-sm border border-navy/5 dark:border-white/5 overflow-hidden mb-8">
+    <div class="px-6 py-4 border-b border-navy/10 dark:border-white/10 flex justify-between items-center bg-cream-secondary dark:bg-navy-dark">
+      <div class="flex items-center gap-3">
+        <h2 class="text-base font-heading font-bold text-navy dark:text-white">Riwayat Sirkulasi Peminjaman</h2>
+      </div>
+      <span id="jumlahPinjam" class="text-[10px] font-bold bg-navy text-white dark:bg-gold dark:text-navy px-3 py-1 rounded-full uppercase tracking-wider"></span>
+    </div>
+    <div class="overflow-x-auto max-h-[400px] overflow-y-auto custom-scrollbar">
+      <table class="w-full text-sm text-left">
+        <thead class="sticky top-0 z-10 shadow-sm bg-cream dark:bg-navy text-xs uppercase tracking-wider text-navy/60 dark:text-white/60 font-bold border-b border-navy/10 dark:border-white/10">
+          <tr>
+            <th class="px-5 py-4">ID Pinjam</th>
+            <th class="px-5 py-4">No. Anggota</th>
+            <th class="px-5 py-4">Nama Lengkap</th>
+            <th class="px-5 py-4">Judul Buku Sirkulasi</th>
+            <th class="px-5 py-4">Tgl Pinjam</th>
+            <th class="px-5 py-4">Status</th>
+            <th class="px-5 py-4 text-center">Aksi Manajemen</th>
+          </tr>
+        </thead>
+        <tbody id="tabelRiwayat" class="divide-y divide-navy/5 dark:divide-white/5 text-navy/80 dark:text-white/80 font-light text-xs">
+          <tr><td colspan="7" class="text-center p-6">Memuat histori log sirkulasi...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Daftar Anggota Terdaftar -->
+  <div class="bg-white dark:bg-navy-mid rounded-2xl shadow-sm border border-navy/5 dark:border-white/5 overflow-hidden">
+    <div class="px-6 py-4 border-b border-navy/10 dark:border-white/10 flex justify-between items-center bg-cream-secondary dark:bg-navy-dark">
+      <div class="flex items-center gap-3">
+        <h2 class="text-base font-heading font-bold text-navy dark:text-white">Pangkalan Data Anggota Terdaftar</h2>
+      </div>
+      <span id="jumlahAnggota" class="text-[10px] font-bold bg-navy text-white dark:bg-gold dark:text-navy px-3 py-1 rounded-full uppercase tracking-wider"></span>
+    </div>
+    <div class="overflow-x-auto max-h-[400px] overflow-y-auto custom-scrollbar">
+      <table class="w-full text-sm text-left">
+        <thead class="sticky top-0 z-10 shadow-sm bg-cream dark:bg-navy text-xs uppercase tracking-wider text-navy/60 dark:text-white/60 font-bold border-b border-navy/10 dark:border-white/10">
+          <tr>
+            <th class="px-5 py-4">No. Anggota</th>
+            <th class="px-5 py-4">Nama Lengkap</th>
+            <th class="px-5 py-4">Alamat Email</th>
+            <th class="px-5 py-4">No. HP / WA</th>
+            <th class="px-5 py-4">Tgl Lahir</th>
+            <th class="px-5 py-4">Tgl Registrasi</th>
+          </tr>
+        </thead>
+        <tbody id="tabelAnggota" class="divide-y divide-navy/5 dark:divide-white/5 text-navy/80 dark:text-white/80 font-light text-xs">
+          <tr><td colspan="6" class="text-center p-6">Memuat database keanggotaan...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+  function handleDarkToggle() {
+    const isDark = toggleDarkMode();
+    updateDarkIcon();
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    const isDark = document.documentElement.classList.contains('dark');
+    updateDarkIcon();
+  });
+  function updateDarkIcon() {
+    const isDark = document.documentElement.classList.contains('dark');
+    const iconSun = document.getElementById('icon-sun');
+    const iconMoon = document.getElementById('icon-moon');
+    if (iconSun && iconMoon) {
+      if (isDark) { iconSun.classList.remove('hidden'); iconMoon.classList.add('hidden'); } 
+      else { iconSun.classList.add('hidden'); iconMoon.classList.remove('hidden'); }
+    }
+  }
+
+  let allBukuOptions  = [];
+  let dropdownSetupDone = false;
+
+  (function() {
+    const user = checkSession();
+    if (!user) return;
+    document.getElementById("userRole").innerHTML = `${user.username} (${user.role})`;
+    if (typeof initDatabase === "function") initDatabase();
+    ensureDefaultMembers();
+    loadBukuOptions();
+    renderRiwayat();
+    renderAnggota();
+    setupAutoNama();
+    setupSearchableDropdown();
+    document.getElementById("btnPinjamBaru").addEventListener("click", simpanPeminjaman);
+  })();
+
+  function ensureDefaultMembers() {
+    const defaultMembers = window.initialAnggota || [];
+    let members = JSON.parse(localStorage.getItem("members_db") || "[]");
+    let changed = false;
+    defaultMembers.forEach(def => {
+      if (!members.find(m => m.noAnggota === def.noAnggota)) {
+        members.unshift(def); changed = true;
+      }
+    });
+    if (changed) localStorage.setItem("members_db", JSON.stringify(members));
+  }
+
+  function loadBukuOptions() {
+    if (typeof getAllKoleksi !== "function") return;
+    allBukuOptions = getAllKoleksi()
+      .filter(item => item.jenis === "buku" && item.tipeKoleksi !== "referensi" && item.status === "tersedia")
+      .map(item => ({ id: item.id, judul: item.judul, pengarang: item.pengarang || '-' }));
+  }
+
+  function setupAutoNama() {
+    const noInput = document.getElementById("noAnggota");
+    if (!noInput) return;
+    noInput.addEventListener("input", function() {
+      const val = this.value.trim().toUpperCase();
+      const members = JSON.parse(localStorage.getItem("members_db") || "[]");
+      const found = members.find(m => m.noAnggota === val);
+      document.getElementById("namaPeminjam").value = found ? found.nama : "";
+    });
+  }
+
+  function setupSearchableDropdown() {
+    const bukuInput  = document.getElementById("bukuInput");
+    const dropdownList = document.getElementById("bukuDropdownList");
+    const selectedId  = document.getElementById("selectedBukuId");
+    const selectedJudul= document.getElementById("selectedBukuJudul");
+    if (!bukuInput || !dropdownList) return;
+
+    function renderDropdown(val) {
+      const term = (val || '').toLowerCase();
+      const filtered = term
+        ? allBukuOptions.filter(b => b.judul.toLowerCase().includes(term) || b.pengarang.toLowerCase().includes(term))
+        : allBukuOptions;
+
+      if (!filtered.length) {
+        dropdownList.innerHTML = '<li class="text-navy/40 dark:text-white/40 text-center py-2 text-xs font-semibold">Tidak ada opsi buku fisik sirkulasi tersedia</li>';
+      } else {
+        dropdownList.innerHTML = filtered.map(b =>
+          `<li data-id="${b.id}" data-judul="${b.judul.replace(/"/g,'&quot;')}"
+             class="dark:text-white hover:bg-cream-secondary dark:hover:bg-navy border-b border-navy/5 dark:border-white/5 last:border-0 font-light">
+            <strong class="font-semibold block text-navy dark:text-white text-xs">${b.judul}</strong>
+            <span class="text-[10px] text-navy/50 dark:text-white/40 font-medium">Oleh: ${b.pengarang}</span>
+            <span class="text-[9px] bg-navy text-white dark:bg-gold dark:text-navy px-1.5 py-0.5 rounded font-mono font-bold float-right tracking-tight -translate-y-2">[${b.id}]</span>
+           </li>`
+        ).join('');
+        dropdownList.querySelectorAll("li[data-id]").forEach(li => {
+          li.addEventListener("click", function() {
+            bukuInput.value  = this.getAttribute("data-judul");
+            selectedId.value  = this.getAttribute("data-id");
+            selectedJudul.value= this.getAttribute("data-judul");
+            dropdownList.classList.add("hidden");
+          });
+        });
+      }
+      dropdownList.classList.remove("hidden");
+    }
+
+    if (!dropdownSetupDone) {
+      dropdownSetupDone = true;
+      bukuInput.addEventListener("input", (e) => {
+        if (!e.target.value.trim()) { selectedId.value = ""; selectedJudul.value = ""; dropdownList.classList.add("hidden"); }
+        else renderDropdown(e.target.value);
+      });
+      bukuInput.addEventListener("focus", () => { if (allBukuOptions.length) renderDropdown(bukuInput.value); });
+      document.addEventListener("click", (e) => {
+        if (!bukuInput.contains(e.target) && !dropdownList.contains(e.target)) dropdownList.classList.add("hidden");
+      });
+    }
+  }
+
+  function generateNewIdPinjam() {
+    const riwayat = JSON.parse(localStorage.getItem("riwayat_pinjam") || "[]");
+    let max = 0;
+    riwayat.forEach(t => { const m = t.idPinjam.match(/^NLC(\d+)$/); if (m) max = Math.max(max, parseInt(m[1])); });
+    return `NLC${String(max + 1).padStart(3, "0")}`;
+  }
+
+  function renderRiwayat() {
+    const riwayat = JSON.parse(localStorage.getItem("riwayat_pinjam") || "[]");
+    const tbody  = document.getElementById("tabelRiwayat");
+    const badge  = document.getElementById("jumlahPinjam");
+    if (badge) badge.textContent = `${riwayat.length} Transaksi Terhitung`;
+
+    if (!riwayat.length) {
+      tbody.innerHTML = '<tr><td colspan="7" class="text-center p-6 text-navy/40 dark:text-white/40">Belum ada transaksi sirkulasi terekam.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = [...riwayat].reverse().map(trx => {
+      const isDipinjam = trx.status === "dipinjam";
+      const statusClass = isDipinjam
+        ? "bg-gold/10 text-gold border border-gold/20"
+        : "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300";
+      const statusLabel = isDipinjam ? "DIPINJAM" : "KEMBALI";
+      const aksi = isDipinjam
+        ? `<button onclick="kembalikanBuku('${trx.idPinjam}')"
+            class="bg-navy text-white dark:bg-gold dark:text-navy px-3 py-1 rounded-xl text-[10px] font-bold uppercase tracking-wider hover:opacity-90 shadow-sm transition">
+            Kembalikan
+          </button>`
+        : '<span class="text-navy/30 dark:text-white/30 text-xs uppercase tracking-widest font-bold font-mono">Selesai</span>';
+      return `
+        <tr class="hover:bg-cream-secondary/30 dark:hover:bg-navy-dark/30 transition-colors">
+          <td class="px-5 py-3.5 font-mono text-xs font-bold text-gold-light">${trx.idPinjam}</td>
+          <td class="px-5 py-3.5 font-mono text-xs font-semibold">${trx.noAnggota}</td>
+          <td class="px-5 py-3.5 font-medium">${trx.namaPeminjam}</td>
+          <td class="px-5 py-3.5 max-w-xs truncate" title="${trx.judulBuku}">${trx.judulBuku}</td>
+          <td class="px-5 py-3.5 font-mono text-xs whitespace-nowrap">${trx.tanggalPinjam}</td>
+          <td class="px-5 py-3.5"><span class="px-2.5 py-1 rounded-lg text-[9px] font-bold tracking-wide ${statusClass}">${statusLabel}</span></td>
+          <td class="px-5 py-3.5 text-center">${aksi}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  window.kembalikanBuku = function(idPinjam) {
+    let riwayat = JSON.parse(localStorage.getItem("riwayat_pinjam") || "[]");
+    const idx = riwayat.findIndex(t => t.idPinjam === idPinjam);
+    if (idx === -1 || riwayat[idx].status !== "dipinjam") return;
+
+    riwayat[idx].status = "kembali";
+    localStorage.setItem("riwayat_pinjam", JSON.stringify(riwayat));
+
+    const idBuku = riwayat[idx].idBuku;
+    if (idBuku) {
+      let koleksi = JSON.parse(localStorage.getItem("koleksi_perpus") || "[]");
+      const bIdx = koleksi.findIndex(b => b.id === idBuku);
+      if (bIdx !== -1) {
+        koleksi[bIdx].status = "tersedia";
+        localStorage.setItem("koleksi_perpus", JSON.stringify(koleksi));
+      }
+    }
+
+    renderRiwayat();
+    loadBukuOptions();
+    dropdownSetupDone = false;
+    setupSearchableDropdown();
+    showToast("✅ Buku berhasil dikembalikan ke sirkulasi!", "success");
+  };
+
+  function simpanPeminjaman() {
+    const noAnggota  = document.getElementById("noAnggota").value.trim().toUpperCase();
+    const namaPeminjam = document.getElementById("namaPeminjam").value.trim();
+    const bukuId    = document.getElementById("selectedBukuId").value;
+    const judulBuku  = document.getElementById("selectedBukuJudul").value;
+    const errorDiv   = document.getElementById("formError");
+    const successDiv  = document.getElementById("formSuccess");
+
+    if (!noAnggota || !namaPeminjam || !bukuId) {
+      showFormMsg(errorDiv, "⚠️ Parameter Transaksi Gagal: Isilah No. Keanggotaan yang terdaftar dan tentukan opsi buku fisik.");
+      return;
+    }
+
+    const members = JSON.parse(localStorage.getItem("members_db") || "[]");
+    if (!members.find(m => m.noAnggota === noAnggota)) {
+      showFormMsg(errorDiv, "❌ Akses Ditolak: Nomor keanggotaan tidak tercatat di database.");
+      return;
+    }
+
+    let koleksi = JSON.parse(localStorage.getItem("koleksi_perpus") || "[]");
+    const bukuIdx = koleksi.findIndex(b => b.id === bukuId);
+    if (bukuIdx === -1 || koleksi[bukuIdx].status !== "tersedia") {
+      showFormMsg(errorDiv, "❌ Operasi Gagal: Buku berstatus dipinjam atau tidak terdaftar.");
+      return;
+    }
+
+    koleksi[bukuIdx].status = "dipinjam";
+    localStorage.setItem("koleksi_perpus", JSON.stringify(koleksi));
+
+    const newId  = generateNewIdPinjam();
+    const today  = new Date().toISOString().slice(0, 10);
+    const newTrans = { idPinjam: newId, noAnggota, namaPeminjam, idBuku: bukuId, judulBuku, tanggalPinjam: today, status: "dipinjam" };
+    let riwayat = JSON.parse(localStorage.getItem("riwayat_pinjam") || "[]");
+    riwayat.push(newTrans);
+    localStorage.setItem("riwayat_pinjam", JSON.stringify(riwayat));
+
+    ["noAnggota","namaPeminjam","bukuInput","selectedBukuId","selectedBukuJudul"].forEach(id => {
+      document.getElementById(id).value = "";
+    });
+
+    renderRiwayat();
+    loadBukuOptions();
+    dropdownSetupDone = false;
+    setupSearchableDropdown();
+    showFormMsg(successDiv, `✅ SIRKULASI PINJAM BERHASIL DISIMPAN! ID TRANSAKSI: ${newId}`);
+    showToast(`✅ Transaksi Baru Berhasil — ID: <strong>${newId}</strong>`, "success");
+  }
+
+  function renderAnggota() {
+    const members = JSON.parse(localStorage.getItem("members_db") || "[]");
+    const tbody = document.getElementById("tabelAnggota");
+    const badge = document.getElementById("jumlahAnggota");
+    if (badge) badge.textContent = `${members.length} Patron Terdaftar`;
+    if (!members.length) {
+      tbody.innerHTML = '<tr><td colspan="6" class="text-center p-6 text-navy/40 dark:text-white/40">Belum ada profil anggota terdaftar dalam pangkalan data.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = members.map(m => `
+      <tr class="hover:bg-cream-secondary/30 dark:hover:bg-navy-dark/30 transition-colors">
+        <td class="px-5 py-3.5 font-mono text-navy dark:text-gold font-bold text-xs shrink-0">${m.noAnggota}</td>
+        <td class="px-5 py-3.5 font-semibold">${m.nama}</td>
+        <td class="px-5 py-3.5 text-xs font-mono">${m.email || '-'}</td>
+        <td class="px-5 py-3.5 text-xs font-mono">${m.noHp || '-'}</td>
+        <td class="px-5 py-3.5 text-xs font-mono">${m.tanggalLahir || '-'}</td>
+        <td class="px-5 py-3.5 text-xs font-mono text-navy/50 dark:text-white/40">${m.tanggalDaftar || '-'}</td>
+      </tr>
+    `).join('');
+  }
+
+  function showFormMsg(el, msg) {
+    el.innerHTML = msg;
+    el.classList.remove("hidden");
+    setTimeout(() => el.classList.add("hidden"), 5000);
+  }
+
+  function showToast(message, type) {
+    const old = document.getElementById("toast-notif");
+    if (old) old.remove();
+    const toast = document.createElement("div");
+    toast.id = "toast-notif";
+    const bg = type === "success" ? "bg-green-600" : "bg-red-600";
+    toast.className = `fixed top-6 left-1/2 -translate-x-1/2 z-[999] ${bg} text-white px-6 py-4 rounded-xl shadow-2xl text-sm font-medium max-w-sm w-full text-center transition-all duration-500 opacity-0 -translate-y-4`;
+    toast.innerHTML = message;
+    document.body.appendChild(toast);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      toast.style.opacity = "1"; toast.style.transform = "translateX(-50%) translateY(0)";
+    }));
+    setTimeout(() => {
+      toast.style.opacity = "0"; toast.style.transform = "translateX(-50%) translateY(-16px)";
+      setTimeout(() => toast.remove(), 500);
+    }, 4000);
+  }
+</script>
+</body>
+</html>

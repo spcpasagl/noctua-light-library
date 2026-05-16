@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manajemen Koleksi - Noctua Light</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            navy: { DEFAULT: '#0A1931', dark: '#050C1A', mid: '#15305B', light: '#1E3E6D' },
+            gold: { DEFAULT: '#E5A93C', light: '#F4C46B', pale: '#FBF5E6' },
+            cream: { DEFAULT: '#FAF8F5', secondary: '#F1EDE6', dark: '#070F21', darkSecondary: '#0F1E36' },
+            accent: '#E63946'
+          },
+          fontFamily: { 
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Plus Jakarta Sans', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <script src="assets/js/database.js"></script>
+  <script src="assets/js/auth.js"></script>
+  <style>
+    .modal-scroll { max-height: 85vh; overflow-y: auto; }
+  </style>
+</head>
+<body class="bg-cream dark:bg-cream-dark text-navy dark:text-white font-sans transition-colors duration-300">
+
+<div class="container mx-auto p-4 max-w-7xl">
+  
+  <!-- Header Panel -->
+  <div class="bg-white dark:bg-navy-mid p-5 rounded-2xl shadow-sm border border-navy/5 dark:border-white/5 flex flex-wrap justify-between items-center mb-8 gap-4">
+    <div class="flex items-center gap-3">
+      <img src="assets/icon/books-fill.svg" class="w-7 h-7 dark:invert opacity-80" alt="Books">
+      <h1 class="text-2xl font-heading font-bold tracking-tight">Manajemen Bibliografi & Koleksi</h1>
+    </div>
+    <div class="flex items-center gap-3">
+      <span id="userRole" class="text-xs font-bold bg-navy/5 dark:bg-white/10 px-3 py-1.5 rounded-lg border border-navy/10 dark:border-white/10 text-navy dark:text-gold uppercase tracking-wider"></span>
+      <button id="darkToggle" onclick="handleDarkToggle()" title="Toggle Dark Mode"
+        class="w-10 h-10 flex items-center justify-center rounded-xl bg-cream-secondary dark:bg-navy-dark hover:bg-navy/10 transition border border-navy/5 dark:border-white/5">
+        <img id="icon-sun" src="assets/icon/sun.svg" class="w-5 h-5 invert hidden" alt="Light Mode">
+        <img id="icon-moon" src="assets/icon/moon.svg" class="w-5 h-5 block" alt="Dark Mode">
+      </button>
+      <a href="admin-dashboard.html" class="bg-navy-light text-white text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-xl hover:bg-navy transition shadow-sm border border-white/5">&larr; Dasbor</a>
+      <button onclick="logout()" class="bg-red-600 text-white text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-xl hover:bg-red-700 transition shadow-sm">Logout</button>
+    </div>
+  </div>
+
+  <!-- Search & Control Filtering Bars -->
+  <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center mb-6 gap-4">
+    <div class="flex gap-2 flex-wrap items-center">
+      <button id="btnTambah" class="bg-navy text-white dark:bg-gold dark:text-navy text-xs font-bold uppercase tracking-wider px-5 py-3 rounded-xl hover:opacity-90 shadow-md transition transform hover:-translate-y-0.5">
+        + Tambah Koleksi Baru
+      </button>
+      <div class="relative">
+        <select id="filterJenis" class="bg-white dark:bg-navy-mid border border-navy/10 dark:border-white/10 text-xs font-semibold px-4 py-3 rounded-xl focus:outline-none focus:border-gold cursor-pointer appearance-none pr-8">
+          <option value="">Semua Format</option>
+          <option value="buku">Buku Fisik</option>
+          <option value="ebook">E-Book</option>
+          <option value="jurnal">Jurnal</option>
+          <option value="audiobook">Audiobook</option>
+          <option value="film">Film</option>
+        </select>
+        <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[9px] opacity-40 dark:opacity-70">▼</div>
+      </div>
+      <input type="text" id="searchKoleksi" placeholder="Cari judul / pengarang..." 
+        class="bg-white dark:bg-navy-mid border border-navy/10 dark:border-white/10 px-4 py-2.5 rounded-xl text-xs focus:outline-none focus:border-gold placeholder-navy/30 dark:placeholder-white/30 w-64">
+    </div>
+    <div id="roleWarning" class="text-xs font-bold text-red-600 uppercase tracking-wider bg-red-600/5 px-3 py-2 rounded-xl border border-red-600/10"></div>
+  </div>
+
+  <!-- Inventory Data Table Architecture -->
+  <div class="bg-white dark:bg-navy-mid rounded-2xl shadow-sm border border-navy/5 dark:border-white/5 overflow-x-auto max-h-[500px] overflow-y-auto custom-scrollbar">
+    <table class="w-full text-sm text-left border-collapse min-w-[1300px]">
+      <thead class="sticky top-0 z-10 shadow-sm bg-cream dark:bg-navy text-xs uppercase tracking-wider text-navy/60 dark:text-white/60 font-bold border-b border-navy/10 dark:border-white/10">
+        <tr>
+          <th class="px-3 py-4">ID</th>
+          <th class="px-3 py-4">Jenis</th>
+          <th class="px-3 py-4">Genre</th>
+          <th class="px-3 py-4">Tipe</th>
+          <th class="px-3 py-4">Status</th>
+          <th class="px-3 py-4">Judul</th>
+          <th class="px-3 py-4">Pengarang</th>
+          <th class="px-3 py-4">Edisi</th>
+          <th class="px-3 py-4">Penerbit</th>
+          <th class="px-3 py-4">Tahun</th>
+          <th class="px-3 py-4">Kota</th>
+          <th class="px-3 py-4">ISBN/ISSN</th>
+          <th class="px-3 py-4">No. Panggil</th>
+          <th class="px-3 py-4">Bahasa</th>
+          <th class="px-3 py-4">Subjek</th>
+          <th class="px-4 py-4 text-center">Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="tabelKoleksi" class="divide-y divide-navy/5 dark:divide-white/5 font-light text-xs text-navy/90 dark:text-white/90">
+        <tr><td colspan="16" class="text-center p-6">Memuat pangkalan data bibliografi...</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div id="tabelInfo" class="text-[10px] font-bold uppercase tracking-widest text-navy/40 dark:text-white/40 mt-3 text-right"></div>
+</div>
+
+<!-- Modal Form Dialog (Oodi Style Clean Overlap Form Box) -->
+<div id="modalForm" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4 backdrop-blur-sm transition-all duration-300">
+  <div class="bg-white dark:bg-navy-mid rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] border border-navy/10 dark:border-white/10 flex flex-col overflow-hidden animate-fade-in">
+    <div class="bg-cream dark:bg-navy-dark border-b border-navy/10 dark:border-white/10 px-6 py-4 flex justify-between items-center shrink-0">
+      <h2 id="modalTitle" class="text-xl font-heading font-bold tracking-tight text-navy dark:text-white">Tambah/Edit Koleksi</h2>
+      <button id="btnHeaderClose" class="text-navy/50 dark:text-white/50 hover:text-navy dark:hover:text-white text-2xl font-bold transition leading-none">&times;</button>
+    </div>
+    
+    <div class="p-6 overflow-y-auto flex-1 min-h-0 custom-scrollbar">
+      <form id="koleksiForm" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+        <input type="hidden" id="editId">
+
+        <div>
+          <label class="block text-xs font-bold text-navy/60 dark:text-white/60 uppercase tracking-widest mb-1.5 ml-1">Jenis Koleksi *</label>
+          <select id="jenis" class="w-full bg-cream-secondary dark:bg-navy-dark border border-transparent focus:border-gold dark:text-white px-4 py-2.5 rounded-xl focus:outline-none transition-all cursor-pointer font-medium text-xs sm:text-sm" required>
+            <option value="buku">Buku Fisik</option>
+            <option value="ebook">E-Book</option>
+            <option value="jurnal">Jurnal</option>
+            <option value="audiobook">Audiobook</option>
+            <option value="film">Film</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-navy/60 dark:text-white/60 uppercase tracking-widest mb-1.5 ml-1">Genre / Kategori</label>
+          <select id="genre" class="w-full bg-cream-secondary dark:bg-navy-dark border border-transparent focus:border-gold dark:text-white px-4 py-2.5 rounded-xl focus:outline-none transition-all cursor-pointer font-medium text-xs sm:text-sm">
+            <option value="">— Pilih Kategori Topik —</option>
+            <option value="fiksi">Fiksi</option>
+            <option value="dongeng">Dongeng</option>
+            <option value="biografi">Biografi</option>
+            <option value="self-improvement">Self-Improvement</option>
+            <option value="keagamaan">Keagamaan</option>
+            <option value="sejarah">Sejarah</option>
+            <option value="panduan">Panduan / Teknis</option>
+            <option value="sains">Sains</option>
+            <option value="jurnal-ilmiah">Jurnal Ilmiah</option>
+            <option value="lainnya">Lainnya</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-navy/60 dark:text-white/60 uppercase tracking-widest mb-1.5 ml-1">Tipe Sirkulasi *</label>
+          <select id="tipeKoleksi" class="w-full bg-cream-secondary dark:bg-navy-dark border border-transparent focus:border-gold dark:text-white px-4 py-2.5 rounded-xl focus:outline-none transition-all cursor-pointer font-medium text-xs sm:text-sm">
+            <option value="sirkulasi">Sirkulasi (Dapat Dipinjam)</option>
+            <option value="referensi">Referensi (Hanya Baca di Tempat)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-navy/60 dark:text-white/60 uppercase tracking-widest mb-1.5 ml-1">Status Ketersediaan *</label>
+          <select id="status" class="w-full bg-cream-secondary dark:bg-navy-dark border border-transparent focus:border-gold dark:text-white px-4 py-2.5 rounded-xl focus:outline-none transition-all cursor-pointer font-medium text-xs sm:text-sm">
+            <option value="tersedia">Tersedia</option>
+            <option value="dipinjam">Dipinjam</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-navy/60 dark:text-white/60 uppercase tracking-widest mb-1.5 ml-1">Judul Koleksi *</label>
+          <input type="text" id="judul" placeholder="Cth: Bumi Manusia" class="w-full bg-cream-secondary dark:bg-navy-dark border border-transparent focus:border-gold dark:text-white px-4 py-2.5 rounded-xl focus:outline-none transition-all placeholder-navy/20 dark:placeholder-white/20" required>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-navy/60 dark:text-white/60 uppercase tracking-widest mb-1.5 ml-1">Pengarang / Sutradara *</label>
+          <input type="text" id="pengarang" placeholder="Cth: Pramoedya Ananta Toer" class="w-full bg-cream-secondary dark:bg-navy-dark border border-transparent focus:border-gold dark:text-white px-4 py-2.5 rounded-xl focus:outline-none transition-all placeholder-navy/20 dark:placeholder-white/20" required>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-navy/60 dark:text-white/60 uppercase tracking-widest mb-1.5 ml-1">Edisi / Volume</label>
+          <input type="text" id="edisi" placeholder="Cth: Cetakan ke-3" class="w-full bg-cream-secondary dark:bg-navy-dark border border-transparent focus:border-gold dark:text-white px-4 py-2.5 rounded-xl focus:outline-none transition-all placeholder-navy/20 dark:placeholder-white/20">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-navy/60 dark:text-white/60 uppercase tracking-widest mb-1.5 ml-1">Penerbit / Studio</label>
+          <input type="text" id="penerbit" placeholder="Cth: Lentera Dipantara" class="w-full bg-cream-secondary dark:bg-navy-dark border border-transparent focus:border-gold dark:text-white px-4 py-2.5 rounded-xl focus:outline-none transition-all placeholder-navy/20 dark:placeholder-white/20">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-navy/60 dark:text-white/60 uppercase tracking-widest mb-1.5 ml-1">Tahun Terbit *</label>
+          <input type="text" id="tahunTerbit" placeholder="Cth: 2021" class="w-full bg-cream-secondary dark:bg-navy-dark border border-transparent focus:border-gold dark:text-white px-4 py-2.5 rounded-xl focus:outline-none transition-all placeholder-navy/20 dark:placeholder-white/20" required>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-navy/60 dark:text-white/60 uppercase tracking-widest mb-1.5 ml-1">Kota Terbit</label>
+          <input type="text" id="kotaTerbit" placeholder="Cth: Jakarta" class="w-full bg-cream-secondary dark:bg-navy-dark border border-transparent focus:border-gold dark:text-white px-4 py-2.5 rounded-xl focus:outline-none transition-all placeholder-navy/20 dark:placeholder-white/20">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-navy/60 dark:text-white/60 uppercase tracking-widest mb-1.5 ml-1">ISBN / ISSN</label>
+          <input type="text" id="isbn" placeholder="Cth: 978-979-9000-11-2" class="w-full bg-cream-secondary dark:bg-navy-dark border border-transparent focus:border-gold dark:text-white px-4 py-2.5 rounded-xl focus:outline-none transition-all placeholder-navy/20 dark:placeholder-white/20">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-navy/60 dark:text-white/60 uppercase tracking-widest mb-1.5 ml-1">Nomor Panggil</label>
+          <input type="text" id="nomorPanggil" placeholder="Cth: 899.221 TOE b" class="w-full bg-cream-secondary dark:bg-navy-dark border border-transparent focus:border-gold dark:text-white px-4 py-2.5 rounded-xl focus:outline-none transition-all placeholder-navy/20 dark:placeholder-white/20">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-navy/60 dark:text-white/60 uppercase tracking-widest mb-1.5 ml-1">Kolase / Durasi</label>
+          <input type="text" id="kolase" placeholder="Cth: xii, 535 hal / 120 menit" class="w-full bg-cream-secondary dark:bg-navy-dark border border-transparent focus:border-gold dark:text-white px-4 py-2.5 rounded-xl focus:outline-none transition-all placeholder-navy/20 dark:placeholder-white/20">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-navy/60 dark:text-white/60 uppercase tracking-widest mb-1.5 ml-1">Bahasa Pengantar</label>
+          <input type="text" id="bahasa" class="w-full bg-cream-secondary dark:bg-navy-dark border border-transparent focus:border-gold dark:text-white px-4 py-2.5 rounded-xl focus:outline-none transition-all placeholder-navy/20 dark:placeholder-white/20" value="Indonesia">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-navy/60 dark:text-white/60 uppercase tracking-widest mb-1.5 ml-1">Subjek</label>
+          <input type="text" id="subjek" placeholder="Cth: Sastra Indonesia, Sejarah Romansa" class="w-full bg-cream-secondary dark:bg-navy-dark border border-transparent focus:border-gold dark:text-white px-4 py-2.5 rounded-xl focus:outline-none transition-all placeholder-navy/20 dark:placeholder-white/20">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-navy/60 dark:text-white/60 uppercase tracking-widest mb-1.5 ml-1">Nomor Klasifikasi</label>
+          <input type="text" id="nomorKlasifikasi" placeholder="Cth: 899.221" class="w-full bg-cream-secondary dark:bg-navy-dark border border-transparent focus:border-gold dark:text-white px-4 py-2.5 rounded-xl focus:outline-none transition-all placeholder-navy/20 dark:placeholder-white/20">
+        </div>
+
+        <div class="md:col-span-2">
+          <label class="block text-xs font-bold text-navy/60 dark:text-white/60 uppercase tracking-widest mb-1.5 ml-1">Abstrak / Sinopsis Koleksi</label>
+          <textarea id="abstrak" rows="3" placeholder="Tuliskan ringkasan sinopsis atau muatan isi abstrak dari literatur..." class="w-full bg-cream-secondary dark:bg-navy-dark border border-transparent focus:border-gold dark:text-white px-4 py-2.5 rounded-xl focus:outline-none transition-all placeholder-navy/20 dark:placeholder-white/20 resize-none"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-navy/60 dark:text-white/60 uppercase tracking-widest mb-1.5 ml-1">URL Gambar Sampul</label>
+          <input type="url" id="gambarSampul" class="w-full bg-cream-secondary dark:bg-navy-dark border border-transparent focus:border-gold dark:text-white px-4 py-2.5 rounded-xl focus:outline-none transition-all placeholder-navy/20 dark:placeholder-white/20" placeholder="https://...">
+        </div>
+        <div id="urlGroup">
+          <label class="block text-xs font-bold text-navy/60 dark:text-white/60 uppercase tracking-widest mb-1.5 ml-1">File URL Digital (Ebook / Jurnal / Film)</label>
+          <input type="url" id="fileUrl" class="w-full bg-cream-secondary dark:bg-navy-dark border border-transparent focus:border-gold dark:text-white px-4 py-2.5 rounded-xl focus:outline-none transition-all placeholder-navy/20 dark:placeholder-white/20" placeholder="https://...">
+        </div>
+
+        <div class="md:col-span-2 flex justify-end gap-3 pt-4 border-t border-navy/5 dark:border-white/5 mt-2">
+          <button type="button" id="btnCloseModal" class="bg-cream-secondary text-navy dark:bg-navy-dark dark:text-white px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider hover:opacity-80 transition shadow-sm">Batal</button>
+          <button type="submit" class="bg-navy text-white dark:bg-gold dark:text-navy px-6 py-3 rounded-xl text-xs font-bold uppercase tracking-wider hover:opacity-90 transition shadow-md">Simpan Data</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  function handleDarkToggle() {
+    const isDark = toggleDarkMode();
+    updateDarkIcon();
+  }
+  function updateDarkIcon() {
+    const isDark = document.documentElement.classList.contains('dark');
+    const iconSun = document.getElementById('icon-sun');
+    const iconMoon = document.getElementById('icon-moon');
+    if (iconSun && iconMoon) {
+      if (isDark) { iconSun.classList.remove('hidden'); iconMoon.classList.add('hidden'); } 
+      else { iconSun.classList.add('hidden'); iconMoon.classList.remove('hidden'); }
+    }
+  }
+  document.addEventListener('DOMContentLoaded', updateDarkIcon);
+
+  const user = checkSession();
+  if (user) {
+    document.getElementById("userRole").innerHTML = `${user.username} (${user.role})`;
+    if (user.role !== "super_admin") {
+      document.getElementById("roleWarning").innerHTML = "HAK AKSES TERBATAS: AKUN KATEGORI STAFF_ADMIN TIDAK MEMILIKI OTORISASI HAPUS DATA.";
+    }
+    renderTabel();
+  }
+
+  function getFilteredKoleksi() {
+    let koleksi = getAllKoleksi();
+    const jenisFilter = document.getElementById("filterJenis").value;
+    const searchVal  = (document.getElementById("searchKoleksi").value || '').toLowerCase().trim();
+    if (jenisFilter) koleksi = koleksi.filter(i => i.jenis === jenisFilter);
+    if (searchVal)  koleksi = koleksi.filter(i =>
+      (i.judul || '').toLowerCase().includes(searchVal) ||
+      (i.pengarang || '').toLowerCase().includes(searchVal)
+    );
+    return koleksi;
+  }
+
+  function renderTabel() {
+    const koleksi = getFilteredKoleksi();
+    const tbody  = document.getElementById("tabelKoleksi");
+    const info  = document.getElementById("tabelInfo");
+    const role  = getCurrentUserRole();
+
+    if(info) info.textContent = `Total Muatan: ${koleksi.length} Record Terindeks`;
+
+    if (!koleksi.length) {
+      tbody.innerHTML = '<tr><td colspan="16" class="text-center p-6 text-navy/40 dark:text-white/40">Tidak ada record data bibliografi ditemukan.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = '';
+    koleksi.forEach(item => {
+      const row = tbody.insertRow();
+      row.className = "hover:bg-cream-secondary/30 dark:hover:bg-navy-dark/30 transition-colors";
+
+      const isTersedia = item.status === 'tersedia';
+      const statusClass = isTersedia
+        ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'
+        : 'bg-red-600/10 text-red-600 dark:bg-red-900/30 dark:text-red-300';
+
+      [
+        item.id,
+        (item.jenis || '').toUpperCase(),
+        item.genre || '-',
+        (item.tipeKoleksi || 'sirkulasi').toUpperCase(),
+        `<span class="px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider ${statusClass}">${item.status}</span>`,
+        `<span class="font-semibold text-navy dark:text-white block max-w-xs truncate" title="${item.judul}">${item.judul || ''}</span>`,
+        item.pengarang || '',
+        item.edisi || '-',
+        item.penerbit || '-',
+        item.tahunTerbit || '',
+        item.kotaTerbit || '-',
+        item.isbn || '-',
+        item.nomorPanggil || '-',
+        item.bahasa || '-',
+        item.subjek || '-'
+      ].forEach((val, i) => {
+        const cell = row.insertCell(i);
+        cell.className = "px-3 py-3.5 border-b border-navy/5 dark:border-white/5 align-middle truncate max-w-[150px]";
+        cell.innerHTML = String(val);
+      });
+
+      const aksiCell = row.insertCell(15);
+      aksiCell.className = "px-4 py-3.5 border-b border-navy/5 dark:border-white/5 whitespace-nowrap text-center flex items-center justify-center gap-1";
+      
+      const btnEdit = document.createElement("button");
+      btnEdit.innerHTML = '<img src="assets/icon/pencil.svg" class="w-4 h-4 dark:invert opacity-70" alt="Edit">';
+      btnEdit.title = "Edit Data";
+      btnEdit.className = "bg-navy/5 border border-navy/10 hover:bg-navy/10 text-navy dark:bg-white/5 dark:border-white/10 dark:text-white p-2 rounded-xl text-xs transition";
+      btnEdit.onclick = () => openEditModal(item);
+      aksiCell.appendChild(btnEdit);
+
+      if (role === "super_admin") {
+        const btnHapus = document.createElement("button");
+        btnHapus.innerHTML = '<img src="assets/icon/sampah.svg" class="w-4 h-4 dark:invert opacity-70" alt="Hapus">';
+        btnHapus.title = "Hapus Permanen";
+        btnHapus.className = "bg-red-600/10 border border-red-600/20 text-red-600 p-2 rounded-xl text-xs hover:bg-red-600 hover:text-white transition";
+        btnHapus.onclick = () => {
+          if (confirm(`Apakah Anda yakin ingin menghapus permanen data "${item.judul}" dari sistem?`)) { hapusKoleksi(item.id); }
+        };
+        aksiCell.appendChild(btnHapus);
+      }
+    });
+  }
+
+  document.getElementById("filterJenis").addEventListener("change", renderTabel);
+  document.getElementById("searchKoleksi").addEventListener("input", renderTabel);
+
+  function hapusKoleksi(id) {
+    let koleksi = getAllKoleksi().filter(item => item.id !== id);
+    saveAllKoleksi(koleksi);
+    renderTabel();
+  }
+
+  const JENIS_NEEDS_FILE = ["ebook", "jurnal", "audiobook", "film"];
+
+  function toggleUrlField() {
+    const jenis = document.getElementById("jenis").value;
+    document.getElementById("urlGroup").style.display = JENIS_NEEDS_FILE.includes(jenis) ? "block" : "none";
+  }
+  document.getElementById("jenis").addEventListener("change", toggleUrlField);
+
+  function openEditModal(item = null) {
+    const modal = document.getElementById("modalForm");
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+
+    if (item) {
+      document.getElementById("modalTitle").innerText = "Edit Registrasi Bibliografi";
+      document.getElementById("editId").value    = item.id;
+      document.getElementById("jenis").value     = item.jenis || "buku";
+      document.getElementById("genre").value     = item.genre || "";
+      document.getElementById("tipeKoleksi").value  = item.tipeKoleksi || "sirkulasi";
+      document.getElementById("status").value    = item.status || "tersedia";
+      document.getElementById("judul").value     = item.judul || "";
+      document.getElementById("pengarang").value   = item.pengarang || "";
+      document.getElementById("edisi").value     = item.edisi || "";
+      document.getElementById("penerbit").value   = item.penerbit || "";
+      document.getElementById("tahunTerbit").value  = item.tahunTerbit || "";
+      document.getElementById("kotaTerbit").value  = item.kotaTerbit || "";
+      document.getElementById("isbn").value     = item.isbn || "";
+      document.getElementById("nomorPanggil").value = item.nomorPanggil || "";
+      document.getElementById("kolase").value    = item.kolase || "";
+      document.getElementById("bahasa").value    = item.bahasa || "Indonesia";
+      document.getElementById("subjek").value    = item.subjek || "";
+      document.getElementById("nomorKlasifikasi").value = item.nomorKlasifikasi || "";
+      document.getElementById("abstrak").value    = item.abstrak || "";
+      document.getElementById("gambarSampul").value = item.gambarSampul || "";
+      document.getElementById("fileUrl").value    = item.fileUrl || "";
+    } else {
+      document.getElementById("modalTitle").innerText = "Tambah Registrasi Bibliografi Baru";
+      document.getElementById("koleksiForm").reset();
+      document.getElementById("editId").value  = "";
+      document.getElementById("jenis").value   = "buku";
+      document.getElementById("genre").value   = "";
+      document.getElementById("tipeKoleksi").value = "sirkulasi";
+      document.getElementById("status").value  = "tersedia";
+      document.getElementById("bahasa").value  = "Indonesia";
+    }
+    toggleUrlField();
+  }
+
+  function closeModal() {
+    const modal = document.getElementById("modalForm");
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+  }
+
+  document.getElementById("koleksiForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const editId = document.getElementById("editId").value;
+    const jenis  = document.getElementById("jenis").value;
+    const needsFile = JENIS_NEEDS_FILE.includes(jenis);
+
+    const newData = {
+      id      : editId || generateKoleksiId(jenis),
+      jenis,
+      genre    : document.getElementById("genre").value || "lainnya",
+      tipeKoleksi : document.getElementById("tipeKoleksi").value,
+      status    : document.getElementById("status").value,
+      judul    : document.getElementById("judul").value.trim(),
+      pengarang  : document.getElementById("pengarang").value.trim(),
+      edisi    : document.getElementById("edisi").value.trim(),
+      penerbit   : document.getElementById("penerbit").value.trim(),
+      tahunTerbit : document.getElementById("tahunTerbit").value.trim(),
+      kotaTerbit  : document.getElementById("kotaTerbit").value.trim(),
+      isbn     : document.getElementById("isbn").value.trim(),
+      nomorPanggil : document.getElementById("nomorPanggil").value.trim(),
+      kolase    : document.getElementById("kolase").value.trim(),
+      bahasa    : document.getElementById("bahasa").value.trim(),
+      subjek    : document.getElementById("subjek").value.trim(),
+      nomorKlasifikasi: document.getElementById("nomorKlasifikasi").value.trim(),
+      abstrak   : document.getElementById("abstrak").value.trim(),
+      gambarSampul : document.getElementById("gambarSampul").value.trim() || null,
+      fileUrl   : needsFile ? (document.getElementById("fileUrl").value.trim() || null) : null
+    };
+
+    let koleksi = getAllKoleksi();
+    if (editId) {
+      const idx = koleksi.findIndex(i => i.id === editId);
+      if (idx !== -1) koleksi[idx] = newData;
+      else koleksi.push(newData);
+    } else {
+      koleksi.push(newData);
+    }
+    saveAllKoleksi(koleksi);
+    closeModal();
+    renderTabel();
+  });
+
+  document.getElementById("btnTambah").addEventListener("click", () => openEditModal(null));
+  document.getElementById("btnCloseModal").addEventListener("click", closeModal);
+  document.getElementById("btnHeaderClose").addEventListener("click", closeModal);
+  document.getElementById("modalForm").addEventListener("click", (e) => {
+    if (e.target === document.getElementById("modalForm")) closeModal();
+  });
+</script>
+</body>
+</html>
