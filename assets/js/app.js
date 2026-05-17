@@ -17,7 +17,7 @@ function matchesSearch(item, searchTerm) {
 function filterByJenis(item, filterJenis) {
     if (!filterJenis || filterJenis === 'semua') return true;
     // Cek jenis (format medium)
-    const jenisList = ['buku', 'ebook', 'jurnal', 'audiobook', 'film'];
+    const jenisList = ['ebook', 'jurnal', 'audiobook', 'film'];
     if (jenisList.includes(filterJenis)) return item.jenis === filterJenis;
     // Cek genre
     return (item.genre || '').toLowerCase() === filterJenis.toLowerCase();
@@ -34,7 +34,6 @@ function escapeHtml(str) {
 // Diupdate: Emoji dihapus agar tampil lebih bersih dan profesional
 function getJenisBadge(jenis) {
     const map = {
-        buku      : { cls: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',      icon: '', label: 'BUKU FISIK' },
         ebook     : { cls: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',  icon: '', label: 'E-BOOK'     },
         jurnal    : { cls: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200', icon: '', label: 'JURNAL'   },
         audiobook : { cls: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200', icon: '', label: 'AUDIOBOOK'  },
