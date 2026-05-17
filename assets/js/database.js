@@ -142,7 +142,7 @@ function generateKoleksiId(jenis) {
             if (!isNaN(num) && num > max) max = num;
         });
     return prefix + String(max + 1).padStart(3, "0");
-}}
+}
 
 function applyTheme() {
     const dark = localStorage.getItem("dark_mode") === "true";
