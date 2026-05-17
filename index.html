@@ -474,13 +474,13 @@
                 const dataKoleksi = getAllKoleksi();
                 
                 // Hitung jumlah riil dari database
-                const totalBuku = dataKoleksi.filter(i => i.jenis && i.jenis.toLowerCase() === 'buku').length;
+                const totalEbook = dataKoleksi.filter(i => i.jenis && i.jenis.toLowerCase() === 'ebook').length; // Diubah ke ebook
                 const totalAudio = dataKoleksi.filter(i => i.jenis && i.jenis.toLowerCase() === 'audiobook').length;
                 const totalJurnal = dataKoleksi.filter(i => i.jenis && i.jenis.toLowerCase() === 'jurnal').length;
                 const totalFilm = dataKoleksi.filter(i => i.jenis && i.jenis.toLowerCase() === 'film').length;
                 
                 // Jalankan animasi perhitungan
-                animateCounter("stat-buku", totalBuku);
+                animateCounter("stat-buku", totalEbook); // Sesuaikan variabelnya ke totalEbook
                 animateCounter("stat-audio", totalAudio);
                 animateCounter("stat-jurnal", totalJurnal);
                 animateCounter("stat-film", totalFilm);
