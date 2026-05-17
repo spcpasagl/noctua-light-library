@@ -1,4 +1,3 @@
-**
 // assets/js/database.js
 
 const DATA_VERSION = "7.0"; // Versi 7 untuk memastikan browser me-reset cache dan memuat 48 data baru
