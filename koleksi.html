@@ -47,7 +47,6 @@
 </head>
 <body class="bg-cream text-navy font-sans antialiased min-h-screen flex flex-col transition-colors duration-300 dark:bg-cream-dark dark:text-cream overflow-x-hidden">
 
-    <!-- FIXED STICKY HEADER & NAVIGATION MENU -->
     <header class="bg-navy text-white sticky top-0 z-50 shadow-md border-b border-white/5 transition-all duration-300">
         <div class="container mx-auto px-4 py-3 sm:px-6 lg:px-8 max-w-6xl flex justify-between items-center">
             <div class="flex items-center gap-3">
@@ -96,7 +95,6 @@
         </div>
     </header>
 
-    <!-- 1. TOP HERO PANEL (Lurus & Bersih) -->
     <section class="bg-navy text-white py-16 px-6 relative overflow-hidden border-b border-gold/20">
         <div class="absolute inset-0 opacity-[0.02] pointer-events-none bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px]"></div>
         <div class="container mx-auto max-w-4xl text-center relative z-10 flex flex-col items-center">
@@ -113,10 +111,8 @@
         </div>
     </section>
 
-    <!-- 2. MAIN SEARCH & FILTER CONTENT AREA -->
     <main class="py-12 flex-grow container mx-auto px-4 max-w-6xl">
         
-        <!-- Smart Real-Time Dynamic Search Input -->
         <div class="max-w-xl mx-auto mb-10">
             <div class="relative rounded-2xl shadow-sm border border-navy/10 dark:border-white/10 overflow-hidden bg-white dark:bg-navy-mid transition-all duration-300">
                 <input type="text" id="search-input" placeholder="Cari berdasarkan judul, pengarang, penerbit, isbn, atau subjek..." 
@@ -127,7 +123,6 @@
             </div>
         </div>
 
-        <!-- FILTER TIER 1: Format Medium (Kotak Besar) -->
         <div id="filter-jenis" class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-4">
             <button data-jenis="semua" class="filter-jenis-btn tab-active px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-navy text-white dark:bg-gold dark:text-navy shadow-sm transition-all duration-300 border-transparent">Semua Koleksi</button>
             <button data-jenis="buku" class="filter-jenis-btn px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-white text-navy border border-navy/5 dark:bg-navy-mid dark:text-white dark:border-white/5 hover:border-gold/30 transition-all duration-300">Buku Fisik</button>
@@ -137,7 +132,6 @@
             <button data-jenis="film" class="filter-jenis-btn px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-white text-navy border border-navy/5 dark:bg-navy-mid dark:text-white dark:border-white/5 hover:border-gold/30 transition-all duration-300">Koleksi Film</button>
         </div>
 
-        <!-- FILTER TIER 2: Kategori Genre (Pill Buttons) -->
         <div id="filter-genre" class="flex flex-wrap justify-center gap-2 mb-8 items-center">
             <span class="text-xs font-bold text-navy/40 dark:text-white/40 uppercase tracking-widest mr-2">Topik Kategori:</span>
             <button data-genre="semua" class="filter-genre-btn tab-active px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-navy text-white dark:bg-gold dark:text-navy border-transparent transition-all duration-300">Semua Topik</button>
@@ -151,12 +145,10 @@
             <button data-genre="self-improvement" class="filter-genre-btn px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-navy border border-navy/10 dark:bg-navy-mid dark:text-white dark:border-white/10 hover:border-gold/50 transition-all duration-300">Self-Help</button>
         </div>
 
-        <!-- Dynamic Counter & Search Metadata Info Display -->
         <div id="search-info" class="text-center text-xs sm:text-sm text-navy/60 dark:text-white/60 mb-8 font-medium">
             Sinkronisasi parameter indeks pencarian...
         </div>
 
-        <!-- DYNAMIC CATALOG CARD GRID ARCHITECTURE -->
         <div id="katalog-buku" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
             <div class="col-span-full text-center py-20 text-navy/40 dark:text-white/40 text-sm font-medium">
                 Menginisialisasi pustaka bibliografi metadata...
@@ -165,227 +157,6 @@
 
     </main>
 
-    <!-- FOOTER -->
-    <footer class="bg-navy-dark text-white pt-12 pb-6 mt-auto border-t-2 border-gold transition-all duration-300">
-        <div class="container mx-auto px-4 max-w-6xl">
-            <div class="flex flex-col md:flex-row justify-between items-start gap-10 border-b border-white/10 pb-8 mb-6">
-                <div class="md:w-1/3 flex flex-col items-start">
-                    <div class="flex items-center gap-3 mb-4">
-                        <img src="assets/icon/logo.png" alt="Noctua Light Logo" class="w-9 h-9 object-contain">
-                        <span class="font-heading font-bold text-xl tracking-wide">Noctua Light</span>
-                    </div>
-                    <p class="text-white/60 text-xs leading-relaxed mb-4 max-w-xs font-light">
-                        Mengembangkan ekosistem sirkulasi modern berwawasan global untuk mendukung pencerahan intelektual timbal balik.
-                    </p>
-                    <a href="kontak.html" class="inline-flex items-center gap-2 bg-gold/10 border border-gold/40 text-gold text-xs font-semibold px-4 py-2 rounded-full hover:bg-gold/20 transition-all duration-300">
-                        <img src="assets/icon/email (envelope).svg" class="w-3.5 h-3.5" style="filter: brightness(0) saturate(100%) invert(77%) sepia(45%) saturate(836%) hue-rotate(338deg) brightness(97%) contrast(93%);" alt="Pesan"> Beri Masukan
-                    </a>
-                </div>
-                
-                <div class="md:w-2/3 flex flex-col sm:flex-row justify-end gap-8 sm:gap-12 text-xs text-white/70">
-                    <div class="flex items-start gap-3 max-w-[220px]">
-                        <img src="assets/icon/map alamat.svg" class="w-5 h-5 invert opacity-80 shrink-0 mt-0.5" alt="Alamat">
-                        <div>
-                            <strong class="text-white font-heading">Alamat Resmi</strong><br>
-                            <span class="font-light mt-1 inline-block leading-normal">
-                                Jl. Prof. H. Soedarto, S.H. – Tembalang Semarang, Indonesia 50275
-                            </span>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <img src="assets/icon/telepon.svg" class="w-5 h-5 invert opacity-80 shrink-0 mt-0.5" alt="Telepon">
-                        <div>
-                            <strong class="text-white font-heading">Saluran Telepon</strong><br>
-                            <span class="font-light mt-1 inline-block">+62 8820-0639-6412</span>
-                        </div>
-                    </div>
-                    <div class="flex items-start gap-3">
-                        <img src="assets/icon/email (envelope).svg" class="w-5 h-5 invert opacity-80 shrink-0 mt-0.5" alt="Email">
-                        <div>
-                            <strong class="text-white font-heading">Korespondensi</strong><br>
-                            <span class="font-light mt-1 inline-block">noctualight.lib@gmail.com</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="text-center text-[10px] text-white/40 tracking-wider font-medium uppercase">
-                &copy; 2026 NOCTUA LIGHT DIGITAL LIBRARY. ALL RIGHTS RESERVED.
-            </div>
-        </div>
-    </footer>
-
-    <audio id="bgAudio" loop preload="auto">
-        <source src="assets/audio/music.mpeg" type="audio/mpeg">
-    </audio>
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Katalog OPAC - Noctua Light</title>
-    <link rel="icon" type="image/png" href="assets/icon/favicon.png">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        navy: {
-                            DEFAULT: '#0A1931',
-                            dark: '#050C1A',
-                            mid: '#15305B',
-                            light: '#1E3E6D'
-                        },
-                        gold: {
-                            DEFAULT: '#E5A93C',
-                            light: '#F4C46B',
-                            pale: '#FBF5E6'
-                        },
-                        cream: {
-                            DEFAULT: '#FAF8F5',
-                            secondary: '#F1EDE6',
-                            dark: '#070F21',
-                            darkSecondary: '#0F1E36'
-                        }
-                    },
-                    fontFamily: { 
-                        sans: ['Inter', 'sans-serif'],
-                        heading: ['Plus Jakarta Sans', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
-    <script src="assets/js/database.js"></script>
-    <script src="assets/js/auth.js"></script>
-    <script src="assets/js/app.js"></script>
-</head>
-<body class="bg-cream text-navy font-sans antialiased min-h-screen flex flex-col transition-colors duration-300 dark:bg-cream-dark dark:text-cream overflow-x-hidden">
-
-    <!-- FIXED STICKY HEADER & NAVIGATION MENU -->
-    <header class="bg-navy text-white sticky top-0 z-50 shadow-md border-b border-white/5 transition-all duration-300">
-        <div class="container mx-auto px-4 py-3 sm:px-6 lg:px-8 max-w-6xl flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <img src="assets/icon/logo.png" alt="Logo Noctua Light" class="w-10 h-10 object-contain">
-                <div>
-                    <div class="font-heading font-bold text-lg tracking-wide leading-none text-white">Noctua Light</div>
-                    <div class="text-gold text-[10px] tracking-widest uppercase font-medium mt-1">Digital Library</div>
-                </div>
-            </div>
-            
-            <nav class="hidden md:flex space-x-6 items-center text-xs font-bold tracking-wider uppercase">
-                <a href="index.html" class="text-white/80 hover:text-gold transition-all duration-300">Beranda</a>
-                <a href="profil.html" class="text-white/80 hover:text-gold transition-all duration-300">Profil</a>
-                <a href="koleksi.html" class="text-gold border-b-2 border-gold pb-1 font-bold">Koleksi</a>
-                <a href="layanan.html" class="text-white/80 hover:text-gold transition-all duration-300">Layanan</a>
-                <a href="kontak.html" class="text-white/80 hover:text-gold transition-all duration-300">Kontak</a>
-                <a href="login.html" class="bg-gold text-navy px-4 py-2 rounded-xl font-bold hover:bg-gold-light transition-all duration-300 ml-4 flex items-center gap-2">
-                    <img src="assets/icon/admin (profile).svg" class="w-4 h-4" alt="Admin"> Staff Area
-                </a>
-            </nav>
-
-            <div class="flex items-center gap-2">
-                <button id="musicToggle" title="Toggle Musik" class="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-all duration-300">
-                    <img id="icon-music-off" src="assets/icon/speaker off.svg" class="w-4 h-4 invert block" alt="Music Off">
-                    <img id="icon-music-on" src="assets/icon/speaker on.svg" class="w-4 h-4 invert hidden" alt="Music On">
-                </button>
-                <button id="darkToggleBtn" title="Toggle Dark Mode" class="w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-all duration-300">
-                    <img id="icon-sun" src="assets/icon/sun.svg" class="w-4 h-4 invert hidden" alt="Light Mode">
-                    <img id="icon-moon" src="assets/icon/moon.svg" class="w-4 h-4 invert block" alt="Dark Mode">
-                </button>
-                <button id="menu-btn" class="block md:hidden text-white focus:outline-none p-1 ml-1">
-                    <img src="assets/icon/menu.svg" class="w-6 h-6 invert" alt="Menu">
-                </button>
-            </div>
-        </div>
-
-        <div id="mobile-menu" class="hidden md:hidden bg-navy-mid border-t border-white/10 text-xs font-semibold uppercase tracking-wider px-4 py-3 space-y-1">
-            <a href="index.html" class="block px-3 py-2.5 text-white/90 hover:bg-white/10 rounded-xl">Beranda</a>
-            <a href="profil.html" class="block px-3 py-2.5 text-white/90 hover:bg-white/10 rounded-xl">Profil</a>
-            <a href="koleksi.html" class="block px-3 py-2.5 bg-navy text-gold rounded-xl font-bold">Koleksi</a>
-            <a href="layanan.html" class="block px-3 py-2.5 text-white/90 hover:bg-white/10 rounded-xl">Layanan</a>
-            <a href="kontak.html" class="block px-3 py-2.5 text-white/90 hover:bg-white/10 rounded-xl">Kontak</a>
-            <a href="login.html" class="block px-3 py-2.5 bg-white/10 text-white/90 border border-white/20 rounded-xl mt-2 flex items-center justify-center gap-2 text-center">
-                <img src="assets/icon/admin (profile).svg" class="w-4 h-4 invert" alt="Admin"> Staff Area
-            </a>
-        </div>
-    </header>
-
-    <!-- 1. TOP HERO PANEL (Lurus & Bersih) -->
-    <section class="bg-navy text-white py-16 px-6 relative overflow-hidden border-b border-gold/20">
-        <div class="absolute inset-0 opacity-[0.02] pointer-events-none bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px]"></div>
-        <div class="container mx-auto max-w-4xl text-center relative z-10 flex flex-col items-center">
-            <h1 class="text-3xl sm:text-4xl font-heading font-bold tracking-tight mb-3 uppercase">Online Public Access Catalog</h1>
-            <p class="text-white/70 text-sm sm:text-base max-w-xl font-light mb-4">
-                Sistem pencarian terpadu real-time untuk mempermudah penelusuran klasifikasi literatur fisik maupun koleksi digital Noctua Light.
-            </p>
-            <p class="text-xs text-white/50 border border-white/10 bg-white/5 rounded-full px-5 py-2 inline-flex items-center gap-1.5 backdrop-blur-sm">
-                Belum familier dengan tata cara temu balik sistem? Baca 
-                <a href="layanan.html#tutorialOpac" class="text-gold font-semibold hover:underline flex items-center gap-0.5">
-                    Panduan Tutorial Pencarian OPAC di Sini &rarr;
-                </a>
-            </p>
-        </div>
-    </section>
-
-    <!-- 2. MAIN SEARCH & FILTER CONTENT AREA -->
-    <main class="py-12 flex-grow container mx-auto px-4 max-w-6xl">
-        
-        <!-- Smart Real-Time Dynamic Search Input -->
-        <div class="max-w-xl mx-auto mb-10">
-            <div class="relative rounded-2xl shadow-sm border border-navy/10 dark:border-white/10 overflow-hidden bg-white dark:bg-navy-mid transition-all duration-300">
-                <input type="text" id="search-input" placeholder="Cari berdasarkan judul, pengarang, penerbit, isbn, atau subjek..." 
-                       class="w-full pl-5 pr-12 py-3.5 bg-transparent text-sm text-navy dark:text-white focus:outline-none placeholder-navy/40 dark:placeholder-white/40 font-light">
-                <div class="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none opacity-40 dark:opacity-70">
-                    <img src="assets/icon/opac.svg" class="w-5 h-5 dark:invert" alt="Search">
-                </div>
-            </div>
-        </div>
-
-        <!-- FILTER TIER 1: Format Medium (Kotak Besar) -->
-        <div id="filter-jenis" class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-4">
-            <button data-jenis="semua" class="filter-jenis-btn tab-active px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-navy text-white dark:bg-gold dark:text-navy shadow-sm transition-all duration-300 border-transparent">Semua Koleksi</button>
-            <button data-jenis="buku" class="filter-jenis-btn px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-white text-navy border border-navy/5 dark:bg-navy-mid dark:text-white dark:border-white/5 hover:border-gold/30 transition-all duration-300">Buku Fisik</button>
-            <button data-jenis="ebook" class="filter-jenis-btn px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-white text-navy border border-navy/5 dark:bg-navy-mid dark:text-white dark:border-white/5 hover:border-gold/30 transition-all duration-300">E-Book</button>
-            <button data-jenis="jurnal" class="filter-jenis-btn px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-white text-navy border border-navy/5 dark:bg-navy-mid dark:text-white dark:border-white/5 hover:border-gold/30 transition-all duration-300">Jurnal Ilmiah</button>
-            <button data-jenis="audiobook" class="filter-jenis-btn px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-white text-navy border border-navy/5 dark:bg-navy-mid dark:text-white dark:border-white/5 hover:border-gold/30 transition-all duration-300">Audiobook</button>
-            <button data-jenis="film" class="filter-jenis-btn px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-white text-navy border border-navy/5 dark:bg-navy-mid dark:text-white dark:border-white/5 hover:border-gold/30 transition-all duration-300">Koleksi Film</button>
-        </div>
-
-        <!-- FILTER TIER 2: Kategori Genre (Pill Buttons) -->
-        <div id="filter-genre" class="flex flex-wrap justify-center gap-2 mb-8 items-center">
-            <span class="text-xs font-bold text-navy/40 dark:text-white/40 uppercase tracking-widest mr-2">Topik Kategori:</span>
-            <button data-genre="semua" class="filter-genre-btn tab-active px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-navy text-white dark:bg-gold dark:text-navy border-transparent transition-all duration-300">Semua Topik</button>
-            <button data-genre="fiksi" class="filter-genre-btn px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-navy border border-navy/10 dark:bg-navy-mid dark:text-white dark:border-white/10 hover:border-gold/50 transition-all duration-300">Fiksi</button>
-            <button data-genre="dongeng" class="filter-genre-btn px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-navy border border-navy/10 dark:bg-navy-mid dark:text-white dark:border-white/10 hover:border-gold/50 transition-all duration-300">Dongeng</button>
-            <button data-genre="sains" class="filter-genre-btn px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-navy border border-navy/10 dark:bg-navy-mid dark:text-white dark:border-white/10 hover:border-gold/50 transition-all duration-300">Sains</button>
-            <button data-genre="sejarah" class="filter-genre-btn px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-navy border border-navy/10 dark:bg-navy-mid dark:text-white dark:border-white/10 hover:border-gold/50 transition-all duration-300">Sejarah</button>
-            <button data-genre="biografi" class="filter-genre-btn px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-navy border border-navy/10 dark:bg-navy-mid dark:text-white dark:border-white/10 hover:border-gold/50 transition-all duration-300">Biografi</button>
-            <button data-genre="panduan" class="filter-genre-btn px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-navy border border-navy/10 dark:bg-navy-mid dark:text-white dark:border-white/10 hover:border-gold/50 transition-all duration-300">Panduan</button>
-            <button data-genre="keagamaan" class="filter-genre-btn px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-navy border border-navy/10 dark:bg-navy-mid dark:text-white dark:border-white/10 hover:border-gold/50 transition-all duration-300">Keagamaan</button>
-            <button data-genre="self-improvement" class="filter-genre-btn px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-navy border border-navy/10 dark:bg-navy-mid dark:text-white dark:border-white/10 hover:border-gold/50 transition-all duration-300">Self-Help</button>
-        </div>
-
-        <!-- Dynamic Counter & Search Metadata Info Display -->
-        <div id="search-info" class="text-center text-xs sm:text-sm text-navy/60 dark:text-white/60 mb-8 font-medium">
-            Sinkronisasi parameter indeks pencarian...
-        </div>
-
-        <!-- DYNAMIC CATALOG CARD GRID ARCHITECTURE -->
-        <div id="katalog-buku" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-            <div class="col-span-full text-center py-20 text-navy/40 dark:text-white/40 text-sm font-medium">
-                Menginisialisasi pustaka bibliografi metadata...
-            </div>
-        </div>
-
-    </main>
-
-    <!-- FOOTER -->
     <footer class="bg-navy-dark text-white pt-12 pb-6 mt-auto border-t-2 border-gold transition-all duration-300">
         <div class="container mx-auto px-4 max-w-6xl">
             <div class="flex flex-col md:flex-row justify-between items-start gap-10 border-b border-white/10 pb-8 mb-6">
@@ -439,7 +210,7 @@
     </audio>
 
     <script>
-        // Combined Selection Logic for Both Format & Genre Filters
+        // LOGIKA FILTER 2 TINGKAT + PAGINATION (LOAD MORE)
         const searchInput = document.getElementById('search-input');
         const btnJenis = document.querySelectorAll('.filter-jenis-btn');
         const btnGenre = document.querySelectorAll('.filter-genre-btn');
@@ -450,75 +221,107 @@
             search: ''
         };
 
-        function saringKoleksi() {
+        // Variabel Pagination
+        let currentPage = 1;
+        const itemsPerPage = 12; // Menampilkan 12 koleksi per halaman (ideal untuk grid)
+
+        function saringKoleksi(resetHalaman = true) {
+            // Jika filter/search berubah, kembalikan ke halaman 1
+            if (resetHalaman) currentPage = 1;
+
             const semuaKoleksi = typeof getAllKoleksi === 'function' ? getAllKoleksi() : [];
             const infoText = document.getElementById('search-info');
             const katalogContainer = document.getElementById('katalog-buku');
             
             activeFilters.search = searchInput ? searchInput.value.toLowerCase().trim() : '';
 
+            // Proses Penyaringan
             const hasilFilter = semuaKoleksi.filter(item => {
                 const cocokJenis = activeFilters.jenis === 'semua' || item.jenis === activeFilters.jenis;
                 const cocokGenre = activeFilters.genre === 'semua' || item.genre === activeFilters.genre;
-                
-                // Cari di judul, pengarang, penerbit
                 const searchString = `${item.judul} ${item.pengarang} ${item.penerbit}`.toLowerCase();
                 const cocokSearch = searchString.includes(activeFilters.search);
                 
                 return cocokJenis && cocokGenre && cocokSearch;
             });
 
-            // Update Info Teks
+            // Potong data berdasarkan halaman (Pagination Logic)
+            const displayedItems = hasilFilter.slice(0, currentPage * itemsPerPage);
+
+            // Update Teks Informasi
             if (infoText) {
-                let text = `Menampilkan ${hasilFilter.length} koleksi`;
-                if (activeFilters.jenis !== 'semua') text += ` untuk medium "${activeFilters.jenis}"`;
+                let text = `Menampilkan ${displayedItems.length} dari total ${hasilFilter.length} koleksi`;
+                if (activeFilters.jenis !== 'semua') text += ` format "${activeFilters.jenis}"`;
                 if (activeFilters.genre !== 'semua') text += ` topik "${activeFilters.genre}"`;
                 if (activeFilters.search !== '') text += ` dengan kata kunci "${activeFilters.search}"`;
                 infoText.innerText = text;
             }
 
-            // Render ke Layar (Asumsi kita tulis ulang renderKoleksi disini biar mandiri)
+            // Render Hasil ke Layar
             if (katalogContainer) {
-                katalogContainer.innerHTML = '';
+                katalogContainer.innerHTML = ''; 
                 if (hasilFilter.length === 0) {
-                    katalogContainer.innerHTML = `<div class="col-span-full text-center py-20 text-navy/40 dark:text-white/40 text-sm font-medium">Tidak ada koleksi yang sesuai dengan filter pencarian.</div>`;
-                    return;
+                    katalogContainer.innerHTML = `<div class="col-span-full text-center py-20 text-navy/40 dark:text-white/40 text-sm font-medium border border-dashed border-navy/20 dark:border-white/20 rounded-2xl mx-auto w-full max-w-md">Tidak ada koleksi yang sesuai dengan kombinasi filter tersebut.</div>`;
+                } else {
+                    displayedItems.forEach(item => {
+                        const statusBadge = item.status === 'tersedia' 
+                            ? `<span class="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider absolute top-3 right-3 shadow-sm border border-green-200 dark:border-green-800 backdrop-blur-sm">Tersedia</span>`
+                            : `<span class="bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider absolute top-3 right-3 shadow-sm border border-red-200 dark:border-red-800 backdrop-blur-sm">Dipinjam</span>`;
+                        
+                        const coverImg = item.gambarSampul || 'https://via.placeholder.com/300x400/0A1931/E5A93C?text=No+Cover';
+                        
+                        const cardHTML = `
+                            <div class="bg-white dark:bg-navy-mid rounded-2xl shadow-sm border border-navy/5 dark:border-white/5 overflow-hidden group hover:shadow-xl hover:border-gold/30 dark:hover:border-gold/30 transition-all duration-500 hover:-translate-y-1 flex flex-col h-full cursor-pointer relative" onclick="openDetailModal('${item.id}')">
+                                <div class="relative pt-[140%] overflow-hidden bg-navy-dark">
+                                    <img src="${coverImg}" alt="${item.judul}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-navy-dark/90 via-navy-dark/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300"></div>
+                                    ${statusBadge}
+                                    <div class="absolute bottom-3 left-3 flex gap-1">
+                                        <span class="bg-navy/80 text-white text-[9px] px-2 py-0.5 rounded backdrop-blur-md border border-white/20 uppercase tracking-widest font-semibold">${item.jenis}</span>
+                                    </div>
+                                </div>
+                                <div class="p-4 sm:p-5 flex flex-col flex-grow">
+                                    <h3 class="font-heading font-bold text-sm sm:text-base text-navy dark:text-white leading-snug mb-1 group-hover:text-gold transition-colors line-clamp-2">${item.judul}</h3>
+                                    <p class="text-xs text-navy/60 dark:text-white/60 font-medium mb-3 line-clamp-1">${item.pengarang}</p>
+                                    <div class="mt-auto pt-3 border-t border-navy/5 dark:border-white/5 flex justify-between items-center">
+                                        <span class="text-[10px] font-bold uppercase tracking-wider text-gold-dark dark:text-gold-light">${item.genre}</span>
+                                        <span class="text-[10px] text-navy/40 dark:text-white/40 font-medium">${item.tahunTerbit}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        katalogContainer.insertAdjacentHTML('beforeend', cardHTML);
+                    });
                 }
-                
-                hasilFilter.forEach(item => {
-                    const statusBadge = item.status === 'tersedia' 
-                        ? `<span class="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider absolute top-3 right-3 shadow-sm border border-green-200 dark:border-green-800 backdrop-blur-sm">Tersedia</span>`
-                        : `<span class="bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider absolute top-3 right-3 shadow-sm border border-red-200 dark:border-red-800 backdrop-blur-sm">Dipinjam</span>`;
-                    
-                    // Fallback cover if empty
-                    const coverImg = item.gambarSampul || 'https://via.placeholder.com/300x400/0A1931/E5A93C?text=No+Cover';
-                    
-                    const cardHTML = `
-                        <div class="bg-white dark:bg-navy-mid rounded-2xl shadow-sm border border-navy/5 dark:border-white/5 overflow-hidden group hover:shadow-xl hover:border-gold/30 dark:hover:border-gold/30 transition-all duration-500 hover:-translate-y-1 flex flex-col h-full cursor-pointer relative" onclick="openDetailModal('${item.id}')">
-                            <div class="relative pt-[140%] overflow-hidden bg-navy-dark">
-                                <img src="${coverImg}" alt="${item.judul}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100">
-                                <div class="absolute inset-0 bg-gradient-to-t from-navy-dark/90 via-navy-dark/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300"></div>
-                                ${statusBadge}
-                                <div class="absolute bottom-3 left-3 flex gap-1">
-                                    <span class="bg-navy/80 text-white text-[9px] px-2 py-0.5 rounded backdrop-blur-md border border-white/20 uppercase tracking-widest font-semibold">${item.jenis}</span>
-                                </div>
-                            </div>
-                            <div class="p-4 sm:p-5 flex flex-col flex-grow">
-                                <h3 class="font-heading font-bold text-sm sm:text-base text-navy dark:text-white leading-snug mb-1 group-hover:text-gold transition-colors line-clamp-2">${item.judul}</h3>
-                                <p class="text-xs text-navy/60 dark:text-white/60 font-medium mb-3 line-clamp-1">${item.pengarang}</p>
-                                <div class="mt-auto pt-3 border-t border-navy/5 dark:border-white/5 flex justify-between items-center">
-                                    <span class="text-[10px] font-bold uppercase tracking-wider text-gold-dark dark:text-gold-light">${item.genre}</span>
-                                    <span class="text-[10px] text-navy/40 dark:text-white/40 font-medium">${item.tahunTerbit}</span>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    katalogContainer.insertAdjacentHTML('beforeend', cardHTML);
-                });
+
+                // Injeksi Tombol Load More
+                let loadMoreContainer = document.getElementById('load-more-container');
+                if (!loadMoreContainer) {
+                    loadMoreContainer = document.createElement('div');
+                    loadMoreContainer.id = 'load-more-container';
+                    loadMoreContainer.className = 'col-span-full flex justify-center mt-8';
+                    katalogContainer.parentNode.insertBefore(loadMoreContainer, katalogContainer.nextSibling);
+                }
+
+                // Jika data yang ditampilkan masih kurang dari total data, munculkan tombol
+                if (hasilFilter.length > displayedItems.length) {
+                    loadMoreContainer.innerHTML = `
+                        <button onclick="loadMoreItems()" class="px-6 py-3 rounded-full bg-navy/5 text-navy dark:bg-white/5 dark:text-white border border-navy/10 dark:border-white/10 hover:bg-gold hover:text-navy hover:border-gold dark:hover:bg-gold dark:hover:text-navy font-bold text-xs uppercase tracking-wider transition-all duration-300 flex items-center gap-2">
+                            Muat Lebih Banyak <img src="assets/icon/opac.svg" class="w-3 h-3 dark:invert opacity-70" alt="Load">
+                        </button>`;
+                } else {
+                    loadMoreContainer.innerHTML = ''; // Hilangkan tombol kalau data sudah habis
+                }
             }
         }
 
-        // Logic Visual Button Jenis (Tier 1)
+        // Fungsi saat tombol Load More diklik
+        window.loadMoreItems = function() {
+            currentPage++; // Tambah halaman
+            saringKoleksi(false); // Render ulang tanpa mereset ke halaman 1
+        }
+
+        // Logic Visual Klik Tombol Medium (Tier 1)
         btnJenis.forEach(btn => {
             btn.addEventListener('click', () => {
                 btnJenis.forEach(b => {
@@ -529,11 +332,11 @@
                 btn.classList.remove('bg-white', 'text-navy', 'dark:bg-navy-mid', 'dark:text-white');
                 
                 activeFilters.jenis = btn.getAttribute('data-jenis');
-                saringKoleksi();
+                saringKoleksi(true); // Reset ke halaman 1 tiap ganti filter
             });
         });
 
-        // Logic Visual Button Genre (Tier 2)
+        // Logic Visual Klik Tombol Topik Genre (Tier 2)
         btnGenre.forEach(btn => {
             btn.addEventListener('click', () => {
                 btnGenre.forEach(b => {
@@ -544,15 +347,15 @@
                 btn.classList.remove('bg-white', 'text-navy', 'dark:bg-navy-mid', 'dark:text-white');
                 
                 activeFilters.genre = btn.getAttribute('data-genre');
-                saringKoleksi();
+                saringKoleksi(true); // Reset ke halaman 1 tiap ganti filter
             });
         });
 
         if (searchInput) {
-            searchInput.addEventListener('input', saringKoleksi);
+            searchInput.addEventListener('input', () => saringKoleksi(true));
         }
 
-        // ---- UI Toggles ----
+        // ---- UI Toggles & Header Menu ----
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         if (menuBtn && mobileMenu) menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
@@ -590,7 +393,6 @@
         if (musicBtn && audio) {
             updateMusicIcon();
             if (isMusicPlaying) {
-                // Must be triggered by user interaction usually, but let's try
                 audio.play().catch(() => { isMusicPlaying = false; localStorage.setItem('music_playing', 'false'); updateMusicIcon(); });
             }
             musicBtn.addEventListener('click', () => {
@@ -604,18 +406,13 @@
         // ---- Initialization ----
         document.addEventListener('DOMContentLoaded', () => {
             if (typeof initDatabase === 'function') initDatabase();
-            // Initial render
-            setTimeout(saringKoleksi, 150);
+            setTimeout(() => saringKoleksi(true), 150); 
         });
         
-        // Modal detail placeholder (biar ga error pas klik card)
-        window.openDetailModal = function(id) {
+        window.openDetailModal = window.openDetailModal || function(id) {
             console.log("Membuka detail untuk ID:", id);
-            alert("Fitur detail untuk item " + id + " dapat diimplementasikan di app.js atau di sini.");
+            alert("Fitur detail belum diimplementasikan sepenuhnya di mockup ini.");
         }
     </script>
-</body>
-</html>
-
 </body>
 </html>
