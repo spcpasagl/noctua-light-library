@@ -1,6 +1,6 @@
 // assets/js/database.js
 
-const DATA_VERSION = "7.0"; // Versi 7 untuk memastikan browser me-reset cache dan memuat 48 data baru
+const DATA_VERSION = "8.0"; // Versi 7 untuk memastikan browser me-reset cache dan memuat 48 data baru
 
 const GENRE_LIST = [
     "fiksi", "dongeng", "biografi", "self-improvement",
@@ -238,7 +238,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK001",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "panduan",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -252,7 +252,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK002",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "panduan",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -266,7 +266,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK003",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "panduan",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -280,7 +280,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK004",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "panduan",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -294,7 +294,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK005",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "sejarah",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -308,7 +308,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK006",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "sejarah",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -322,7 +322,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK007",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "sejarah",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -336,7 +336,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK008",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "sejarah",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -350,7 +350,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK009",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "keagamaan",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -364,7 +364,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK010",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "keagamaan",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -378,7 +378,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK011",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "keagamaan",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -392,7 +392,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK012",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "keagamaan",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -406,7 +406,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK013",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "keagamaan",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -420,7 +420,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK014",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "keagamaan",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -434,7 +434,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK015",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "keagamaan",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -448,7 +448,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK016",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "self-improvement",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -462,7 +462,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK017",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "self-improvement",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -476,7 +476,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK018",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "self-improvement",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -490,7 +490,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK019",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "self-improvement",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -504,7 +504,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK020",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "self-improvement",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -518,7 +518,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK021",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "self-improvement",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -532,7 +532,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK022",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "self-improvement",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -546,7 +546,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK023",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "biografi",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -560,7 +560,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK024",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "biografi",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -574,7 +574,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK025",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "biografi",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -588,7 +588,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK026",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "biografi",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -602,7 +602,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK027",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "dongeng",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -616,7 +616,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK028",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "dongeng",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -630,7 +630,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK029",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "dongeng",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -644,7 +644,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK030",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "dongeng",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -658,7 +658,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK031",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "fiksi",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -672,7 +672,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK032",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "fiksi",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -686,7 +686,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK033",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "fiksi",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -700,7 +700,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK034",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "fiksi",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -714,7 +714,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK035",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "fiksi",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -728,7 +728,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK036",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "fiksi",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -742,7 +742,7 @@ const defaultKoleksi = [
     },
     {
         "id": "BK037",
-        "jenis": "buku",
+        "jenis": "ebook",
         "genre": "fiksi",
         "tipeKoleksi": "sirkulasi",
         "status": "tersedia",
@@ -757,8 +757,8 @@ const defaultKoleksi = [
 ];
 
 const DEFAULT_USERS = [
-    { username: "super_admin", password: "admin123", role: "super_admin" },
-    { username: "staff_admin", password: "staff123", role: "staff_admin" }
+    { username: "super_admin", password: "noctua32333539", role: "super_admin" },
+    { username: "staff_admin", password: "light32333539", role: "staff_admin" }
 ];
 
 function initStorage() {
