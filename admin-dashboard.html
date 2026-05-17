@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard - Noctua Light</title>
-  <link rel="icon" type="image/svg" href="assets/icon/favicon.svg">
+  <link rel="icon" type="image/png" href="assets/icon/favicon.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
   <script>
@@ -64,10 +64,11 @@
       <h2 class="text-lg font-heading font-bold">Metrik Sistem & Sirkulasi</h2>
       <span class="text-[10px] font-bold uppercase tracking-widest text-navy/40 dark:text-white/40">Real-Time Update</span>
     </div>
+    
     <div id="stats" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 text-center"></div>
   </div>
 
-  <!-- Navigation Hub -->
+  <!-- Navigation Hub (Inventory & Logs) -->
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
     <a href="admin-inventory.html"
       class="block bg-navy dark:bg-navy-dark text-white p-6 rounded-2xl shadow-sm border border-navy-light dark:border-white/5 transition transform hover:-translate-y-1 hover:shadow-md relative overflow-hidden group">
@@ -140,73 +141,70 @@
       else { iconSun.classList.add('hidden'); iconMoon.classList.remove('hidden'); }
     }
   }
+  document.addEventListener('DOMContentLoaded', updateDarkIcon);
 
-  document.addEventListener('DOMContentLoaded', function() {
-    updateDarkIcon();
-    if (typeof initDatabase === "function") initDatabase();
+  if (typeof initDatabase === "function") initDatabase();
 
-    const user = checkSession();
-    if (user) {
-      document.getElementById("userInfo").innerHTML = `
-        <img src="assets/icon/shield-check-fill.svg" class="w-6 h-6 dark:invert opacity-80" alt="Shield"> 
-        <div>
-          Sistem aktif. Terotentikasi sebagai <strong class="font-bold text-navy dark:text-gold uppercase">${user.username}</strong> 
-          <span class="mx-1 text-navy/30 dark:text-white/30">|</span> Otoritas: <span class="uppercase">${user.role}</span>
-        </div>
-      `;
+  const user = checkSession();
+  if (user) {
+    document.getElementById("userInfo").innerHTML = `
+      <img src="assets/icon/shield-check-fill.svg" class="w-6 h-6 dark:invert opacity-80" alt="Shield"> 
+      <div>
+        Sistem aktif. Terotentikasi sebagai <strong class="font-bold text-navy dark:text-gold uppercase">${user.username}</strong> 
+        <span class="mx-1 text-navy/30 dark:text-white/30">|</span> Otoritas: <span class="uppercase">${user.role}</span>
+      </div>
+    `;
 
-      const koleksi  = getAllKoleksi();
-      const total    = koleksi.length;
-      const buku     = koleksi.filter(i => i.jenis === "buku").length;
-      const ebook    = koleksi.filter(i => i.jenis === "ebook").length;
-      const jurnal   = koleksi.filter(i => i.jenis === "jurnal").length;
-      const audio    = koleksi.filter(i => i.jenis === "audiobook").length;
-      const film     = koleksi.filter(i => i.jenis === "film").length;
-      const members  = JSON.parse(localStorage.getItem("members_db") || "[]").length;
-      const pinjam   = JSON.parse(localStorage.getItem("riwayat_pinjam") || "[]").filter(t => t.status === "dipinjam").length;
-      const tersedia = koleksi.filter(i => i.status === "tersedia").length;
+    const koleksi = getAllKoleksi();
+    const total  = koleksi.length;
+        const ebook  = koleksi.filter(i => i.jenis === "ebook").length;
+    const jurnal  = koleksi.filter(i => i.jenis === "jurnal").length;
+    const audio  = koleksi.filter(i => i.jenis === "audiobook").length;
+    const film   = koleksi.filter(i => i.jenis === "film").length;
+    const members = JSON.parse(localStorage.getItem("members_db") || "[]").length;
+    const pinjam  = JSON.parse(localStorage.getItem("riwayat_pinjam") || "[]").filter(t => t.status === "dipinjam").length;
+    const tersedia = koleksi.filter(i => i.status === "tersedia").length;
 
-      const statCard = (val, label) => `
-        <div class="bg-cream-secondary dark:bg-navy-dark p-4 rounded-xl border border-navy/5 dark:border-white/5 flex flex-col justify-center items-center h-full">
-          <div class="text-3xl font-heading font-bold text-navy dark:text-gold">${val}</div>
-          <div class="text-[10px] uppercase tracking-widest font-bold text-navy/50 dark:text-white/50 mt-1">${label}</div>
-        </div>`;
+    // Clean unified metrics cards
+    const statCard = (val, label) => `
+      <div class="bg-cream-secondary dark:bg-navy-dark p-4 rounded-xl border border-navy/5 dark:border-white/5 flex flex-col justify-center items-center h-full">
+        <div class="text-3xl font-heading font-bold text-navy dark:text-gold">${val}</div>
+        <div class="text-[10px] uppercase tracking-widest font-bold text-navy/50 dark:text-white/50 mt-1">${label}</div>
+      </div>`;
 
-      document.getElementById("stats").innerHTML = `
-        ${statCard(total, 'Total Aset')}
-        ${statCard(buku, 'Buku Fisik')}
-        ${statCard(ebook, 'E-Book')}
-        ${statCard(jurnal, 'Jurnal')}
-        ${statCard(film, 'Film')}
-        ${statCard(audio, 'Audiobook')}
-        ${statCard(members, 'Anggota Aktif')}
-        ${statCard(pinjam, 'Sirkulasi Keluar')}
-        ${statCard(tersedia, 'Status Tersedia')}
-      `;
+    document.getElementById("stats").innerHTML = `
+      ${statCard(total, 'Total Aset')}
+      ${statCard(ebook, 'E-Book')}
+      ${statCard(jurnal, 'Jurnal')}
+      ${statCard(film, 'Film')}
+      ${statCard(audio, 'Audiobook')}
+      ${statCard(members, 'Anggota Aktif')}
+      ${statCard(pinjam, 'Sirkulasi Keluar')}
+      ${statCard(tersedia, 'Status Tersedia')}
+    `;
 
-      const pesan = JSON.parse(localStorage.getItem("pesan_masuk") || "[]");
-      const badge = document.getElementById("jumlahPesan");
-      const tbody = document.getElementById("tabelPesan");
-      if (badge) badge.textContent = `${pesan.length} Entri Baru`;
-
-      if (!pesan.length) {
-        tbody.innerHTML = '<tr><td colspan="4" class="text-center p-6">Belum ada korespondensi masuk.</td></tr>';
-      } else {
-        tbody.innerHTML = [...pesan].reverse().slice(0, 10).map(p => `
-          <tr class="hover:bg-cream-secondary/50 dark:hover:bg-navy-dark/50 transition-colors">
-            <td class="px-6 py-4 font-semibold text-navy dark:text-white">${p.nama}</td>
-            <td class="px-6 py-4 text-xs font-mono">${p.email}</td>
-            <td class="px-6 py-4 max-w-md whitespace-normal leading-relaxed text-justify"><span class="font-semibold text-xs mr-1 block mb-1 text-gold-dark dark:text-gold-light">[${p.subjek}]</span> ${p.pesan}</td>
-            <td class="px-6 py-4 text-xs font-mono">${p.tanggal}</td>
-          </tr>
-        `).join('');
-      }
-
-      document.getElementById("staffNote").innerHTML = user.role === "super_admin"
-        ? "Otorisasi Level 1: Anda memiliki hak akses penuh (CREATE, READ, UPDATE, DELETE)."
-        : "Otorisasi Level 2: Sebagai Staf Pustakawan, fungsi DELETE dinonaktifkan secara bawaan.";
+    const pesan = JSON.parse(localStorage.getItem("pesan_masuk") || "[]");
+    const badge = document.getElementById("jumlahPesan");
+    const tbody = document.getElementById("tabelPesan");
+    if (badge) badge.textContent = `${pesan.length} Entri Baru`;
+    
+    if (!pesan.length) {
+      tbody.innerHTML = '<tr><td colspan="4" class="text-center p-6">Belum ada korespondensi masuk.</td></tr>';
+    } else {
+      tbody.innerHTML = [...pesan].reverse().slice(0, 10).map(p => `
+        <tr class="hover:bg-cream-secondary/50 dark:hover:bg-navy-dark/50 transition-colors">
+          <td class="px-6 py-4 font-semibold text-navy dark:text-white">${p.nama}</td>
+          <td class="px-6 py-4 text-xs font-mono">${p.email}</td>
+          <td class="px-6 py-4 max-w-md whitespace-normal leading-relaxed text-justify"><span class="font-semibold text-xs mr-1 block mb-1 text-gold-dark dark:text-gold-light">[${p.subjek}]</span> ${p.pesan}</td>
+          <td class="px-6 py-4 text-xs font-mono">${p.tanggal}</td>
+        </tr>
+      `).join('');
     }
-  }); // end DOMContentLoaded
+
+    document.getElementById("staffNote").innerHTML = user.role === "super_admin"
+      ? "Otorisasi Level 1: Anda memiliki hak akses penuh (CREATE, READ, UPDATE, DELETE)."
+      : "Otorisasi Level 2: Sebagai Staf Pustakawan, fungsi DELETE dinonaktifkan secara bawaan.";
+  }
 </script>
 </body>
 </html>
