@@ -128,24 +128,27 @@
         </div>
 
         <!-- FILTER TIER 1: Format Medium (Kotak Besar) -->
-        <div class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-4">
-            <button data-filter="semua" class="filter-btn tab-active px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-navy text-white dark:bg-gold dark:text-navy shadow-sm transition-all duration-300">Semua Koleksi</button>
-            <button data-filter="buku" class="filter-btn px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-white text-navy border border-navy/5 dark:bg-navy-mid dark:text-white dark:border-white/5 hover:border-gold/30 transition-all duration-300">Buku Fisik</button>
-            <button data-filter="ebook" class="filter-btn px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-white text-navy border border-navy/5 dark:bg-navy-mid dark:text-white dark:border-white/5 hover:border-gold/30 transition-all duration-300">E-Book</button>
-            <button data-filter="jurnal" class="filter-btn px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-white text-navy border border-navy/5 dark:bg-navy-mid dark:text-white dark:border-white/5 hover:border-gold/30 transition-all duration-300">Jurnal Ilmiah</button>
-            <button data-filter="audiobook" class="filter-btn px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-white text-navy border border-navy/5 dark:bg-navy-mid dark:text-white dark:border-white/5 hover:border-gold/30 transition-all duration-300">Audiobook</button>
-            <button data-filter="film" class="filter-btn px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-white text-navy border border-navy/5 dark:bg-navy-mid dark:text-white dark:border-white/5 hover:border-gold/30 transition-all duration-300">Koleksi Film</button>
+        <div id="filter-jenis" class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-4">
+            <button data-jenis="semua" class="filter-jenis-btn tab-active px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-navy text-white dark:bg-gold dark:text-navy shadow-sm transition-all duration-300 border-transparent">Semua Koleksi</button>
+            <button data-jenis="buku" class="filter-jenis-btn px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-white text-navy border border-navy/5 dark:bg-navy-mid dark:text-white dark:border-white/5 hover:border-gold/30 transition-all duration-300">Buku Fisik</button>
+            <button data-jenis="ebook" class="filter-jenis-btn px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-white text-navy border border-navy/5 dark:bg-navy-mid dark:text-white dark:border-white/5 hover:border-gold/30 transition-all duration-300">E-Book</button>
+            <button data-jenis="jurnal" class="filter-jenis-btn px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-white text-navy border border-navy/5 dark:bg-navy-mid dark:text-white dark:border-white/5 hover:border-gold/30 transition-all duration-300">Jurnal Ilmiah</button>
+            <button data-jenis="audiobook" class="filter-jenis-btn px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-white text-navy border border-navy/5 dark:bg-navy-mid dark:text-white dark:border-white/5 hover:border-gold/30 transition-all duration-300">Audiobook</button>
+            <button data-jenis="film" class="filter-jenis-btn px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-white text-navy border border-navy/5 dark:bg-navy-mid dark:text-white dark:border-white/5 hover:border-gold/30 transition-all duration-300">Koleksi Film</button>
         </div>
 
         <!-- FILTER TIER 2: Kategori Genre (Pill Buttons) -->
-        <div class="flex flex-wrap justify-center gap-2 mb-8 items-center">
+        <div id="filter-genre" class="flex flex-wrap justify-center gap-2 mb-8 items-center">
             <span class="text-xs font-bold text-navy/40 dark:text-white/40 uppercase tracking-widest mr-2">Topik Kategori:</span>
-            <button data-filter="fiksi" class="filter-btn px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-navy border border-navy/10 dark:bg-navy-mid dark:text-white dark:border-white/10 hover:border-gold/50 transition-all duration-300">Fiksi</button>
-            <button data-filter="sains" class="filter-btn px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-navy border border-navy/10 dark:bg-navy-mid dark:text-white dark:border-white/10 hover:border-gold/50 transition-all duration-300">Sains</button>
-            <button data-filter="sejarah" class="filter-btn px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-navy border border-navy/10 dark:bg-navy-mid dark:text-white dark:border-white/10 hover:border-gold/50 transition-all duration-300">Sejarah</button>
-            <button data-filter="biografi" class="filter-btn px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-navy border border-navy/10 dark:bg-navy-mid dark:text-white dark:border-white/10 hover:border-gold/50 transition-all duration-300">Biografi</button>
-            <button data-filter="panduan" class="filter-btn px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-navy border border-navy/10 dark:bg-navy-mid dark:text-white dark:border-white/10 hover:border-gold/50 transition-all duration-300">Panduan</button>
-            <button data-filter="keagamaan" class="filter-btn px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-navy border border-navy/10 dark:bg-navy-mid dark:text-white dark:border-white/10 hover:border-gold/50 transition-all duration-300">Keagamaan</button>
+            <button data-genre="semua" class="filter-genre-btn tab-active px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-navy text-white dark:bg-gold dark:text-navy border-transparent transition-all duration-300">Semua Topik</button>
+            <button data-genre="fiksi" class="filter-genre-btn px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-navy border border-navy/10 dark:bg-navy-mid dark:text-white dark:border-white/10 hover:border-gold/50 transition-all duration-300">Fiksi</button>
+            <button data-genre="dongeng" class="filter-genre-btn px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-navy border border-navy/10 dark:bg-navy-mid dark:text-white dark:border-white/10 hover:border-gold/50 transition-all duration-300">Dongeng</button>
+            <button data-genre="sains" class="filter-genre-btn px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-navy border border-navy/10 dark:bg-navy-mid dark:text-white dark:border-white/10 hover:border-gold/50 transition-all duration-300">Sains</button>
+            <button data-genre="sejarah" class="filter-genre-btn px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-navy border border-navy/10 dark:bg-navy-mid dark:text-white dark:border-white/10 hover:border-gold/50 transition-all duration-300">Sejarah</button>
+            <button data-genre="biografi" class="filter-genre-btn px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-navy border border-navy/10 dark:bg-navy-mid dark:text-white dark:border-white/10 hover:border-gold/50 transition-all duration-300">Biografi</button>
+            <button data-genre="panduan" class="filter-genre-btn px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-navy border border-navy/10 dark:bg-navy-mid dark:text-white dark:border-white/10 hover:border-gold/50 transition-all duration-300">Panduan</button>
+            <button data-genre="keagamaan" class="filter-genre-btn px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-navy border border-navy/10 dark:bg-navy-mid dark:text-white dark:border-white/10 hover:border-gold/50 transition-all duration-300">Keagamaan</button>
+            <button data-genre="self-improvement" class="filter-genre-btn px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-navy border border-navy/10 dark:bg-navy-mid dark:text-white dark:border-white/10 hover:border-gold/50 transition-all duration-300">Self-Help</button>
         </div>
 
         <!-- Dynamic Counter & Search Metadata Info Display -->
@@ -218,35 +221,118 @@
     <script>
         // Combined Selection Logic for Both Format & Genre Filters
         const searchInput = document.getElementById('search-input');
-        const filterButtons = document.querySelectorAll('.filter-btn');
-        let currentFilter = 'semua';
+        const btnJenis = document.querySelectorAll('.filter-jenis-btn');
+        const btnGenre = document.querySelectorAll('.filter-genre-btn');
+        
+        let activeFilters = {
+            jenis: 'semua',
+            genre: 'semua',
+            search: ''
+        };
 
-        function syncAndRefreshDisplay() {
-            if (typeof renderKoleksi === 'function') {
-                const searchVal = searchInput ? searchInput.value : '';
-                renderKoleksi(currentFilter, searchVal);
+        function saringKoleksi() {
+            const semuaKoleksi = typeof getAllKoleksi === 'function' ? getAllKoleksi() : [];
+            const infoText = document.getElementById('search-info');
+            const katalogContainer = document.getElementById('katalog-buku');
+            
+            activeFilters.search = searchInput ? searchInput.value.toLowerCase().trim() : '';
+
+            const hasilFilter = semuaKoleksi.filter(item => {
+                const cocokJenis = activeFilters.jenis === 'semua' || item.jenis === activeFilters.jenis;
+                const cocokGenre = activeFilters.genre === 'semua' || item.genre === activeFilters.genre;
+                
+                // Cari di judul, pengarang, penerbit
+                const searchString = `${item.judul} ${item.pengarang} ${item.penerbit}`.toLowerCase();
+                const cocokSearch = searchString.includes(activeFilters.search);
+                
+                return cocokJenis && cocokGenre && cocokSearch;
+            });
+
+            // Update Info Teks
+            if (infoText) {
+                let text = `Menampilkan ${hasilFilter.length} koleksi`;
+                if (activeFilters.jenis !== 'semua') text += ` untuk medium "${activeFilters.jenis}"`;
+                if (activeFilters.genre !== 'semua') text += ` topik "${activeFilters.genre}"`;
+                if (activeFilters.search !== '') text += ` dengan kata kunci "${activeFilters.search}"`;
+                infoText.innerText = text;
+            }
+
+            // Render ke Layar (Asumsi kita tulis ulang renderKoleksi disini biar mandiri)
+            if (katalogContainer) {
+                katalogContainer.innerHTML = '';
+                if (hasilFilter.length === 0) {
+                    katalogContainer.innerHTML = `<div class="col-span-full text-center py-20 text-navy/40 dark:text-white/40 text-sm font-medium">Tidak ada koleksi yang sesuai dengan filter pencarian.</div>`;
+                    return;
+                }
+                
+                hasilFilter.forEach(item => {
+                    const statusBadge = item.status === 'tersedia' 
+                        ? `<span class="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider absolute top-3 right-3 shadow-sm border border-green-200 dark:border-green-800 backdrop-blur-sm">Tersedia</span>`
+                        : `<span class="bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider absolute top-3 right-3 shadow-sm border border-red-200 dark:border-red-800 backdrop-blur-sm">Dipinjam</span>`;
+                    
+                    // Fallback cover if empty
+                    const coverImg = item.gambarSampul || 'https://via.placeholder.com/300x400/0A1931/E5A93C?text=No+Cover';
+                    
+                    const cardHTML = `
+                        <div class="bg-white dark:bg-navy-mid rounded-2xl shadow-sm border border-navy/5 dark:border-white/5 overflow-hidden group hover:shadow-xl hover:border-gold/30 dark:hover:border-gold/30 transition-all duration-500 hover:-translate-y-1 flex flex-col h-full cursor-pointer relative" onclick="openDetailModal('${item.id}')">
+                            <div class="relative pt-[140%] overflow-hidden bg-navy-dark">
+                                <img src="${coverImg}" alt="${item.judul}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100">
+                                <div class="absolute inset-0 bg-gradient-to-t from-navy-dark/90 via-navy-dark/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300"></div>
+                                ${statusBadge}
+                                <div class="absolute bottom-3 left-3 flex gap-1">
+                                    <span class="bg-navy/80 text-white text-[9px] px-2 py-0.5 rounded backdrop-blur-md border border-white/20 uppercase tracking-widest font-semibold">${item.jenis}</span>
+                                </div>
+                            </div>
+                            <div class="p-4 sm:p-5 flex flex-col flex-grow">
+                                <h3 class="font-heading font-bold text-sm sm:text-base text-navy dark:text-white leading-snug mb-1 group-hover:text-gold transition-colors line-clamp-2">${item.judul}</h3>
+                                <p class="text-xs text-navy/60 dark:text-white/60 font-medium mb-3 line-clamp-1">${item.pengarang}</p>
+                                <div class="mt-auto pt-3 border-t border-navy/5 dark:border-white/5 flex justify-between items-center">
+                                    <span class="text-[10px] font-bold uppercase tracking-wider text-gold-dark dark:text-gold-light">${item.genre}</span>
+                                    <span class="text-[10px] text-navy/40 dark:text-white/40 font-medium">${item.tahunTerbit}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    katalogContainer.insertAdjacentHTML('beforeend', cardHTML);
+                });
             }
         }
 
-        filterButtons.forEach(btn => {
+        // Logic Visual Button Jenis (Tier 1)
+        btnJenis.forEach(btn => {
             btn.addEventListener('click', () => {
-                // Clear active states on ALL buttons
-                filterButtons.forEach(b => {
+                btnJenis.forEach(b => {
                     b.classList.remove('tab-active', 'bg-navy', 'text-white', 'dark:bg-gold', 'dark:text-navy', 'border-transparent');
                     b.classList.add('bg-white', 'text-navy', 'dark:bg-navy-mid', 'dark:text-white');
                 });
-                
-                // Add active state to clicked button
                 btn.classList.add('tab-active', 'bg-navy', 'text-white', 'dark:bg-gold', 'dark:text-navy', 'border-transparent');
                 btn.classList.remove('bg-white', 'text-navy', 'dark:bg-navy-mid', 'dark:text-white');
                 
-                currentFilter = btn.getAttribute('data-filter') || 'semua';
-                syncAndRefreshDisplay();
+                activeFilters.jenis = btn.getAttribute('data-jenis');
+                saringKoleksi();
             });
         });
 
-        if (searchInput) searchInput.addEventListener('input', syncAndRefreshDisplay);
+        // Logic Visual Button Genre (Tier 2)
+        btnGenre.forEach(btn => {
+            btn.addEventListener('click', () => {
+                btnGenre.forEach(b => {
+                    b.classList.remove('tab-active', 'bg-navy', 'text-white', 'dark:bg-gold', 'dark:text-navy', 'border-transparent');
+                    b.classList.add('bg-white', 'text-navy', 'dark:bg-navy-mid', 'dark:text-white');
+                });
+                btn.classList.add('tab-active', 'bg-navy', 'text-white', 'dark:bg-gold', 'dark:text-navy', 'border-transparent');
+                btn.classList.remove('bg-white', 'text-navy', 'dark:bg-navy-mid', 'dark:text-white');
+                
+                activeFilters.genre = btn.getAttribute('data-genre');
+                saringKoleksi();
+            });
+        });
 
+        if (searchInput) {
+            searchInput.addEventListener('input', saringKoleksi);
+        }
+
+        // ---- UI Toggles ----
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         if (menuBtn && mobileMenu) menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
@@ -263,11 +349,11 @@
             }
         }
         if (darkBtn) {
-            darkBtn.addEventListener('click', () => { toggleDarkMode(); updateDarkIcon(); });
+            darkBtn.addEventListener('click', () => { if(typeof toggleDarkMode === 'function') toggleDarkMode(); updateDarkIcon(); });
         }
         document.addEventListener('DOMContentLoaded', updateDarkIcon);
-        window.addEventListener('DOMContentLoaded', updateDarkIcon);
 
+        // ---- Music Logic ----
         const audio = document.getElementById('bgAudio');
         const musicBtn = document.getElementById('musicToggle');
         const iconMusicOn = document.getElementById('icon-music-on');
@@ -283,7 +369,10 @@
 
         if (musicBtn && audio) {
             updateMusicIcon();
-            if (isMusicPlaying) audio.play().catch(() => { isMusicPlaying = false; localStorage.setItem('music_playing', 'false'); updateMusicIcon(); });
+            if (isMusicPlaying) {
+                // Must be triggered by user interaction usually, but let's try
+                audio.play().catch(() => { isMusicPlaying = false; localStorage.setItem('music_playing', 'false'); updateMusicIcon(); });
+            }
             musicBtn.addEventListener('click', () => {
                 if (audio.paused) { audio.play(); isMusicPlaying = true; } 
                 else { audio.pause(); isMusicPlaying = false; }
@@ -292,8 +381,18 @@
             });
         }
 
-        if (typeof initDatabase === 'function') initDatabase();
-        document.addEventListener('DOMContentLoaded', () => setTimeout(syncAndRefreshDisplay, 150));
+        // ---- Initialization ----
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof initDatabase === 'function') initDatabase();
+            // Initial render
+            setTimeout(saringKoleksi, 150);
+        });
+        
+        // Modal detail placeholder (biar ga error pas klik card)
+        window.openDetailModal = function(id) {
+            console.log("Membuka detail untuk ID:", id);
+            alert("Fitur detail untuk item " + id + " dapat diimplementasikan di app.js atau di sini.");
+        }
     </script>
 </body>
 </html>
