@@ -153,20 +153,20 @@
             
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 max-w-3xl mx-auto mt-16 pt-10 border-t border-navy/10 dark:border-white/10 font-heading">
                 <div>
-                    <div class="text-3xl font-bold text-navy dark:text-gold">2.4K+</div>
+                    <div id="stat-buku" class="text-3xl font-bold text-navy dark:text-gold">0</div>
                     <div class="text-[9px] text-navy/40 dark:text-white/40 uppercase tracking-widest font-semibold mt-1">Buku Fisik</div>
                 </div>
                 <div>
-                    <div class="text-3xl font-bold text-navy dark:text-gold">380+</div>
+                    <div id="stat-audio" class="text-3xl font-bold text-navy dark:text-gold">0</div>
                     <div class="text-[9px] text-navy/40 dark:text-white/40 uppercase tracking-widest font-semibold mt-1">Audiobook</div>
                 </div>
                 <div>
-                    <div class="text-3xl font-bold text-navy dark:text-gold">520+</div>
-                    <div class="text-[9px] text-navy/40 dark:text-white/40 uppercase tracking-widest font-semibold mt-1">E-Journal</div>
+                    <div id="stat-jurnal" class="text-3xl font-bold text-navy dark:text-gold">0</div>
+                    <div class="text-[9px] text-navy/40 dark:text-white/40 uppercase tracking-widest font-semibold mt-1">Jurnal Ilmiah</div>
                 </div>
                 <div>
-                    <div class="text-3xl font-bold text-navy dark:text-gold">40+</div>
-                    <div class="text-[9px] text-navy/40 dark:text-white/40 uppercase tracking-widest font-semibold mt-1">Koleksi Hibah</div>
+                    <div id="stat-film" class="text-3xl font-bold text-navy dark:text-gold">0</div>
+                    <div class="text-[9px] text-navy/40 dark:text-white/40 uppercase tracking-widest font-semibold mt-1">Film</div>
                 </div>
             </div>
         </div>
@@ -358,7 +358,7 @@
         }
         if (darkBtn) {
             darkBtn.addEventListener('click', () => {
-                toggleDarkMode(); 
+                if (typeof toggleDarkMode === 'function') toggleDarkMode(); 
                 updateDarkIcon();
             });
         }
@@ -470,13 +470,60 @@
             if (e.target === this) closeNewsModal();
         });
 
-        if (typeof initDatabase === 'function') initDatabase();
+        // ==========================================
+        // DYNAMIC COUNTER LOGIC (NGAMBIL DATA REAL)
+        // ==========================================
+        function initDynamicCounter() {
+            if (typeof getAllKoleksi === 'function') {
+                const dataKoleksi = getAllKoleksi();
+                
+                // Hitung jumlah riil dari database
+                const totalBuku = dataKoleksi.filter(i => i.jenis && i.jenis.toLowerCase() === 'buku').length;
+                const totalAudio = dataKoleksi.filter(i => i.jenis && i.jenis.toLowerCase() === 'audiobook').length;
+                const totalJurnal = dataKoleksi.filter(i => i.jenis && i.jenis.toLowerCase() === 'jurnal').length;
+                const totalFilm = dataKoleksi.filter(i => i.jenis && i.jenis.toLowerCase() === 'film').length;
+                
+                // Jalankan animasi perhitungan
+                animateCounter("stat-buku", totalBuku);
+                animateCounter("stat-audio", totalAudio);
+                animateCounter("stat-jurnal", totalJurnal);
+                animateCounter("stat-film", totalFilm);
+            }
+        }
+
+        function animateCounter(elementId, targetNumber) {
+            const elem = document.getElementById(elementId);
+            if (!elem) return;
+            
+            if (targetNumber === 0) {
+                elem.innerText = "0";
+                return;
+            }
+            
+            let current = 0;
+            const increment = targetNumber / 30; // Kecepatan animasi (30 frame)
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= targetNumber) {
+                    elem.innerText = targetNumber; // Angka pasti di database
+                    clearInterval(timer);
+                } else {
+                    elem.innerText = Math.floor(current);
+                }
+            }, 30);
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
+            if (typeof initDatabase === 'function') initDatabase();
             showSlide(currentSlideIndex);
             startAutoplay();
+            
             if (typeof renderPreviewKatalog === 'function') {
                 setTimeout(renderPreviewKatalog, 150);
             }
+            // Memicu perhitungan stat dinamis 
+            setTimeout(initDynamicCounter, 200); 
         });
     </script>
 </body>
