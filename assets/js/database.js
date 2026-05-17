@@ -1,6 +1,6 @@
 // assets/js/database.js
 
-const DATA_VERSION = "9.0"; // Dinaikkan ke 9.0 untuk memaksa browser reset data user & koleksi terbaru
+const DATA_VERSION = "10.0"; // Increment version to force local storage override on first load
 
 const GENRE_LIST = [
     "fiksi", "dongeng", "biografi", "self-improvement",
@@ -8,6 +8,7 @@ const GENRE_LIST = [
 ];
 
 const JENIS_PREFIX = {
+    buku      : "BK",
     ebook     : "EB",
     jurnal    : "JR",
     audiobook : "AB",
@@ -55,53 +56,31 @@ const initialAnggota = [
     }
 ];
 
-// Seluruh koleksi buku fisik otomatis termigrasi menjadi ebook di sini
-const defaultKoleksi = [
-    {
-        "id": "EB001",
-        "jenis": "ebook",
-        "genre": "fiksi",
-        "tipeKoleksi": "sirkulasi",
-        "status": "tersedia",
-        "judul": "Bumi Manusia",
-        "pengarang": "Pramoedya Ananta Toer",
-        "edisi": "Cetakan ke-17",
-        "penerbit": "Lentera Dipantara",
-        "tahunTerbit": "2015",
-        "kotaTerbit": "Jakarta",
-        "isbn": "978-979-97312-3-4",
-        "nomorPanggil": "899.221 PRA b",
-        "kolase": "535 hlm",
-        "bahasa": "Indonesia",
-        "subjek": "Fiksi Sejarah, Sastra Indonesia",
-        "nomorKlasifikasi": "899.221",
-        "abstrak": "Roman iis berkisah tentang perjalanan Minke, seorang pemuda pribumi yang sekolah di HBS, dan cintanya pada Annelies, gadis indo-Belanda anak Nyai Ontosoroh.",
-        "gambarSampul": "https://images.unsplash.com/photo-1544947950-fa07a98d237f?q=80&w=600&auto=format&fit=crop",
-        "fileUrl": "https://example.com/books/bumi-manusia.pdf"
-    }
-    // ... Sisa data 47 koleksi lainnya yang otomatis ter-load di sistem
-];
+const defaultKoleksi = [];
 
 const initialPesan = [];
 
-// Kredensial baru sesuai request rahasia kelompok
 const DEFAULT_USERS = [
     { username: "adminnl", password: "noctua32333539_", role: "super_admin" },
     { username: "stafnl", password: "light32333539.", role: "staff_admin" }
 ];
 
 function initStorage() {
-    const currentVersion = localStorage.getItem("data_version");
-
-    // LOGIKA PERBAIKAN: Jika versi berubah atau data belum ada, paksa timpa akun & koleksi baru
-    if (currentVersion !== DATA_VERSION || !localStorage.getItem("users_perpus") || !localStorage.getItem("koleksi_perpus")) {
+    if (!localStorage.getItem("users_perpus")) {
         localStorage.setItem("users_perpus", JSON.stringify(DEFAULT_USERS));
+    }
+    
+    // Force seed database if version changes or empty
+    const currentVersion = localStorage.getItem("data_version");
+    if (currentVersion !== DATA_VERSION || !localStorage.getItem("koleksi_perpus") || JSON.parse(localStorage.getItem("koleksi_perpus")).length === 0) {
         localStorage.setItem("koleksi_perpus", JSON.stringify(defaultKoleksi));
         localStorage.setItem("data_version", DATA_VERSION);
     }
     
+    // Merge initial Anggota
     let currentAnggota = JSON.parse(localStorage.getItem("members_db") || "[]");
     if (currentAnggota.length === 0 || !currentAnggota.find(m => m.noAnggota === "NL0001")) {
+        // Merge missing base members
         initialAnggota.forEach(baseMem => {
             if (!currentAnggota.find(m => m.noAnggota === baseMem.noAnggota)) {
                 currentAnggota.unshift(baseMem);
