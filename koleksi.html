@@ -273,7 +273,7 @@
                         const cardHTML = `
                             <div class="bg-white dark:bg-navy-mid rounded-2xl shadow-sm border border-navy/5 dark:border-white/5 overflow-hidden group hover:shadow-xl hover:border-gold/30 dark:hover:border-gold/30 transition-all duration-500 hover:-translate-y-1 flex flex-col h-full cursor-pointer relative" onclick="openDetailModal('${item.id}')">
                                 <div class="relative pt-[140%] overflow-hidden bg-navy-dark">
-                                    <img src="${coverImg}" alt="${item.judul}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100">
+                                    <img src="${coverImg}" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x400/0A1931/E5A93C?text=No+Cover';" alt="${item.judul}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100">
                                     <div class="absolute inset-0 bg-gradient-to-t from-navy-dark/90 via-navy-dark/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300"></div>
                                     ${statusBadge}
                                     <div class="absolute bottom-3 left-3 flex gap-1">
