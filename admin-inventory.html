@@ -38,7 +38,6 @@
 
 <div class="container mx-auto p-4 max-w-7xl">
   
-  <!-- Header Panel -->
   <div class="bg-white dark:bg-navy-mid p-5 rounded-2xl shadow-sm border border-navy/5 dark:border-white/5 flex flex-wrap justify-between items-center mb-8 gap-4">
     <div class="flex items-center gap-3">
       <img src="assets/icon/books-fill.svg" class="w-7 h-7 dark:invert opacity-80" alt="Books">
@@ -56,7 +55,6 @@
     </div>
   </div>
 
-  <!-- Search & Control Filtering Bars -->
   <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center mb-6 gap-4">
     <div class="flex gap-2 flex-wrap items-center">
       <button id="btnTambah" class="bg-navy text-white dark:bg-gold dark:text-navy text-xs font-bold uppercase tracking-wider px-5 py-3 rounded-xl hover:opacity-90 shadow-md transition transform hover:-translate-y-0.5">
@@ -79,7 +77,6 @@
     <div id="roleWarning" class="text-xs font-bold text-red-600 uppercase tracking-wider bg-red-600/5 px-3 py-2 rounded-xl border border-red-600/10"></div>
   </div>
 
-  <!-- Inventory Data Table Architecture -->
   <div class="bg-white dark:bg-navy-mid rounded-2xl shadow-sm border border-navy/5 dark:border-white/5 overflow-x-auto max-h-[500px] overflow-y-auto custom-scrollbar">
     <table class="w-full text-sm text-left border-collapse min-w-[1300px]">
       <thead class="sticky top-0 z-10 shadow-sm bg-cream dark:bg-navy text-xs uppercase tracking-wider text-navy/60 dark:text-white/60 font-bold border-b border-navy/10 dark:border-white/10">
@@ -110,7 +107,6 @@
   <div id="tabelInfo" class="text-[10px] font-bold uppercase tracking-widest text-navy/40 dark:text-white/40 mt-3 text-right"></div>
 </div>
 
-<!-- Modal Form Dialog (Oodi Style Clean Overlap Form Box) -->
 <div id="modalForm" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-50 p-4 backdrop-blur-sm transition-all duration-300">
   <div class="bg-white dark:bg-navy-mid rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] border border-navy/10 dark:border-white/10 flex flex-col overflow-hidden animate-fade-in">
     <div class="bg-cream dark:bg-navy-dark border-b border-navy/10 dark:border-white/10 px-6 py-4 flex justify-between items-center shrink-0">
@@ -353,23 +349,6 @@
       
       // 5. Terakhir, masukkan wrapper div tadi ke dalam sel tabel aksi
       aksiCell.appendChild(actionsWrapper);
-      const btnEdit = document.createElement("button");
-      btnEdit.innerHTML = '<img src="assets/icon/pencil.svg" class="w-4 h-4 dark:invert opacity-70" alt="Edit">';
-      btnEdit.title = "Edit Data";
-      btnEdit.className = "bg-navy/5 border border-navy/10 hover:bg-navy/10 text-navy dark:bg-white/5 dark:border-white/10 dark:text-white p-2 rounded-xl text-xs transition";
-      btnEdit.onclick = () => openEditModal(item);
-      aksiCell.appendChild(btnEdit);
-
-      if (role === "super_admin") {
-        const btnHapus = document.createElement("button");
-        btnHapus.innerHTML = '<img src="assets/icon/sampah.svg" class="w-4 h-4 dark:invert opacity-70" alt="Hapus">';
-        btnHapus.title = "Hapus Permanen";
-        btnHapus.className = "bg-red-600/10 border border-red-600/20 text-red-600 p-2 rounded-xl text-xs hover:bg-red-600 hover:text-white transition";
-        btnHapus.onclick = () => {
-          if (confirm(`Apakah Anda yakin ingin menghapus permanen data "${item.judul}" dari sistem?`)) { hapusKoleksi(item.id); }
-        };
-        aksiCell.appendChild(btnHapus);
-      }
     });
   }
 
