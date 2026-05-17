@@ -116,7 +116,9 @@
     }
     document.addEventListener('DOMContentLoaded', updateDarkIcon);
 
-    if (typeof initDatabase === 'function') initDatabase();
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof initDatabase === 'function') initDatabase();
+    });
 
     (function() {
       const existing = sessionStorage.getItem("current_user");
