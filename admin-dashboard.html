@@ -1,41 +1,212 @@
-// ========================
-// SISTEM LOGIN & SESSION
-// ========================
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Noctua Light</title>
+  <link rel="icon" type="image/png" href="assets/icon/favicon.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            navy: { DEFAULT: '#0A1931', dark: '#050C1A', mid: '#15305B', light: '#1E3E6D' },
+            gold: { DEFAULT: '#E5A93C', light: '#F4C46B', pale: '#FBF5E6' },
+            cream: { DEFAULT: '#FAF8F5', secondary: '#F1EDE6', dark: '#070F21', darkSecondary: '#0F1E36' }
+          },
+          fontFamily: { 
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Plus Jakarta Sans', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <script src="assets/js/database.js"></script>
+  <script src="assets/js/auth.js"></script>
+</head>
+<body class="bg-cream dark:bg-cream-dark text-navy dark:text-white font-sans transition-colors duration-300">
 
-function login(username, password) {
-    const users = JSON.parse(localStorage.getItem("users_perpus")) || [];
-    const user = users.find(u => u.username === username && u.password === password);
+<div class="container mx-auto p-4 max-w-7xl">
+
+  <!-- Header Panel -->
+  <div class="bg-white dark:bg-navy-mid p-6 rounded-2xl shadow-sm border border-navy/5 dark:border-white/5 flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+    <div class="flex items-center gap-4">
+      <div class="w-12 h-12 bg-navy dark:bg-gold rounded-xl flex items-center justify-center shadow-sm">
+        <img src="assets/icon/admin (profile).svg" class="w-6 h-6 invert dark:invert-0" alt="Admin">
+      </div>
+      <div>
+        <h1 class="text-2xl font-heading font-bold tracking-tight">Pusat Komando Administrasi</h1>
+        <p class="text-xs font-bold text-gold uppercase tracking-widest">Noctua Light Digital Library</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <button id="darkToggle" onclick="handleDarkToggle()" title="Toggle Dark Mode"
+        class="w-10 h-10 flex items-center justify-center rounded-xl bg-cream-secondary dark:bg-navy-dark hover:bg-navy/10 transition border border-navy/5 dark:border-white/5">
+        <img id="icon-sun" src="assets/icon/sun.svg" class="w-5 h-5 invert hidden" alt="Light Mode">
+        <img id="icon-moon" src="assets/icon/moon.svg" class="w-5 h-5 block" alt="Dark Mode">
+      </button>
+      <button onclick="logout()" class="bg-red-600 text-white text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-xl hover:bg-red-700 transition shadow-sm border border-transparent">
+        LOGOUT
+      </button>
+    </div>
+  </div>
+
+  <!-- User Alert Status -->
+  <div id="userInfo" class="bg-gold/10 border border-gold/40 p-4 rounded-xl mb-8 text-navy dark:text-gold-light text-sm font-medium flex items-center gap-3"></div>
+
+  <!-- High-Level Analytics Matrix -->
+  <div class="bg-white dark:bg-navy-mid p-6 rounded-2xl shadow-sm border border-navy/5 dark:border-white/5 mb-8">
+    <div class="flex justify-between items-end mb-6">
+      <h2 class="text-lg font-heading font-bold">Metrik Sistem & Sirkulasi</h2>
+      <span class="text-[10px] font-bold uppercase tracking-widest text-navy/40 dark:text-white/40">Real-Time Update</span>
+    </div>
+    <div id="stats" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 text-center"></div>
+  </div>
+
+  <!-- Navigation Hub -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+    <a href="admin-inventory.html"
+      class="block bg-navy dark:bg-navy-dark text-white p-6 rounded-2xl shadow-sm border border-navy-light dark:border-white/5 transition transform hover:-translate-y-1 hover:shadow-md relative overflow-hidden group">
+      <div class="absolute inset-0 bg-gold/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+      <div class="flex items-center justify-between relative z-10">
+        <div class="text-left">
+          <h3 class="text-xl font-heading font-bold mb-1">Manajemen Bibliografi</h3>
+          <p class="text-xs text-white/60 font-light">Kelola metadata katalog fisik & digital</p>
+        </div>
+        <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center">
+          <img src="assets/icon/opac.svg" class="w-6 h-6 invert" alt="Koleksi">
+        </div>
+      </div>
+    </a>
+    <a href="admin-logs.html"
+      class="block bg-navy dark:bg-navy-dark text-white p-6 rounded-2xl shadow-sm border border-navy-light dark:border-white/5 transition transform hover:-translate-y-1 hover:shadow-md relative overflow-hidden group">
+      <div class="absolute inset-0 bg-gold/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+      <div class="flex items-center justify-between relative z-10">
+        <div class="text-left">
+          <h3 class="text-xl font-heading font-bold mb-1">Log Peminjaman & Anggota</h3>
+          <p class="text-xs text-white/60 font-light">Tinjau sirkulasi & pangkalan data patron</p>
+        </div>
+        <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center">
+          <img src="assets/icon/daftar pengguna (id card).svg" class="w-6 h-6 invert" alt="Log">
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- Inbox Data Table -->
+  <div class="bg-white dark:bg-navy-mid rounded-2xl shadow-sm border border-navy/5 dark:border-white/5 overflow-hidden mb-8">
+    <div class="px-6 py-5 border-b border-navy/10 dark:border-white/10 flex justify-between items-center bg-cream-secondary dark:bg-navy-dark">
+      <div class="flex items-center gap-3">
+        <img src="assets/icon/inbox.svg" class="w-5 h-5 dark:invert opacity-70" alt="Inbox">
+        <h2 class="text-lg font-heading font-bold text-navy dark:text-white">Log Korespondensi Publik</h2>
+      </div>
+      <span id="jumlahPesan" class="text-[10px] font-bold bg-navy text-white dark:bg-gold dark:text-navy px-3 py-1 rounded-full uppercase tracking-wider"></span>
+    </div>
+    <div class="overflow-x-auto max-h-[350px] overflow-y-auto custom-scrollbar">
+      <table class="w-full text-sm text-left">
+        <thead class="sticky top-0 z-10 shadow-sm bg-cream dark:bg-navy text-xs uppercase tracking-wider text-navy/60 dark:text-white/60 font-bold border-b border-navy/10 dark:border-white/10">
+          <tr>
+            <th class="px-6 py-4">Pengirim</th>
+            <th class="px-6 py-4">Email</th>
+            <th class="px-6 py-4">Isi Pesan</th>
+            <th class="px-6 py-4">Tercatat</th>
+          </tr>
+        </thead>
+        <tbody id="tabelPesan" class="divide-y divide-navy/5 dark:divide-white/5 text-navy/80 dark:text-white/80 font-light">
+          <tr><td colspan="4" class="text-center p-6">Memuat data...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="staffNote" class="text-[10px] text-navy/40 dark:text-white/40 text-center uppercase tracking-widest font-bold"></div>
+</div>
+
+<script>
+  function handleDarkToggle() {
+    const isDark = toggleDarkMode();
+    updateDarkIcon();
+  }
+  function updateDarkIcon() {
+    const isDark = document.documentElement.classList.contains('dark');
+    const iconSun = document.getElementById('icon-sun');
+    const iconMoon = document.getElementById('icon-moon');
+    if (iconSun && iconMoon) {
+      if (isDark) { iconSun.classList.remove('hidden'); iconMoon.classList.add('hidden'); } 
+      else { iconSun.classList.add('hidden'); iconMoon.classList.remove('hidden'); }
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    updateDarkIcon();
+    if (typeof initDatabase === "function") initDatabase();
+
+    const user = checkSession();
     if (user) {
-        sessionStorage.setItem("current_user", JSON.stringify({
-            username: user.username,
-            role: user.role,
-            loginTime: new Date().toISOString()
-        }));
-        return { success: true, role: user.role };
+      document.getElementById("userInfo").innerHTML = `
+        <img src="assets/icon/shield-check-fill.svg" class="w-6 h-6 dark:invert opacity-80" alt="Shield"> 
+        <div>
+          Sistem aktif. Terotentikasi sebagai <strong class="font-bold text-navy dark:text-gold uppercase">${user.username}</strong> 
+          <span class="mx-1 text-navy/30 dark:text-white/30">|</span> Otoritas: <span class="uppercase">${user.role}</span>
+        </div>
+      `;
+
+      const koleksi  = getAllKoleksi();
+      const total    = koleksi.length;
+      const buku     = koleksi.filter(i => i.jenis === "buku").length;
+      const ebook    = koleksi.filter(i => i.jenis === "ebook").length;
+      const jurnal   = koleksi.filter(i => i.jenis === "jurnal").length;
+      const audio    = koleksi.filter(i => i.jenis === "audiobook").length;
+      const film     = koleksi.filter(i => i.jenis === "film").length;
+      const members  = JSON.parse(localStorage.getItem("members_db") || "[]").length;
+      const pinjam   = JSON.parse(localStorage.getItem("riwayat_pinjam") || "[]").filter(t => t.status === "dipinjam").length;
+      const tersedia = koleksi.filter(i => i.status === "tersedia").length;
+
+      const statCard = (val, label) => `
+        <div class="bg-cream-secondary dark:bg-navy-dark p-4 rounded-xl border border-navy/5 dark:border-white/5 flex flex-col justify-center items-center h-full">
+          <div class="text-3xl font-heading font-bold text-navy dark:text-gold">${val}</div>
+          <div class="text-[10px] uppercase tracking-widest font-bold text-navy/50 dark:text-white/50 mt-1">${label}</div>
+        </div>`;
+
+      document.getElementById("stats").innerHTML = `
+        ${statCard(total, 'Total Aset')}
+        ${statCard(buku, 'Buku Fisik')}
+        ${statCard(ebook, 'E-Book')}
+        ${statCard(jurnal, 'Jurnal')}
+        ${statCard(film, 'Film')}
+        ${statCard(audio, 'Audiobook')}
+        ${statCard(members, 'Anggota Aktif')}
+        ${statCard(pinjam, 'Sirkulasi Keluar')}
+        ${statCard(tersedia, 'Status Tersedia')}
+      `;
+
+      const pesan = JSON.parse(localStorage.getItem("pesan_masuk") || "[]");
+      const badge = document.getElementById("jumlahPesan");
+      const tbody = document.getElementById("tabelPesan");
+      if (badge) badge.textContent = `${pesan.length} Entri Baru`;
+
+      if (!pesan.length) {
+        tbody.innerHTML = '<tr><td colspan="4" class="text-center p-6">Belum ada korespondensi masuk.</td></tr>';
+      } else {
+        tbody.innerHTML = [...pesan].reverse().slice(0, 10).map(p => `
+          <tr class="hover:bg-cream-secondary/50 dark:hover:bg-navy-dark/50 transition-colors">
+            <td class="px-6 py-4 font-semibold text-navy dark:text-white">${p.nama}</td>
+            <td class="px-6 py-4 text-xs font-mono">${p.email}</td>
+            <td class="px-6 py-4 max-w-md whitespace-normal leading-relaxed text-justify"><span class="font-semibold text-xs mr-1 block mb-1 text-gold-dark dark:text-gold-light">[${p.subjek}]</span> ${p.pesan}</td>
+            <td class="px-6 py-4 text-xs font-mono">${p.tanggal}</td>
+          </tr>
+        `).join('');
+      }
+
+      document.getElementById("staffNote").innerHTML = user.role === "super_admin"
+        ? "Otorisasi Level 1: Anda memiliki hak akses penuh (CREATE, READ, UPDATE, DELETE)."
+        : "Otorisasi Level 2: Sebagai Staf Pustakawan, fungsi DELETE dinonaktifkan secara bawaan.";
     }
-    return { success: false, message: "Username atau password salah!" };
-}
-
-function checkSession() {
-    const currentUser = sessionStorage.getItem("current_user");
-    if (!currentUser) {
-        window.location.href = "login.html";
-        return null;
-    }
-    return JSON.parse(currentUser);
-}
-
-function getCurrentUserRole() {
-    const user = sessionStorage.getItem("current_user");
-    return user ? JSON.parse(user).role : null;
-}
-
-function logout() {
-    sessionStorage.removeItem("current_user");
-    window.location.href = "index.html";
-}
-
-window.login = login;
-window.checkSession = checkSession;
-window.getCurrentUserRole = getCurrentUserRole;
-window.logout = logout;
+  }); // end DOMContentLoaded
+</script>
+</body>
+</html>
