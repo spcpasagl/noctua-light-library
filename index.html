@@ -253,7 +253,7 @@
                         </div>
                     </div>
                     <div class="h-[180px] w-full shrink-0 relative mt-auto overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1563986768494-4dee2763ff0f?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="News Image">
+                        <img src="https://images.unsplash.com/photo-1497636577773-f1231844b536?q=80&w=800&auto=format&fit=crop" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="News Image">
                         <div class="absolute inset-0 bg-gradient-to-t from-navy-dark via-navy/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     </div>
                 </div>
@@ -551,7 +551,7 @@
                 const coverImg = item.gambarSampul || 'https://via.placeholder.com/300x400/0A1931/E5A93C?text=No+Cover';
                 
                 const cardHTML = `
-                    <div class="bg-white dark:bg-navy-mid rounded-2xl shadow-sm border border-navy/5 dark:border-white/5 overflow-hidden group hover:shadow-xl hover:border-gold/30 dark:hover:border-gold/30 transition-all duration-500 hover:-translate-y-1 flex flex-col h-full cursor-pointer relative" onclick="window.location.href='koleksi.html'">
+                    <div class="bg-white dark:bg-navy-mid rounded-2xl shadow-sm border border-navy/5 dark:border-white/5 overflow-hidden group hover:shadow-xl hover:border-gold/30 dark:hover:border-gold/30 transition-all duration-500 hover:-translate-y-1 flex flex-col h-full cursor-pointer relative" onclick="showDetailModalById('${item.id}')">
                         <div class="relative pt-[140%] overflow-hidden bg-navy-dark">
                             <img src="${coverImg}" alt="${item.judul}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100">
                             <div class="absolute inset-0 bg-gradient-to-t from-navy-dark/90 via-navy-dark/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300"></div>
