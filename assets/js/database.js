@@ -757,8 +757,8 @@ const defaultKoleksi = [
 ];
 
 const DEFAULT_USERS = [
-    { username: "super_admin", password: "noctua32333539", role: "super_admin" },
-    { username: "staff_admin", password: "light32333539", role: "staff_admin" }
+    { username: "adminnl", password: "noctua32333539_", role: "super_admin" },
+    { username: "stafnl", password: "light32333539.", role: "staff_admin" }
 ];
 
 function initStorage() {
