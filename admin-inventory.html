@@ -323,9 +323,36 @@
         cell.innerHTML = String(val);
       });
 
+      // 1. Biarkan sel tabel kembali ke jalan yang benar (tanpa class flex)
       const aksiCell = row.insertCell(15);
-      aksiCell.className = "px-4 py-3.5 border-b border-navy/5 dark:border-white/5 whitespace-nowrap text-center flex items-center justify-center gap-1";
+      aksiCell.className = "px-4 py-3.5 border-b border-navy/5 dark:border-white/5 whitespace-nowrap text-center align-middle";
       
+      // 2. Bikin 'kandang' div baru khusus buat ngatur posisi flex tombol biar aman
+      const actionsWrapper = document.createElement("div");
+      actionsWrapper.className = "flex items-center justify-center gap-1.5";
+      
+      // 3. Racik Tombol Edit
+      const btnEdit = document.createElement("button");
+      btnEdit.innerHTML = '<img src="assets/icon/pencil.svg" class="w-4 h-4 dark:invert opacity-70" alt="Edit">';
+      btnEdit.title = "Edit Data";
+      btnEdit.className = "bg-navy/5 border border-navy/10 hover:bg-navy/10 text-navy dark:bg-white/5 dark:border-white/10 dark:text-white p-2 rounded-xl text-xs transition";
+      btnEdit.onclick = () => openEditModal(item);
+      actionsWrapper.appendChild(btnEdit); // Masukkan ke dalam wrapper
+
+      // 4. Racik Tombol Hapus (Khusus Super Admin)
+      if (role === "super_admin") {
+        const btnHapus = document.createElement("button");
+        btnHapus.innerHTML = '<img src="assets/icon/sampah.svg" class="w-4 h-4 dark:invert opacity-70" alt="Hapus">';
+        btnHapus.title = "Hapus Permanen";
+        btnHapus.className = "bg-red-600/10 border border-red-600/20 text-red-600 p-2 rounded-xl text-xs hover:bg-red-600 hover:text-white transition";
+        btnHapus.onclick = () => {
+          if (confirm(`Apakah Anda yakin ingin menghapus permanen data "${item.judul}" dari sistem?`)) { hapusKoleksi(item.id); }
+        };
+        actionsWrapper.appendChild(btnHapus); // Masukkan ke dalam wrapper
+      }
+      
+      // 5. Terakhir, masukkan wrapper div tadi ke dalam sel tabel aksi
+      aksiCell.appendChild(actionsWrapper);
       const btnEdit = document.createElement("button");
       btnEdit.innerHTML = '<img src="assets/icon/pencil.svg" class="w-4 h-4 dark:invert opacity-70" alt="Edit">';
       btnEdit.title = "Edit Data";
