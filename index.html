@@ -525,6 +525,57 @@
             // Memicu perhitungan stat dinamis 
             setTimeout(initDynamicCounter, 200); 
         });
+    
+    // ==========================================
+        // LOGIKA KOLEKSI UNGGULAN (DYNAMIC PREVIEW)
+        // ==========================================
+        window.renderPreviewKatalog = function() {
+            const container = document.getElementById('katalog-container');
+            if (!container) return;
+
+            const semuaKoleksi = typeof getAllKoleksi === 'function' ? getAllKoleksi() : [];
+            
+            // Kalau database kosong
+            if (semuaKoleksi.length === 0) {
+                container.innerHTML = '<div class="col-span-full text-center py-12 text-navy/40 dark:text-white/40 text-sm font-medium">Belum ada koleksi unggulan minggu ini.</div>';
+                return;
+            }
+
+            // LOGIKA ACAK (RANDOMIZER): Pilih 4 koleksi secara acak dari database
+            const unggulan = semuaKoleksi.sort(() => 0.5 - Math.random()).slice(0, 4);
+
+            container.innerHTML = ''; // Bersihkan tulisan "Sinkronisasi..."
+            
+            // Render 4 Kartu Buku
+            unggulan.forEach(item => {
+                const statusBadge = item.status === 'tersedia' 
+                    ? `<span class="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider absolute top-3 right-3 shadow-sm border border-green-200 dark:border-green-800 backdrop-blur-sm">Tersedia</span>`
+                    : `<span class="bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider absolute top-3 right-3 shadow-sm border border-red-200 dark:border-red-800 backdrop-blur-sm">Dipinjam</span>`;
+                
+                const coverImg = item.gambarSampul || 'https://via.placeholder.com/300x400/0A1931/E5A93C?text=No+Cover';
+                
+                const cardHTML = `
+                    <div class="bg-white dark:bg-navy-mid rounded-2xl shadow-sm border border-navy/5 dark:border-white/5 overflow-hidden group hover:shadow-xl hover:border-gold/30 dark:hover:border-gold/30 transition-all duration-500 hover:-translate-y-1 flex flex-col h-full cursor-pointer relative" onclick="window.location.href='koleksi.html'">
+                        <div class="relative pt-[140%] overflow-hidden bg-navy-dark">
+                            <img src="${coverImg}" alt="${item.judul}" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100">
+                            <div class="absolute inset-0 bg-gradient-to-t from-navy-dark/90 via-navy-dark/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300"></div>
+                            ${statusBadge}
+                            <div class="absolute bottom-3 left-3 flex gap-1">
+                                <span class="bg-navy/80 text-white text-[9px] px-2 py-0.5 rounded backdrop-blur-md border border-white/20 uppercase tracking-widest font-semibold">${item.jenis}</span>
+                            </div>
+                        </div>
+                        <div class="p-4 sm:p-5 flex flex-col flex-grow">
+                            <h3 class="font-heading font-bold text-sm sm:text-base text-navy dark:text-white leading-snug mb-1 group-hover:text-gold transition-colors line-clamp-2">${item.judul}</h3>
+                            <p class="text-xs text-navy/60 dark:text-white/60 font-medium mb-3 line-clamp-1">${item.pengarang}</p>
+                            <div class="mt-auto pt-3 border-t border-navy/5 dark:border-white/5 flex justify-between items-center">
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-gold-dark dark:text-gold-light">${item.genre}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', cardHTML);
+            });
+        }
     </script>
 </body>
 </html>
