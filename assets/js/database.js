@@ -238,20 +238,7 @@ const defaultKoleksi = [
     // JURNAL
     // ══════════════════════════════════════════════════════════════════════════
     {
-        "id": "JR001", "jenis": "jurnal", "genre": "lainnya", "tipeKoleksi": "referensi", "status": "tersedia",
-        "judul": "Dewi Magazine",
-        "pengarang": "",
-        "edisi": "",
-        "penerbit": "Dewi Magazine",
-        "tahunTerbit": "",
-        "kotaTerbit": "", "isbn": "", "nomorPanggil": "",
-        "sasaranUsia": "", "bahasa": "Indonesia",
-        "subjek": "", "abstrak": "",
-        "gambarSampul": "",
-        "fileUrl": "https://www.dewimagazine.com/"
-    },
-    {
-        "id": "JR002", "jenis": "jurnal", "genre": "jurnal-ilmiah", "tipeKoleksi": "referensi", "status": "tersedia",
+        "id": "JR001", "jenis": "jurnal", "genre": "jurnal-ilmiah", "tipeKoleksi": "referensi", "status": "tersedia",
         "judul": "Analisis Pemanfaatan Aplikasi iPusnas sebagai Sumber Belajar oleh Mahasiswa Ilmu Perpustakaan dan Informasi Islam IAIN Curup",
         "pengarang": "Okky Rizkyantha",
         "edisi": "",
@@ -264,7 +251,7 @@ const defaultKoleksi = [
         "fileUrl": ""
     },
     {
-        "id": "JR003", "jenis": "jurnal", "genre": "jurnal-ilmiah", "tipeKoleksi": "referensi", "status": "tersedia",
+        "id": "JR002", "jenis": "jurnal", "genre": "jurnal-ilmiah", "tipeKoleksi": "referensi", "status": "tersedia",
         "judul": "Pentingnya Literasi Informasi dalam Menghadapi Tantangan Informasi Palsu (Hoaks)",
         "pengarang": "Sabily Rusdiyanti",
         "edisi": "",
