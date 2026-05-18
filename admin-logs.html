@@ -206,8 +206,8 @@
   function loadBukuOptions() {
     if (typeof getAllKoleksi !== "function") return;
     allBukuOptions = getAllKoleksi()
-      .filter(item => item.jenis === "buku" && item.tipeKoleksi !== "referensi" && item.status === "tersedia")
-      .map(item => ({ id: item.id, judul: item.judul, pengarang: item.pengarang || '-' }));
+      .filter(item => item.tipeKoleksi !== "referensi" && item.status === "tersedia")
+      .map(item => ({ id: item.id, judul: item.judul, pengarang: item.pengarang || '-', jenis: item.jenis }));
   }
 
   function setupAutoNama() {
@@ -237,14 +237,16 @@
       if (!filtered.length) {
         dropdownList.innerHTML = '<li class="text-navy/40 dark:text-white/40 text-center py-2 text-xs font-semibold">Tidak ada opsi buku fisik sirkulasi tersedia</li>';
       } else {
-        dropdownList.innerHTML = filtered.map(b =>
-          `<li data-id="${b.id}" data-judul="${b.judul.replace(/"/g,'&quot;')}"
+        dropdownList.innerHTML = filtered.map(b => {
+          const jenisLabel = (b.jenis || '').toUpperCase();
+          return `<li data-id="${b.id}" data-judul="${b.judul.replace(/"/g,'&quot;')}"
              class="dark:text-white hover:bg-cream-secondary dark:hover:bg-navy border-b border-navy/5 dark:border-white/5 last:border-0 font-light">
             <strong class="font-semibold block text-navy dark:text-white text-xs">${b.judul}</strong>
             <span class="text-[10px] text-navy/50 dark:text-white/40 font-medium">Oleh: ${b.pengarang}</span>
+            <span class="text-[9px] bg-navy/20 text-navy dark:bg-white/10 dark:text-white/60 px-1.5 py-0.5 rounded font-mono font-bold tracking-tight">${jenisLabel}</span>
             <span class="text-[9px] bg-navy text-white dark:bg-gold dark:text-navy px-1.5 py-0.5 rounded font-mono font-bold float-right tracking-tight -translate-y-2">[${b.id}]</span>
-           </li>`
-        ).join('');
+           </li>`;
+        }).join('');
         dropdownList.querySelectorAll("li[data-id]").forEach(li => {
           li.addEventListener("click", function() {
             bukuInput.value  = this.getAttribute("data-judul");
