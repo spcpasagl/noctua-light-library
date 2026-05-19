@@ -1332,6 +1332,7 @@ const initialBerita = [
     {
         "id": "BR003",
         "tanggal": "2026-05-12",
+        "kategori": "berita", // <-- Tambahan field kategori
         "judul": "Koleksi Baru: 200 E-Book Akses Terbuka Resmi Tersedia",
         "konten": "Dalam rangka memperluas inklusivitas sirkulasi digital, manajemen otomasi perpustakaan resmi menambahkan 200 katalog e-book akses terbuka (Open Access) dari penerbit global terkemuka. Koleksi baru ini mencakup rumpun ilmu komputer dasar, manajemen informasi perpustakaan, panduan pemrograman web, hingga fiksi sastra yang dapat diakses penuh dari rumah lewat menu Katalog OPAC.",
         "gambar": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=2000&auto=format&fit=crop"
@@ -1339,6 +1340,7 @@ const initialBerita = [
     {
         "id": "BR002",
         "tanggal": "2026-05-08",
+        "kategori": "kegiatan", // <-- Tambahan field kategori
         "judul": "Workshop Literasi Informasi & Pemanfaatan AI",
         "konten": "Noctua Light sukses menyelenggarakan kelas intensif pemanfaatan Generative AI dalam riset akademik secara etis. Kegiatan ini diikuti mahasiswa dan akademisi untuk mengoptimalkan strategi temu balik informasi (Information Retrieval) yang valid menggunakan mesin pencari ilmiah modern, klasifikasi metadata standar, dan evaluasi kredibilitas jurnal internasional tanpa melanggar hak cipta.",
         "gambar": "https://images.unsplash.com/photo-1544928147-79a2dbc1f389?q=80&w=2000&auto=format&fit=crop"
@@ -1346,6 +1348,7 @@ const initialBerita = [
     {
         "id": "BR001",
         "tanggal": "2026-05-01",
+        "kategori": "berita", // <-- Tambahan field kategori
         "judul": "Perpanjangan Peminjaman Buku Mandiri Melalui Sistem",
         "konten": "Layanan sirkulasi fisik kini semakin praktis! Mulai bulan ini, anggota aktif DigiLib Noctua Light dapat melakukan perpanjangan masa aktif peminjaman buku fisik secara mandiri sebanyak maksimal satu kali klik lewat sistem portal tanpa perlu hadir langsung di meja sirkulasi perpustakaan, asalkan buku tersebut belum melewati batas jatuh tempo 7 hari.",
         "gambar": "" 
