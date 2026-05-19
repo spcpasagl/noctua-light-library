@@ -66,7 +66,7 @@
         <tr>
           <th class="px-6 py-4 w-24">ID</th>
           <th class="px-6 py-4 w-36">Tanggal</th>
-          <th class="px-6 py-4">Judul Berita / Agenda</th>
+          <th class="px-6 py-4 w-32">Kategori</th> <th class="px-6 py-4">Judul Berita / Agenda</th>
           <th class="px-6 py-4 text-center w-36">Aksi</th>
         </tr>
       </thead>
@@ -85,7 +85,19 @@
     </div>
     
     <div class="p-6 overflow-y-auto custom-scrollbar">
-      <form id="beritaForm" class="space-y-4 text-sm">
+      <form id="beritaForm" <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-navy/60 dark:text-white/60 uppercase tracking-widest mb-1.5 ml-1">Tanggal Rilis *</label>
+            <input type="date" id="tanggal" class="w-full bg-cream-secondary dark:bg-navy-dark border border-transparent focus:border-gold dark:text-white px-4 py-2.5 rounded-xl focus:outline-none transition-all text-xs sm:text-sm" required>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-navy/60 dark:text-white/60 uppercase tracking-widest mb-1.5 ml-1">Kategori *</label>
+            <select id="kategori" class="w-full bg-cream-secondary dark:bg-navy-dark border border-transparent focus:border-gold dark:text-white px-4 py-2.5 rounded-xl focus:outline-none transition-all text-xs sm:text-sm cursor-pointer" required>
+              <option value="berita">Berita / Info</option>
+              <option value="kegiatan">Kegiatan / Event</option>
+            </select>
+          </div>
+        </div>>
         <input type="hidden" id="editId">
 
         <div>
@@ -189,7 +201,15 @@
           if (confirm(`Apakah Anda yakin menghapus permanen berita "${item.judul}"?`)) {
             const filtered = getAllBerita().filter(b => b.id !== item.id);
             saveAllBerita(filtered);
-            renderTabel();
+            renderTabel(const cKat = row.insertCell(2); 
+      cKat.className = "px-6 py-3.5 border-b border-navy/5 dark:border-white/5"; 
+      const labelWarna = item.kategori === 'kegiatan' ? 'bg-gold/20 text-gold-dark' : 'bg-navy/10 text-navy';
+      cKat.innerHTML = `<span class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md ${labelWarna}">${item.kategori || 'berita'}</span>`;
+      
+      const cJdl = row.insertCell(3); // Ingat, cJdl sekarang jadi cell ke-3
+      cJdl.className = "px-6 py-3.5 border-b border-navy/5 dark:border-white/5 font-semibold max-w-md truncate"; cJdl.textContent = item.judul;
+      
+      const cAksi = row.insertCell(4); // cAksi mundur ke index 4);
           }
         };
         cAksi.appendChild(btnHapus);
@@ -199,7 +219,10 @@
 
   document.getElementById("searchBerita").addEventListener("input", renderTabel);
 
-  function openEditModal(item = null) {
+  function openEditModal(document.getElementById("editId").value = item.id;
+      document.getElementById("tanggal").value = item.tanggal;
+      document.getElementById("kategori").value = item.kategori || "berita"; // NEW
+      document.getElementById("judul").value = item.judul;) {
     const modal = document.getElementById("modalForm");
     modal.classList.remove("hidden"); modal.classList.add("flex");
 
@@ -224,6 +247,14 @@
 
   document.getElementById("beritaForm").addEventListener("submit", function(e) {
     e.preventDefault();
+    const newData = {
+      id: editId || "BR" + String(berita.length ? Math.max(...berita.map(b => parseInt(b.id.replace('BR','')))) + 1 : 1).padStart(3, '0'),
+      tanggal: document.getElementById("tanggal").value,
+      kategori: document.getElementById("kategori").value, // NEW
+      judul: document.getElementById("judul").value.trim(),
+      konten: document.getElementById("konten").value.trim(),
+      gambar: document.getElementById("gambar").value.trim() || null
+    };
     const editId = document.getElementById("editId").value;
     let berita = (typeof getAllBerita === 'function') ? getAllBerita() : (JSON.parse(localStorage.getItem("berita_perpus")) || []);
 
