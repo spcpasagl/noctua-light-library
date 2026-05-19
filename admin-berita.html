@@ -247,20 +247,13 @@
 
   document.getElementById("beritaForm").addEventListener("submit", function(e) {
     e.preventDefault();
-    const newData = {
-      id: editId || "BR" + String(berita.length ? Math.max(...berita.map(b => parseInt(b.id.replace('BR','')))) + 1 : 1).padStart(3, '0'),
-      tanggal: document.getElementById("tanggal").value,
-      kategori: document.getElementById("kategori").value, // NEW
-      judul: document.getElementById("judul").value.trim(),
-      konten: document.getElementById("konten").value.trim(),
-      gambar: document.getElementById("gambar").value.trim() || null
-    };
     const editId = document.getElementById("editId").value;
     let berita = (typeof getAllBerita === 'function') ? getAllBerita() : (JSON.parse(localStorage.getItem("berita_perpus")) || []);
 
     const newData = {
       id: editId || "BR" + String(berita.length ? Math.max(...berita.map(b => parseInt(b.id.replace('BR','')))) + 1 : 1).padStart(3, '0'),
       tanggal: document.getElementById("tanggal").value,
+      kategori: document.getElementById("kategori").value,
       judul: document.getElementById("judul").value.trim(),
       konten: document.getElementById("konten").value.trim(),
       gambar: document.getElementById("gambar").value.trim() || null
