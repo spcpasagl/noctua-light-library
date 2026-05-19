@@ -1325,20 +1325,23 @@ const defaultKoleksi = [
 
 const initialPesan = [];
 
+// assets/js/database.js
+
+// Pastikan initialBerita sudah dideklarasikan di bagian atas file bersama array default lainnya
 const initialBerita = [
     {
         "id": "BR003",
         "tanggal": "2026-05-12",
         "judul": "Koleksi Baru: 200 E-Book Akses Terbuka Resmi Tersedia",
         "konten": "Dalam rangka memperluas inklusivitas sirkulasi digital, manajemen otomasi perpustakaan resmi menambahkan 200 katalog e-book akses terbuka (Open Access) dari penerbit global terkemuka. Koleksi baru ini mencakup rumpun ilmu komputer dasar, manajemen informasi perpustakaan, panduan pemrograman web, hingga fiksi sastra yang dapat diakses penuh dari rumah lewat menu Katalog OPAC.",
-        "gambar": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=800&auto=format&fit=crop"
+        "gambar": "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=2000&auto=format&fit=crop"
     },
     {
         "id": "BR002",
         "tanggal": "2026-05-08",
         "judul": "Workshop Literasi Informasi & Pemanfaatan AI",
         "konten": "Noctua Light sukses menyelenggarakan kelas intensif pemanfaatan Generative AI dalam riset akademik secara etis. Kegiatan ini diikuti mahasiswa dan akademisi untuk mengoptimalkan strategi temu balik informasi (Information Retrieval) yang valid menggunakan mesin pencari ilmiah modern, klasifikasi metadata standar, dan evaluasi kredibilitas jurnal internasional tanpa melanggar hak cipta.",
-        "gambar": "https://images.unsplash.com/photo-1544928147-79a2dbc1f389?q=80&w=800&auto=format&fit=crop"
+        "gambar": "https://images.unsplash.com/photo-1544928147-79a2dbc1f389?q=80&w=2000&auto=format&fit=crop"
     },
     {
         "id": "BR001",
@@ -1358,15 +1361,19 @@ function initStorage() {
     if (!localStorage.getItem("users_perpus")) {
         localStorage.setItem("users_perpus", JSON.stringify(DEFAULT_USERS));
     }
-
-    // Reset koleksi jika versi berubah atau storage kosong
+    
     const currentVersion = localStorage.getItem("data_version");
-    if (currentVersion !== DATA_VERSION || !localStorage.getItem("koleksi_perpus") || JSON.parse(localStorage.getItem("koleksi_perpus")).length === 0) {
+    if (currentVersion !== DATA_VERSION) {
         localStorage.setItem("koleksi_perpus", JSON.stringify(defaultKoleksi));
+        localStorage.setItem("pesan_masuk", JSON.stringify(initialPesan));
         localStorage.setItem("data_version", DATA_VERSION);
     }
-
-    // Merge anggota dasar jika belum ada
+    
+    // PERBAIKAN: Gunakan kondisi IF agar data inputan baru tidak terhapus saat halaman di-refresh
+    if (!localStorage.getItem("berita_perpus")) {
+        localStorage.setItem("berita_perpus", JSON.stringify(initialBerita));
+    }
+    
     let currentAnggota = JSON.parse(localStorage.getItem("members_db") || "[]");
     if (currentAnggota.length === 0 || !currentAnggota.find(m => m.noAnggota === "NL0001")) {
         initialAnggota.forEach(baseMem => {
@@ -1376,13 +1383,7 @@ function initStorage() {
         });
         localStorage.setItem("members_db", JSON.stringify(currentAnggota));
     }
-
-    if (!localStorage.getItem("pesan_masuk")) {
-        localStorage.setItem("pesan_masuk", JSON.stringify(initialPesan));
-    }
-
-    localStorage.setItem("berita_perpus", JSON.stringify(initialBerita));
-
+    
     if (!localStorage.getItem("riwayat_pinjam")) {
         localStorage.setItem("riwayat_pinjam", JSON.stringify([]));
     }
