@@ -377,26 +377,23 @@
         function startAutoplay() { slideInterval = setInterval(nextSlide, 5000); }
 
         // ── LOGIKA BERITA PORTAL DINAMIS & SMOOTH SCROLL REDIRECT ──
-        function renderBeritaHome() {
-            const container = document.getElementById('berita-dinamis-container');
-            if (!container) return;
+        container.innerHTML = beritaTampil.map((item) => {
+                // Tentukan warna badge berdasarkan kategori
+                const badgeWarna = (item.kategori === 'kegiatan') 
+                    ? 'bg-navy/80 text-gold border border-gold/30' 
+                    : 'bg-white/10 text-white border border-white/20';
 
-            let beritaList = (typeof getAllBerita === 'function') ? getAllBerita() : (JSON.parse(localStorage.getItem("berita_perpus")) || []);
-            
-            // Urutkan berdasarkan tanggal terbaru, batasi maksimal 6 record sesuai aspek simetris UI
-            beritaList.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
-            const beritaTampil = beritaList.slice(0, 6);
-
-            if (beritaTampil.length === 0) {
-                container.innerHTML = '<div class="w-full text-center py-12 text-white/50 text-sm">Belum ada pembaruan warta portal saat ini.</div>';
-                return;
-            }
-
-            container.innerHTML = beritaTampil.map((item) => {
                 return `
                 <div onclick="openDynamicNewsModal('${item.id}')" class="flex flex-col group rounded-xl overflow-hidden border border-white/20 bg-white/5 hover:bg-white/10 transition-all duration-500 h-[380px] relative cursor-pointer snap-start shrink-0 w-full md:w-[calc(33.333%-1rem)]">
                     <div class="p-6 flex flex-col flex-grow relative z-20">
-                        <p class="text-gold font-bold text-xs tracking-widest uppercase mb-2 transition-all duration-500 group-hover:opacity-0 group-hover:-translate-y-4">${item.tanggal}</p>
+                        
+                        <div class="flex items-center gap-3 mb-3 transition-all duration-500 group-hover:opacity-0 group-hover:-translate-y-4">
+                            <span class="text-[9px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider backdrop-blur-sm ${badgeWarna}">
+                                ${item.kategori || 'Berita'}
+                            </span>
+                            <p class="text-gold font-bold text-[10px] tracking-widest uppercase">${item.tanggal}</p>
+                        </div>
+                        
                         <div class="transition-transform duration-500 transform group-hover:-translate-y-5">
                             <h3 class="font-heading font-bold text-xl leading-snug text-white line-clamp-3">${item.judul}</h3>
                         </div>
@@ -446,9 +443,14 @@
             let beritaList = (typeof getAllBerita === 'function') ? getAllBerita() : (JSON.parse(localStorage.getItem("berita_perpus")) || []);
             const data = beritaList.find(b => b.id === id);
             if (!data) return;
-            document.getElementById('modalNewsDate').textContent = data.tanggal;
+            
+            // Masukkan badge kategori di sebelah tanggal pop-up
+            const badgeWarna = (data.kategori === 'kegiatan') ? 'bg-navy dark:bg-gold text-white dark:text-navy' : 'bg-navy/10 dark:bg-white/10 text-navy dark:text-white';
+            document.getElementById('modalNewsDate').innerHTML = `<span class="px-2 py-1 rounded-md text-[9px] mr-2 font-bold uppercase tracking-wider ${badgeWarna}">${data.kategori || 'Berita'}</span> ${data.tanggal}`;
+            
             document.getElementById('modalNewsTitle').textContent = data.judul;
             document.getElementById('modalNewsContent').textContent = data.konten;
+            
             const modal = document.getElementById('newsModal');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
