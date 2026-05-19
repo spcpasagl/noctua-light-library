@@ -1357,8 +1357,8 @@ const initialPesan = [];
 
 
 const DEFAULT_USERS = [
-    { username: "adminnl", password: "noctua32333539_", role: "super_admin" },
-    { username: "stafnl", password: "light32333539.", role: "staff_admin" }
+    { username: "adminnl", password: "noctua32333539", role: "super_admin" },
+    { username: "stafnl", password: "light32333539", role: "staff_admin" }
 ];
 
 function initStorage() {
