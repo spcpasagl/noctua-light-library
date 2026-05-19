@@ -47,7 +47,6 @@
 </head>
 <body class="bg-cream text-navy font-sans antialiased min-h-screen flex flex-col transition-colors duration-300 dark:bg-cream-dark dark:text-cream overflow-x-hidden">
 
-    <!-- FIXED STICKY HEADER & NAVIGATION MENU -->
     <header class="bg-navy text-white sticky top-0 z-50 shadow-md border-b border-white/5 transition-all duration-300">
         <div class="container mx-auto px-4 py-3 sm:px-6 lg:px-8 max-w-6xl flex justify-between items-center">
             <div class="flex items-center gap-3">
@@ -96,7 +95,6 @@
         </div>
     </header>
 
-    <!-- HERO SLIDESHOW SECTION -->
     <section class="relative bg-navy text-white overflow-hidden h-[50vh] md:h-[75vh] flex items-center justify-center">
         <div id="slideshow-container" class="absolute inset-0 z-0">
             <div class="slide absolute inset-0 opacity-100 transition-opacity duration-1000 ease-in-out">
@@ -120,8 +118,6 @@
             <p class="text-white/90 text-sm sm:text-xl font-light max-w-2xl mb-4 drop-shadow-md">
                 Pusat pencerahan akademik dan literasi digital yang menghubungkan Anda dengan ribuan sumber pengetahuan.
             </p>
-
-            
         </div>
         
         <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-20" style="transform: translateY(1px);">
@@ -131,7 +127,6 @@
         </div>
     </section>
 
-    <!-- INTRODUCTORY & CALL TO ACTION SECTION -->
     <section class="py-16 bg-cream dark:bg-cream-dark text-center relative z-10">
         <div class="container mx-auto px-4 max-w-4xl">
             <h2 class="text-2xl sm:text-3xl font-heading font-bold text-navy dark:text-white mb-6 tracking-tight">Menerobos Batas Ketidaktahuan</h2>
@@ -168,7 +163,6 @@
         </div>
     </section>
 
-    <!-- DYNAMIC CORE OPAC CATALOG PREVIEW -->
     <section class="py-16 transition-all duration-300 bg-white dark:bg-cream-darkSecondary border-y border-navy/5 dark:border-white/5">
         <div class="container mx-auto px-4 max-w-6xl">
             <div class="flex justify-between items-end mb-10 flex-wrap gap-4 border-b border-navy/10 dark:border-white/10 pb-5">
@@ -188,7 +182,6 @@
         </div>
     </section>
 
-    <!-- AGENDA & NEWS ACQUISITIONS -->
     <section class="py-20 bg-navy text-white transition-all duration-300 relative">
         <div class="container mx-auto px-4 max-w-6xl">
             
@@ -201,7 +194,7 @@
             </div>
             
             <div id="berita-dinamis-container" class="flex flex-col md:flex-row gap-6 overflow-y-hidden md:overflow-x-auto snap-x snap-mandatory scroll-smooth pb-6 custom-scrollbar">
-                </div>
+            </div>
         </div>
     </section>
 
@@ -212,7 +205,6 @@
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(229, 169, 60, 0.6); }
     </style>
 
-    <!-- FOOTER -->
     <footer class="bg-navy-dark text-white pt-12 pb-6 mt-auto border-t-2 border-gold transition-all duration-300">
         <div class="container mx-auto px-4 max-w-6xl">
             <div class="flex flex-col md:flex-row justify-between items-start gap-10 border-b border-white/10 pb-8 mb-6">
@@ -229,7 +221,6 @@
                     </a>
                 </div>
                 
-                <!-- Contact Core Info Matrix - Emoji Replaced with SVG -->
                 <div class="md:w-2/3 flex flex-col sm:flex-row justify-end gap-8 sm:gap-12 text-xs text-white/70">
                     <div class="flex items-start gap-3 max-w-[220px]">
                         <img src="assets/icon/map alamat.svg" class="w-5 h-5 invert opacity-80 shrink-0 mt-0.5" alt="Alamat">
@@ -262,12 +253,10 @@
         </div>
     </footer>
 
-    <!-- Native Audio -->
     <audio id="bgAudio" loop preload="auto">
         <source src="assets/audio/music2.mpeg" type="audio/mpeg">
     </audio>
 
-    <!-- MODAL BERITA POPUP -->
     <div id="newsModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center z-[100] p-4 backdrop-blur-sm transition-all duration-300">
         <div class="bg-white dark:bg-navy-mid rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden border border-navy/10 dark:border-white/10 animate-fade-in flex flex-col">
             <div class="px-6 py-4 border-b border-navy/10 dark:border-white/10 flex justify-between items-center bg-cream dark:bg-navy-dark shrink-0">
@@ -285,6 +274,7 @@
     </div>
 
     <script>
+        // --- 1. MENU & DARK MODE TOGGLE ---
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         if (menuBtn && mobileMenu) {
@@ -311,6 +301,7 @@
         document.documentElement.addEventListener('DOMContentLoaded', updateDarkIcon);
         window.addEventListener('DOMContentLoaded', updateDarkIcon);
 
+        // --- 2. AUDIO LOGIC ---
         const audio = document.getElementById('bgAudio');
         const musicBtn = document.getElementById('musicToggle');
         const iconMusicOn = document.getElementById('icon-music-on');
@@ -341,43 +332,47 @@
             });
         }
 
+        // --- 3. SLIDESHOW LOGIC ---
         let currentSlideIndex = 0;
         const slides = document.querySelectorAll('.slide');
-        const dots = document.querySelectorAll('.slide-dot');
         let slideInterval;
 
         function showSlide(index) {
+            if (slides.length === 0) return;
             if (index >= slides.length) currentSlideIndex = 0;
             else if (index < 0) currentSlideIndex = slides.length - 1;
             else currentSlideIndex = index;
 
-            slides.forEach((slide, i) => {
+            slides.forEach((slide) => {
                 slide.classList.remove('opacity-100');
                 slide.classList.add('opacity-0');
-                if (dots[i]) {
-                    dots[i].classList.remove('bg-white', 'border-white');
-                    dots[i].classList.add('bg-white/30', 'border-white/20');
-                }
             });
 
             slides[currentSlideIndex].classList.remove('opacity-0');
             slides[currentSlideIndex].classList.add('opacity-100');
-            if (dots[currentSlideIndex]) {
-                dots[currentSlideIndex].classList.add('bg-white', 'border-white');
-                dots[currentSlideIndex].classList.remove('bg-white/30', 'border-white/20');
-            }
         }
 
         function nextSlide() { showSlide(currentSlideIndex + 1); }
-        function currentSlide(index) {
-            clearInterval(slideInterval);
-            showSlide(index);
-            startAutoplay();
-        }
         function startAutoplay() { slideInterval = setInterval(nextSlide, 5000); }
 
-        // ── LOGIKA BERITA PORTAL DINAMIS & SMOOTH SCROLL REDIRECT ──
-        container.innerHTML = beritaTampil.map((item) => {
+
+        // --- 4. LOGIKA BERITA PORTAL DINAMIS & SMOOTH SCROLL REDIRECT ---
+        function renderBeritaHome() {
+            const container = document.getElementById('berita-dinamis-container');
+            if (!container) return;
+
+            let beritaList = (typeof getAllBerita === 'function') ? getAllBerita() : (JSON.parse(localStorage.getItem("berita_perpus")) || []);
+            
+            // Urutkan berdasarkan tanggal terbaru, batasi maksimal 6 record
+            beritaList.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+            const beritaTampil = beritaList.slice(0, 6);
+
+            if (beritaTampil.length === 0) {
+                container.innerHTML = '<div class="w-full text-center py-12 text-white/50 text-sm">Belum ada pembaruan warta portal saat ini.</div>';
+                return;
+            }
+
+            container.innerHTML = beritaTampil.map((item) => {
                 // Tentukan warna badge berdasarkan kategori
                 const badgeWarna = (item.kategori === 'kegiatan') 
                     ? 'bg-navy/80 text-gold border border-gold/30' 
@@ -426,24 +421,6 @@
             const data = beritaList.find(b => b.id === id);
             if (!data) return;
             
-            document.getElementById('modalNewsDate').textContent = data.tanggal;
-            document.getElementById('modalNewsTitle').textContent = data.judul;
-            document.getElementById('modalNewsContent').textContent = data.konten;
-            
-            const modal = document.getElementById('newsModal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            renderBeritaHome();
-        });
-
-        function openDynamicNewsModal(id) {
-            let beritaList = (typeof getAllBerita === 'function') ? getAllBerita() : (JSON.parse(localStorage.getItem("berita_perpus")) || []);
-            const data = beritaList.find(b => b.id === id);
-            if (!data) return;
-            
             // Masukkan badge kategori di sebelah tanggal pop-up
             const badgeWarna = (data.kategori === 'kegiatan') ? 'bg-navy dark:bg-gold text-white dark:text-navy' : 'bg-navy/10 dark:bg-white/10 text-navy dark:text-white';
             document.getElementById('modalNewsDate').innerHTML = `<span class="px-2 py-1 rounded-md text-[9px] mr-2 font-bold uppercase tracking-wider ${badgeWarna}">${data.kategori || 'Berita'}</span> ${data.tanggal}`;
@@ -456,10 +433,6 @@
             modal.classList.add('flex');
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            renderBeritaHome();
-        });
-
         function closeNewsModal() {
             const modal = document.getElementById('newsModal');
             modal.classList.add('hidden');
@@ -470,21 +443,19 @@
             if (e.target === this) closeNewsModal();
         });
 
-        // ==========================================
-        // DYNAMIC COUNTER LOGIC (NGAMBIL DATA REAL)
-        // ==========================================
+        // --- 5. DYNAMIC COUNTER LOGIC (NGAMBIL DATA REAL) ---
         function initDynamicCounter() {
             if (typeof getAllKoleksi === 'function') {
                 const dataKoleksi = getAllKoleksi();
                 
                 // Hitung jumlah riil dari database
-                const totalEbook = dataKoleksi.filter(i => i.jenis && i.jenis.toLowerCase() === 'ebook').length; // Diubah ke ebook
+                const totalEbook = dataKoleksi.filter(i => i.jenis && i.jenis.toLowerCase() === 'ebook').length; 
                 const totalAudio = dataKoleksi.filter(i => i.jenis && i.jenis.toLowerCase() === 'audiobook').length;
                 const totalJurnal = dataKoleksi.filter(i => i.jenis && i.jenis.toLowerCase() === 'jurnal').length;
                 const totalFilm = dataKoleksi.filter(i => i.jenis && i.jenis.toLowerCase() === 'film').length;
                 
                 // Jalankan animasi perhitungan
-                animateCounter("stat-buku", totalEbook); // Sesuaikan variabelnya ke totalEbook
+                animateCounter("stat-buku", totalEbook); 
                 animateCounter("stat-audio", totalAudio);
                 animateCounter("stat-jurnal", totalJurnal);
                 animateCounter("stat-film", totalFilm);
@@ -513,22 +484,8 @@
                 }
             }, 30);
         }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            if (typeof initDatabase === 'function') initDatabase();
-            showSlide(currentSlideIndex);
-            startAutoplay();
-            
-            if (typeof renderPreviewKatalog === 'function') {
-                setTimeout(renderPreviewKatalog, 150);
-            }
-            // Memicu perhitungan stat dinamis 
-            setTimeout(initDynamicCounter, 200); 
-        });
     
-    // ==========================================
-        // LOGIKA KOLEKSI UNGGULAN (DYNAMIC PREVIEW)
-        // ==========================================
+        // --- 6. LOGIKA KOLEKSI UNGGULAN (DYNAMIC PREVIEW) ---
         window.renderPreviewKatalog = function() {
             const container = document.getElementById('katalog-container');
             if (!container) return;
@@ -576,6 +533,23 @@
                 container.insertAdjacentHTML('beforeend', cardHTML);
             });
         }
+
+        // --- 7. INISIALISASI (JALANKAN SEMUA SAAT HALAMAN DIMUAT) ---
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof initDatabase === 'function') initDatabase();
+            showSlide(currentSlideIndex);
+            startAutoplay();
+            
+            // Render berita
+            renderBeritaHome();
+            
+            // Render katalog dan stat
+            if (typeof renderPreviewKatalog === 'function') {
+                setTimeout(renderPreviewKatalog, 150);
+            }
+            setTimeout(initDynamicCounter, 200); 
+        });
+
     </script>
 </body>
 </html>
