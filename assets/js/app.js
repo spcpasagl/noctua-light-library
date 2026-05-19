@@ -243,6 +243,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// ── BERITA HELPERS ────────────────────────────────────────────────────────────
+function getAllBerita() {
+    return JSON.parse(localStorage.getItem("berita_perpus")) || [];
+}
+function saveAllBerita(data) {
+    localStorage.setItem("berita_perpus", JSON.stringify(data));
+}
+
 // ── EXPORTS ───────────────────────────────────────────────────────────────────
 window.renderKoleksi         = renderKoleksi;
 window.renderPreviewKatalog  = renderPreviewKatalog;
@@ -255,3 +263,5 @@ window.getJenisBadge         = getJenisBadge;
 window.getAllMembers          = getAllMembers;
 window.getMemberByNoAnggota  = getMemberByNoAnggota;
 window.initAppData           = initAppData;
+window.getAllBerita          = getAllBerita;
+window.saveAllBerita         = saveAllBerita;
